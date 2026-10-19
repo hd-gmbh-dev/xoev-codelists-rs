@@ -16,11 +16,22 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - uses: dtolnay/rust-toolchain@1.94.1
+      # Trusted publishing (OIDC): no long-lived crates.io token. Falls back to
+      # the CRATES_TOKEN secret while the trusted publisher is not configured on
+      # every crate yet.
+      - name: Authenticate with crates.io
+        id: crates-auth
+        uses: rust-lang/crates-io-auth-action@v1
+        continue-on-error: true
       - name: Publish to crates.io
         run: |
           set -uo pipefail
           VERSION=$(cargo pkgid -p xoev-codelists 2>/dev/null | sed 's/.*@//')
           echo "Version: $VERSION"
+          if [ -z "${CARGO_REGISTRY_TOKEN:-}" ]; then
+            echo "::error::no crates.io token - configure trusted publishing or set CRATES_TOKEN"
+            exit 1
+          fi
 
           published() {
             local crate="$1"
@@ -35,7 +46,7 @@ jobs:
           publish() {
             local crate="$1" attempt out
             for attempt in 1 2 3 4 5 6 7 8 9 10; do
-              out=$(cargo publish --token "${CRATES_TOKEN}" -p "$crate" 2>&1)
+              out=$(cargo publish -p "$crate" 2>&1)
               if [ $? -eq 0 ]; then
                 echo "$out" | tail -3
                 return 0
@@ -66,16 +77,31 @@ jobs:
             fi
           done
         env:
-          CRATES_TOKEN: ${{ secrets.CRATES_TOKEN }}
+          CARGO_REGISTRY_TOKEN: ${{ steps.crates-auth.outputs.token || secrets.CRATES_TOKEN }}
+      # node 24 ships npm >= 11.5.1, the minimum for npm trusted publishing
       - uses: actions/setup-node@v4
         with:
-          node-version: "20.x"
+          node-version: "24"
           registry-url: "https://registry.npmjs.org"
       - name: Publish to registry.npmjs.org
         run: |
-          npm view xoev-codelists@$(node -p "require('./package.json').version") version > /dev/null 2>&1 \
-            && echo "Skipping npm - already published" \
-            || npm publish --provenance --access public --tag alpha
+          set -uo pipefail
+          VERSION=$(node -p "require('./package.json').version")
+          if npm view "xoev-codelists@${VERSION}" version > /dev/null 2>&1; then
+            echo "Skipping npm - $VERSION already published"
+            exit 0
+          fi
+          # OIDC first (no NODE_AUTH_TOKEN in the environment), token as fallback
+          # while the trusted publisher is not configured yet.
+          if npm publish --provenance --access public --tag alpha; then
+            exit 0
+          fi
+          if [ -n "${NPM_TOKEN:-}" ]; then
+            echo "::notice::OIDC publish failed, retrying with NPM_TOKEN"
+            NODE_AUTH_TOKEN="${NPM_TOKEN}" npm publish --provenance --access public --tag alpha
+          else
+            exit 1
+          fi
         working-directory: ./npm
         env:
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
