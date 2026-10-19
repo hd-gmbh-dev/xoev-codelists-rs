@@ -59,13 +59,13 @@ because they are generated data.
 
 | publisher | codelists | versions | raw JSON | bundle (zstd -19) |
 |---|---|---|---|---|
-| `xwasser` | 16 | 40 | 697 KiB | **109 KiB** |
-| `destatis` | 6 | 154 | 1881 KiB | **270 KiB** |
+| `xwasser` | 16 | 41 | 697 KiB | **109 KiB** |
+| `destatis` | 6 | 164 | 1881 KiB | **270 KiB** |
 | `xunternehmen` | 2 | 7 | 86 KiB | 10 KiB |
 | `xauslaender` | 1 | 9 | 51 KiB | 18 KiB |
 | `bmi-bit` | 1 | 47 | 19 KiB | 3.6 KiB |
 | `dsmeld` | 1 | 4 | 4 KiB | 0.8 KiB |
-| **total** | **27** | **261** | **2.7 MiB** | **412 KiB** |
+| **total** | **27** | **272** | **2.7 MiB** | **412 KiB** |
 
 ### Why deltas
 
