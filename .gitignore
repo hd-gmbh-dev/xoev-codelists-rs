@@ -1,4 +1,5 @@
 /target
 **/*.rs.bk
 node_modules
-.ideacrates/*/data/*.json
+.idea
+crates/*/data/*.json
