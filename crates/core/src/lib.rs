@@ -11,7 +11,7 @@
 //! overwhelmingly use the current or previous version and a codelist version is
 //! almost never a new list (rows are added, texts are fixed, columns appear).
 
-use std::{fmt, sync::Arc};
+use std::{fmt, io::Read as _, sync::Arc};
 
 use serde::{Deserialize, Serialize};
 
@@ -56,6 +56,40 @@ pub struct Snapshot {
 impl Snapshot {
     pub fn id(&self) -> CodelistId<'_> {
         CodelistId::new(&self.urn, &self.version)
+    }
+
+    /// Canonical order: rows sorted by key (stable, so duplicate keys keep
+    /// their published order).
+    ///
+    /// Published codelists are not always sorted (some Destatis versions are
+    /// not) and key-based deltas need one deterministic order.
+    pub fn canonicalized(mut self) -> Result<Self, DatasetError> {
+        self.rows
+            .sort_by(|a, b| a[self.key_index].cmp(&b[self.key_index]));
+        Ok(self)
+    }
+
+    /// Stable identity of every row in canonical order.
+    ///
+    /// A published codelist occasionally contains the same key twice (Destatis
+    /// `staat` 2011 has two rows for key `168`), so rows are identified by key
+    /// plus their occurrence among equal keys.
+    pub fn row_ids(&self) -> Vec<String> {
+        let mut seen: std::collections::HashMap<&str, usize> = std::collections::HashMap::new();
+        self.rows
+            .iter()
+            .map(|row| {
+                let key = self.key(row);
+                let occurrence = seen.entry(key).or_insert(0);
+                let id = if *occurrence == 0 {
+                    key.to_string()
+                } else {
+                    format!("{key}\x01{occurrence:06}")
+                };
+                *occurrence += 1;
+                id
+            })
+            .collect()
     }
 
     /// The key (code) of a row.
@@ -173,7 +207,11 @@ pub struct Dataset {
 
 impl Dataset {
     /// Build a dataset from snapshots ordered oldest → newest.
-    pub fn from_snapshots(mut snapshots: Vec<Snapshot>) -> Result<Self, DatasetError> {
+    pub fn from_snapshots(snapshots: Vec<Snapshot>) -> Result<Self, DatasetError> {
+        let mut snapshots: Vec<Snapshot> = snapshots
+            .into_iter()
+            .map(Snapshot::canonicalized)
+            .collect::<Result<_, _>>()?;
         let Some(base) = snapshots.pop() else {
             return Err(DatasetError::Empty);
         };
@@ -223,6 +261,25 @@ impl Dataset {
     /// The newest version.
     pub fn current_version(&self) -> &str {
         &self.base.version
+    }
+
+    /// Rebuild every version, newest first, folding the chain once.
+    ///
+    /// Cheaper than calling [`Dataset::resolve`] per version: O(steps) instead
+    /// of O(steps^2).
+    pub fn reconstructions(&self) -> impl Iterator<Item = Snapshot> + '_ {
+        let mut next: Option<(usize, Snapshot)> = Some((0, self.base.clone()));
+        std::iter::from_fn(move || {
+            let (index, snapshot) = next.take()?;
+            if let Some(step) = self.steps.get(index) {
+                let older = match step {
+                    Step::Delta(delta) => apply(&snapshot, delta),
+                    Step::Snapshot(older) => older.clone(),
+                };
+                next = Some((index + 1, older));
+            }
+            Some(snapshot)
+        })
     }
 
     /// Rebuild the snapshot of `version`, if it is part of this dataset.
@@ -308,19 +365,25 @@ pub fn diff(older: &Snapshot, newer: &Snapshot) -> Delta {
         .map(|renamed| (renamed.from.as_str(), renamed.to.as_str()))
         .collect();
 
-    let removed_rows: Vec<String> = newer
-        .rows
+    let older_ids = older.row_ids();
+    let newer_ids = newer.row_ids();
+    let newer_by_id: std::collections::HashMap<&str, &[String]> = newer_ids
         .iter()
-        .map(|row| newer.key(row).to_string())
-        .filter(|key| older.row(key).is_none())
+        .map(String::as_str)
+        .zip(newer.rows.iter().map(Vec::as_slice))
+        .collect();
+
+    let removed_rows: Vec<String> = newer_ids
+        .iter()
+        .filter(|id| !older_ids.contains(id))
+        .cloned()
         .collect();
 
     let mut added_rows = Vec::new();
     let mut restored_cells = Vec::new();
 
-    for row in &older.rows {
-        let key = older.key(row);
-        match newer.row(key) {
+    for (row, id) in older.rows.iter().zip(&older_ids) {
+        match newer_by_id.get(id.as_str()) {
             None => added_rows.push(row.clone()),
             Some(newer_row) => {
                 for (idx, column) in older.columns.iter().enumerate() {
@@ -329,7 +392,7 @@ pub fn diff(older: &Snapshot, newer: &Snapshot) -> Delta {
                     let newer_value = newer.value(newer_row, source).unwrap_or_default();
                     if older_value != newer_value {
                         restored_cells.push(RestoredCell {
-                            key: key.to_string(),
+                            key: id.clone(),
                             column: idx,
                             value: older_value.clone(),
                         });
@@ -422,30 +485,24 @@ fn detect_renamed_columns(older: &Snapshot, newer: &Snapshot) -> Vec<RenamedColu
 
 /// Apply a reverse delta, yielding the older snapshot.
 pub fn apply(newer: &Snapshot, delta: &Delta) -> Snapshot {
-    let mut restored: std::collections::HashMap<&str, Vec<&RestoredCell>> =
-        std::collections::HashMap::new();
-    for cell in &delta.restored_cells {
-        restored.entry(&cell.key).or_default().push(cell);
-    }
-
     let alias: std::collections::HashMap<&str, &str> = delta
         .renamed_columns
         .iter()
         .map(|renamed| (renamed.from.as_str(), renamed.to.as_str()))
         .collect();
 
-    let mut rows: Vec<Vec<String>> = newer
+    let mut restored: std::collections::HashMap<&str, Vec<&RestoredCell>> =
+        std::collections::HashMap::new();
+    for cell in &delta.restored_cells {
+        restored.entry(&cell.key).or_default().push(cell);
+    }
+
+    let mut entries: Vec<(String, Vec<String>)> = newer
         .rows
         .iter()
-        .filter(|row| !delta.removed_rows.iter().any(|key| key == newer.key(row)))
-        .filter(|row| {
-            !delta
-                .added_rows
-                .iter()
-                .any(|added| added[delta.key_index] == *newer.key(row))
-        })
-        .map(|row| {
-            let key = newer.key(row);
+        .zip(newer.row_ids())
+        .filter(|(_, id)| !delta.removed_rows.contains(id))
+        .map(|(row, id)| {
             let mut older_row: Vec<String> = delta
                 .columns
                 .iter()
@@ -457,17 +514,21 @@ pub fn apply(newer: &Snapshot, delta: &Delta) -> Snapshot {
                         .unwrap_or_default()
                 })
                 .collect();
-            if let Some(cells) = restored.get(key) {
+            if let Some(cells) = restored.get(id.as_str()) {
                 for cell in cells {
                     older_row[cell.column] = cell.value.clone();
                 }
             }
-            older_row
+            (id, older_row)
         })
         .collect();
 
-    rows.extend(delta.added_rows.iter().cloned());
-    rows.sort_by(|a, b| a[delta.key_index].cmp(&b[delta.key_index]));
+    // Rows only present in the older version carry their own identity; the sort
+    // below restores canonical (key, occurrence) order.
+    for row in &delta.added_rows {
+        entries.push((row[delta.key_index].clone(), row.clone()));
+    }
+    entries.sort_by(|a, b| a.0.cmp(&b.0));
 
     Snapshot {
         urn: newer.urn.clone(),
@@ -475,7 +536,7 @@ pub fn apply(newer: &Snapshot, delta: &Delta) -> Snapshot {
         valid_from: delta.valid_from.clone(),
         columns: delta.columns.clone(),
         key_index: delta.key_index,
-        rows,
+        rows: entries.into_iter().map(|(_, row)| row).collect(),
     }
 }
 
@@ -638,12 +699,13 @@ mod tests {
         let older = build("1", "Nummer");
         let newer = build("2", "Key");
 
-        let dataset = Dataset::from_snapshots(vec![older.clone(), newer]).unwrap();
+        let expected = older.clone().canonicalized().unwrap();
+        let dataset = Dataset::from_snapshots(vec![older, newer]).unwrap();
         assert!(
             matches!(dataset.steps[0], Step::Snapshot(_)),
             "renumbered keys must not produce a larger-than-snapshot delta"
         );
-        assert_eq!(dataset.resolve("1").as_ref(), Some(&older));
+        assert_eq!(dataset.resolve("1").as_ref(), Some(&expected));
     }
 
     #[test]
@@ -663,8 +725,8 @@ pub struct Catalog {
 
 impl Catalog {
     /// Build a catalog from dataset JSON documents.
-    pub fn from_json(
-        documents: impl IntoIterator<Item = &'static str>,
+    pub fn from_json<'a>(
+        documents: impl IntoIterator<Item = &'a str>,
     ) -> Result<Self, serde_json::Error> {
         let mut datasets = std::collections::HashMap::new();
         for document in documents {
@@ -740,5 +802,67 @@ mod catalog_tests {
         assert_eq!(catalog.contains("urn:b", "2", "9999"), Some(false));
         assert_eq!(catalog.contains("urn:b", "7", "2010"), None);
         assert_eq!(catalog.contains("urn:x", "1", "2010"), None);
+    }
+}
+
+/// Errors from loading a compressed dataset bundle.
+#[derive(Debug)]
+pub enum BundleError {
+    Decode(std::io::Error),
+    Format(&'static str),
+    Json(serde_json::Error),
+}
+
+impl fmt::Display for BundleError {
+    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
+        match self {
+            Self::Decode(err) => write!(f, "cannot decompress dataset bundle: {err}"),
+            Self::Format(message) => write!(f, "corrupt dataset bundle: {message}"),
+            Self::Json(err) => write!(f, "invalid dataset json: {err}"),
+        }
+    }
+}
+
+impl std::error::Error for BundleError {}
+
+/// Decode a bundle produced by the sync tool: zstd-compressed, a sequence of
+/// `[u32 little endian length][json document]`.
+pub fn decode_bundle(bundle: &[u8]) -> Result<Vec<u8>, BundleError> {
+    let mut output = Vec::new();
+    let mut decoder = ruzstd::decoding::StreamingDecoder::new(bundle)
+        .map_err(|err| BundleError::Decode(std::io::Error::other(err.to_string())))?;
+    decoder
+        .read_to_end(&mut output)
+        .map_err(BundleError::Decode)?;
+    Ok(output)
+}
+
+/// Split a decoded bundle into its JSON documents.
+pub fn split_bundle(mut decoded: &[u8]) -> Result<Vec<&str>, BundleError> {
+    let mut documents = Vec::new();
+    while !decoded.is_empty() {
+        if decoded.len() < 4 {
+            return Err(BundleError::Format("truncated length prefix"));
+        }
+        let (length, rest) = decoded.split_at(4);
+        let length = u32::from_le_bytes([length[0], length[1], length[2], length[3]]) as usize;
+        if rest.len() < length {
+            return Err(BundleError::Format("truncated document"));
+        }
+        let (document, rest) = rest.split_at(length);
+        documents.push(
+            std::str::from_utf8(document).map_err(|_| BundleError::Format("non utf-8 document"))?,
+        );
+        decoded = rest;
+    }
+    Ok(documents)
+}
+
+impl Catalog {
+    /// Build a catalog from a compressed dataset bundle.
+    pub fn from_bundle(bundle: &[u8]) -> Result<Self, BundleError> {
+        let decoded = decode_bundle(bundle)?;
+        let documents = split_bundle(&decoded)?;
+        Self::from_json(documents).map_err(BundleError::Json)
     }
 }

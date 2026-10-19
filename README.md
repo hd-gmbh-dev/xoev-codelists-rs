@@ -49,13 +49,31 @@ assert_eq!(catalog.contains(urn, "1", "9999"), Some(false));
 
 ## Data
 
-`crates/<publisher>/data/<slug>.json` holds one dataset per codelist: the newest
-version as a full snapshot plus **reverse deltas** towards older versions. Deltas
-because a codelist version is almost never a new list — measured on real pairs, a
-version step touches 0.05 %–15 % of the rows (an AGS step changes 16 of 11 227
-rows), while a full snapshot per version would be ~300 MB for AGS alone.
+`crates/<publisher>/data/datasets.zst` is one **compressed bundle per publisher**:
+every codelist with its newest version as a full snapshot and **reverse deltas**
+towards older versions. Bundling compressed is what ends up inside binaries and
+wasm builds; the individual JSON documents are regenerated locally (gitignored)
+because they are generated data.
 
-Two rules keep a chain small:
+### Sizes (all publishers, 2026-10)
+
+| publisher | codelists | versions | raw JSON | bundle (zstd -19) |
+|---|---|---|---|---|
+| `xwasser` | 16 | 40 | 697 KiB | **109 KiB** |
+| `destatis` | 6 | 154 | 1881 KiB | **270 KiB** |
+| `xunternehmen` | 2 | 7 | 86 KiB | 10 KiB |
+| `xauslaender` | 1 | 9 | 51 KiB | 18 KiB |
+| `bmi-bit` | 1 | 47 | 19 KiB | 3.6 KiB |
+| `dsmeld` | 1 | 4 | 4 KiB | 0.8 KiB |
+| **total** | **27** | **261** | **2.7 MiB** | **412 KiB** |
+
+### Why deltas
+
+A codelist version is almost never a new list — measured on real pairs, a version
+step touches 0.05 %–15 % of the rows (an AGS step changes 16 of 11 227 rows),
+while one snapshot per version would be ~40 MiB for AGS alone.
+
+Three rules keep a chain small:
 
 - **Column aliasing** — when a column is renamed between versions (`SHATPH-Parameter-ID`
   → `SHAPTH-Parameter-ID`), the delta records one rename instead of a changed cell
@@ -63,18 +81,23 @@ Two rules keep a chain small:
   (≥ 90 % equal).
 - **Resync fallback** — a step that would not be smaller than the snapshot it
   rebuilds (e.g. a version that renumbers all keys) is stored as a snapshot.
+- **Canonical row order** — rows are sorted by key on load, because some
+  published versions are not sorted. Duplicate keys (Destatis `staat` 2011 has
+  two rows for key `168`) are kept and identified by key plus occurrence.
 
-Regenerate with
+### Regenerate
 
 ```sh
 cargo run -p xtask -- sync --publisher xwasser
 ```
 
-The command downloads every published version from XRepository, reports the size
-of each step, rebuilds each version from the chain and aborts if a reconstruction
-differs from the original. Steps above 90 % of the snapshot they rebuild are
-treated as suspect; a step above 25 % and 8 KB is annotated as content churn and
-worth a look (`ALLOW_LARGE_DELTAS=1` accepts suspect steps).
+The command downloads every published version from XRepository (with a disk cache
+under `target/xrepository-cache`), reports the size of each step, rebuilds each
+version from the chain and aborts if a reconstruction differs from the original.
+Steps above 90 % of the snapshot they rebuild are treated as suspect
+(`ALLOW_LARGE_DELTAS=1` accepts them), a step above 25 % and 8 KiB is annotated
+as content churn. Versions that XRepository lists but no longer serves (404) are
+reported and skipped. `--since <date>` limits the history that is kept.
 
 ## Status
 

@@ -8,9 +8,85 @@ use std::path::PathBuf;
 
 use anyhow::{Context, Result, anyhow, bail};
 use clap::{Parser, Subcommand};
+use serde::de::DeserializeOwned;
 use xoev_codelists::{Dataset, Snapshot, Step};
-use xrepository_rs::client::Client;
+use xrepository_rs::model::xcodelist::XCodelist;
 use xrepository_rs::model::xcodelist_data::XCodelistData;
+use xrepository_rs::model::xcodelist_with_version::XCodelistWithVersion;
+
+const XREPOSITORY: &str = "https://www.xrepository.de/api/xrepository";
+
+/// Versions XRepository lists but does not serve.
+static SKIPPED: std::sync::Mutex<Vec<String>> = std::sync::Mutex::new(Vec::new());
+
+/// XRepository access with a disk cache: a full sync downloads hundreds of
+/// megabytes, so a re-run must not repeat that.
+struct Source {
+    http: reqwest::Client,
+    cache: PathBuf,
+    downloaded: usize,
+    downloaded_bytes: usize,
+    cached: usize,
+}
+
+impl Source {
+    fn new(cache: PathBuf) -> Self {
+        Self {
+            http: reqwest::Client::new(),
+            cache,
+            downloaded: 0,
+            downloaded_bytes: 0,
+            cached: 0,
+        }
+    }
+
+    /// Fetch and parse, `Ok(None)` when the resource does not exist (404).
+    async fn try_json<T: DeserializeOwned>(&mut self, path: &str) -> Result<Option<T>> {
+        let file = self.cache.join(format!("{}.json", fingerprint(path)));
+        if let Ok(bytes) = tokio::fs::read(&file).await {
+            self.cached += 1;
+            return serde_json::from_slice(&bytes)
+                .map(Some)
+                .with_context(|| format!("cached {path} is not valid json"));
+        }
+
+        let response = self
+            .http
+            .get(format!("{XREPOSITORY}/{path}"))
+            .header(reqwest::header::ACCEPT, "application/json")
+            .send()
+            .await
+            .with_context(|| format!("GET {path}"))?;
+        if response.status() == reqwest::StatusCode::NOT_FOUND {
+            return Ok(None);
+        }
+        let response = response
+            .error_for_status()
+            .with_context(|| format!("GET {path}"))?;
+        let bytes = response
+            .bytes()
+            .await
+            .with_context(|| format!("read {path}"))?;
+        tokio::fs::create_dir_all(&self.cache).await.ok();
+        tokio::fs::write(&file, &bytes).await.ok();
+        self.downloaded += 1;
+        self.downloaded_bytes += bytes.len();
+        serde_json::from_slice(&bytes)
+            .map(Some)
+            .with_context(|| format!("parse {path}"))
+    }
+
+    async fn json<T: DeserializeOwned>(&mut self, path: &str) -> Result<T> {
+        self.try_json(path)
+            .await?
+            .ok_or_else(|| anyhow!("{path}: 404 not found"))
+    }
+}
+
+fn fingerprint(path: &str) -> String {
+    // no hashing dependency for a cache key: the path is URL-safe already
+    path.replace(['/', ':', '.', ' '], "_")
+}
 
 #[derive(Parser)]
 struct Args {
@@ -28,6 +104,9 @@ enum Command {
         /// Only this codelist URN (default: all of the publisher).
         #[arg(long)]
         urn: Option<String>,
+        /// Skip versions that were valid before this date (ISO, e.g. 2024-01-01).
+        #[arg(long)]
+        since: Option<String>,
         /// Directory to write the datasets to.
         #[arg(long)]
         out: Option<PathBuf>,
@@ -47,7 +126,7 @@ enum Command {
 #[tokio::main]
 async fn main() -> Result<()> {
     let Args { command } = Args::parse();
-    let client = Client::new();
+    let mut source = Source::new(PathBuf::from("target/xrepository-cache"));
 
     match command {
         Command::Sync {
@@ -55,6 +134,7 @@ async fn main() -> Result<()> {
             urn,
             out,
             max_delta_ratio,
+            since,
         } => {
             let publisher = codelists::publisher(&publisher)?;
             let out = out.unwrap_or_else(|| {
@@ -66,11 +146,13 @@ async fn main() -> Result<()> {
                 .await
                 .with_context(|| format!("create {}", out.display()))?;
 
+            let mut bundle_documents: Vec<(String, Vec<u8>)> = Vec::new();
             for codelist in publisher.codelists {
                 if urn.as_deref().is_some_and(|u| u != codelist.urn) {
                     continue;
                 }
-                let mut snapshots = fetch_versions(&client, codelist.urn).await?;
+                let mut snapshots =
+                    fetch_versions(&mut source, codelist.urn, since.as_deref()).await?;
                 if !codelist.versioned && snapshots.len() > 1 {
                     // code type 1/2: the standard fixes the version, so only the
                     // pinned one is kept
@@ -81,6 +163,7 @@ async fn main() -> Result<()> {
 
                 // Every published version must be reproducible from base + deltas.
                 for snapshot in &snapshots {
+                    let snapshot = &snapshot.clone().canonicalized()?;
                     let rebuilt = dataset
                         .resolve(&snapshot.version)
                         .ok_or_else(|| anyhow!("version {} not resolvable", snapshot.version))?;
@@ -97,7 +180,9 @@ async fn main() -> Result<()> {
                 // silently store a delta that is not worth keeping.
                 let mut suspect: Vec<String> = Vec::new();
                 for (index, step) in dataset.steps.iter().enumerate() {
-                    let older = &snapshots[snapshots.len() - 2 - index];
+                    let older = &snapshots[snapshots.len() - 2 - index]
+                        .clone()
+                        .canonicalized()?;
                     let step_size = serde_json::to_vec(step)?.len();
                     let version_size = serde_json::to_vec(older)?.len().max(1);
                     let ratio = step_size as f64 / version_size as f64;
@@ -127,9 +212,12 @@ async fn main() -> Result<()> {
                     let _ = kind;
                 }
 
+                let _ = &mut source;
                 let slug = codelists::slug(codelist.urn);
                 let path = out.join(format!("{slug}.json"));
-                tokio::fs::write(&path, serde_json::to_vec_pretty(&dataset)?)
+                let document = serde_json::to_vec(&dataset)?;
+                bundle_documents.push((codelist.urn.to_string(), document.clone()));
+                tokio::fs::write(&path, document)
                     .await
                     .with_context(|| format!("write {}", path.display()))?;
                 println!(
@@ -154,12 +242,47 @@ async fn main() -> Result<()> {
                     }
                 }
             }
+            // One compressed bundle per publisher: this is what the crates
+            // embed, the individual JSON files stay out of version control.
+            bundle_documents.sort_by(|a, b| a.0.cmp(&b.0));
+            let mut raw = Vec::new();
+            for (_, document) in &bundle_documents {
+                raw.extend_from_slice(&(document.len() as u32).to_le_bytes());
+                raw.extend_from_slice(document);
+            }
+            let compressed = zstd::encode_all(raw.as_slice(), 19)?;
+            let bundle_path = out.join("datasets.zst");
+            tokio::fs::write(&bundle_path, &compressed).await?;
+            println!(
+                "\nbundle {}: {} codelists, {} KiB raw -> {} KiB compressed",
+                bundle_path.display(),
+                bundle_documents.len(),
+                raw.len() / 1024,
+                compressed.len() / 1024
+            );
+
+            let skipped = SKIPPED.lock().expect("skip list");
+            if !skipped.is_empty() {
+                println!(
+                    "\n{} version(s) listed by XRepository but not served (skipped):",
+                    skipped.len()
+                );
+                for version in skipped.iter() {
+                    println!("  {version}");
+                }
+            }
+            println!(
+                "\nhttp: {} downloaded ({} MiB), {} cached",
+                source.downloaded,
+                source.downloaded_bytes / (1024 * 1024),
+                source.cached
+            );
         }
         Command::List { publisher } => {
             let publisher = codelists::publisher(&publisher)?;
             for codelist in publisher.codelists {
-                let versions = client
-                    .fetch_xcodelist(codelist.urn)
+                let versions = source
+                    .json::<XCodelist>(&format!("{}/metadaten", codelist.urn))
                     .await
                     .with_context(|| format!("metadata for {}", codelist.urn))?
                     .alle_versions_kennungen
@@ -173,9 +296,13 @@ async fn main() -> Result<()> {
 }
 
 /// Fetch all published versions of `urn`, ordered oldest → newest.
-async fn fetch_versions(client: &Client, urn: &str) -> Result<Vec<Snapshot>> {
-    let version_urns = client
-        .fetch_xcodelist(urn)
+async fn fetch_versions(
+    source: &mut Source,
+    urn: &str,
+    since: Option<&str>,
+) -> Result<Vec<Snapshot>> {
+    let version_urns = source
+        .json::<XCodelist>(&format!("{urn}/metadaten"))
         .await
         .with_context(|| format!("metadata for {urn}"))?
         .alle_versions_kennungen
@@ -183,18 +310,36 @@ async fn fetch_versions(client: &Client, urn: &str) -> Result<Vec<Snapshot>> {
 
     let mut snapshots = Vec::with_capacity(version_urns.len());
     for version_urn in version_urns {
-        let meta = client
-            .fetch_xcodelist_with_version(&version_urn)
+        // XRepository lists versions it no longer serves (withdrawn or never
+        // published); they are reported and skipped.
+        let Some(meta) = source
+            .try_json::<XCodelistWithVersion>(&format!("{version_urn}/metadaten"))
             .await
-            .with_context(|| format!("metadata for {version_urn}"))?;
+            .with_context(|| format!("metadata for {version_urn}"))?
+        else {
+            SKIPPED.lock().expect("skip list").push(version_urn.clone());
+            continue;
+        };
         let path = meta
             .download_urn()
             .ok_or_else(|| anyhow!("{version_urn}: no JSON document published"))?
             .to_string();
-        let data = client
-            .download(&path)
+        if let Some(since) = since
+            && meta
+                .datum_gueltigkeit_ab
+                .as_deref()
+                .is_some_and(|from| from < since)
+        {
+            continue;
+        }
+        let Some(data) = source
+            .try_json::<XCodelistData>(&path)
             .await
-            .with_context(|| format!("download {path}"))?;
+            .with_context(|| format!("download {path}"))?
+        else {
+            SKIPPED.lock().expect("skip list").push(version_urn);
+            continue;
+        };
         snapshots.push(snapshot(&version_urn, data)?);
     }
 
@@ -205,13 +350,6 @@ async fn fetch_versions(client: &Client, urn: &str) -> Result<Vec<Snapshot>> {
             .cmp(&b.valid_from)
             .then_with(|| a.version.cmp(&b.version))
     });
-    if let Some(last) = snapshots.len().checked_sub(1) {
-        for pair in snapshots[..last].windows(2) {
-            if pair[0].valid_from == pair[1].valid_from && pair[0].version > pair[1].version {
-                bail!("{urn}: cannot order versions {pair:?}");
-            }
-        }
-    }
     Ok(snapshots)
 }
 
