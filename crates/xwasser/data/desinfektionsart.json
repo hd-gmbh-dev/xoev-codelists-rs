@@ -63,34 +63,36 @@
       ]
     ]
   },
-  "deltas": [
+  "steps": [
     {
-      "to": "1",
-      "columns": [
-        "Key",
-        "Desinfektionsart",
-        "Beschreibung"
-      ],
-      "key_index": 0,
-      "removed_rows": [
-        "1060",
-        "1070",
-        "1080",
-        "1090",
-        "1100"
-      ],
-      "restored_cells": [
-        {
-          "key": "1050",
-          "column": 1,
-          "value": "mit Hypochlorid"
-        },
-        {
-          "key": "1050",
-          "column": 2,
-          "value": "Desinfektion mit Hypochlorid"
-        }
-      ]
+      "delta": {
+        "to": "1",
+        "columns": [
+          "Key",
+          "Desinfektionsart",
+          "Beschreibung"
+        ],
+        "key_index": 0,
+        "removed_rows": [
+          "1060",
+          "1070",
+          "1080",
+          "1090",
+          "1100"
+        ],
+        "restored_cells": [
+          {
+            "key": "1050",
+            "column": 1,
+            "value": "mit Hypochlorid"
+          },
+          {
+            "key": "1050",
+            "column": 2,
+            "value": "Desinfektion mit Hypochlorid"
+          }
+        ]
+      }
     }
   ]
 }

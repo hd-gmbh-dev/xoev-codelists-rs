@@ -80,140 +80,146 @@
       ]
     ]
   },
-  "deltas": [
+  "steps": [
     {
-      "to": "3",
-      "valid_from": "2026-05-01",
-      "columns": [
-        "Key",
-        "Probennahmeverfahren",
-        "Beschreibung",
-        "Wasserart"
-      ],
-      "key_index": 0,
-      "removed_rows": [
-        "1025"
-      ],
-      "restored_cells": [
-        {
-          "key": "1010",
-          "column": 1,
-          "value": "DIN EN ISO 19458 Beprobung \"Wie vom Verbraucher verwendet\" incl. Entnahmearmatur (Zweck C)"
-        },
-        {
-          "key": "1010",
-          "column": 2,
-          "value": "Beprobung \"Wie vom Verbraucher verwendet\" incl. Entnahmearmatur (Zweck C) DIN 19458 C Tab.1"
-        },
-        {
-          "key": "1020",
-          "column": 1,
-          "value": "DIN EN ISO 19458 Beprobung der Trinkwasserinstallation bis kurz vor der Entnahmearmatur (Zweck B)"
-        },
-        {
-          "key": "1020",
-          "column": 2,
-          "value": "DIN 19458 B Tab.1; Untersuchung auf Legionella spec. gem.TrinkwV Abs. 2 Nr. 2a: \"DIN EN ISO 19458, wie dort unter Zweck b beschrieben, eingehalten worden ist\""
-        },
-        {
-          "key": "1030",
-          "column": 1,
-          "value": "DIN EN ISO 19458 Beprobung des Verteilungsnetzes nach Ablaufen lassen des Wassers bis zur Temperaturkonstanz (Zweck A)"
-        },
-        {
-          "key": "1030",
-          "column": 2,
-          "value": "Beprobung des Verteilungsnetzes nach Ablaufen lassen des Wassers bis zur Temperaturkonstanz (Zweck A) DIN 19458 A Tab.1"
-        },
-        {
-          "key": "1070",
-          "column": 2,
-          "value": "UBA-Empfehlung: Probennahme nach Temperaturkonstanz, Ablaufwasser, Probenvolumen 1 L (gem. UBA-Empfehlung 12/2018, Beurteilung der Trinkwasserqualität hinsichtlich der Parameter Blei, Kupfer und Nickel („Probennahmeempfehlung“))"
-        },
-        {
-          "key": "1080",
-          "column": 2,
-          "value": "UBA-Empfehlung: Nach 4h Stagnationszeit ohne Wasserentnahme 1 L Probenvolumen (gem. UBA-Empfehlung 12/2018, Beurteilung der Trinkwasserqualität hinsichtlich der Parameter Blei, Kupfer und Nickel („Probennahmeempfehlung“))"
-        },
-        {
-          "key": "1090",
-          "column": 2,
-          "value": "UBA-Empfehlung: Nach 4h Stagnationszeit ohne Wasserentnahme 1 L Probenvolumen (gem. UBA-Empfehlung 12/2018, Beurteilung der Trinkwasserqualität hinsichtlich der Parameter Blei, Kupfer und Nickel („Probennahmeempfehlung“))"
-        }
-      ]
-    },
-    {
-      "to": "2",
-      "valid_from": "2025-04-01",
-      "columns": [
-        "Key",
-        "Probennahmeverfahren",
-        "Beschreibung"
-      ],
-      "key_index": 0,
-      "restored_cells": [
-        {
-          "key": "1010",
-          "column": 1,
-          "value": "Beprobung \"Wie vom Verbraucher verwendet\" incl. Entnahmearmatur (Zweck C)"
-        },
-        {
-          "key": "1020",
-          "column": 1,
-          "value": "Beprobung der Trinkwasserinstallation bis kurz vor der Entnahmearmatur (Zweck B)"
-        },
-        {
-          "key": "1030",
-          "column": 1,
-          "value": "Beprobung des Verteilungsnetzes nach Ablaufen lassen des Wassers bis zur Temperaturkonstanz (Zweck A)"
-        },
-        {
-          "key": "1070",
-          "column": 1,
-          "value": "S0 (Fließwasserprobe bei Temperaturkonstanz)"
-        },
-        {
-          "key": "1080",
-          "column": 1,
-          "value": "S1 (Stagnationsprobe nach 4h 1.Probe)"
-        },
-        {
-          "key": "1090",
-          "column": 1,
-          "value": "S2 (Stagnationsprobe nach 4h 2.Probe)"
-        },
-        {
-          "key": "1100",
-          "column": 1,
-          "value": "Schöpfprobe"
-        },
-        {
-          "key": "1110",
-          "column": 1,
-          "value": "Zufallsstichprobe ohne Ablauf (Z-Probe)"
-        }
-      ]
-    },
-    {
-      "to": "1",
-      "columns": [
-        "Key",
-        "Probennahmeverfahren",
-        "Beschreibung"
-      ],
-      "key_index": 0,
-      "added_rows": [
-        [
-          "1050",
-          "Legionellenbeprobung gem. UBA-Empfehlung 12-2018 in Ergänzung mit 09-12-2022",
-          "gem. UBA-Empfehlung 12-2018 \"Systemische Untersuchungen von TrinkwasserInstallationen auf Legionellen nach Trinkwasserverordnung - Probennahme, Untersuchungsgang und Angabe des Ergebnisses \" inkl. der Ergänzung vom 09.12.2022"
+      "delta": {
+        "to": "3",
+        "valid_from": "2026-05-01",
+        "columns": [
+          "Key",
+          "Probennahmeverfahren",
+          "Beschreibung",
+          "Wasserart"
         ],
-        [
-          "1060",
-          "Probennahme mit Abweichung von den allgemein anerkannten Regeln der Technik",
-          "Probennahme mit Abweichung von den allgemein anerkannten Regeln der Technik"
+        "key_index": 0,
+        "removed_rows": [
+          "1025"
+        ],
+        "restored_cells": [
+          {
+            "key": "1010",
+            "column": 1,
+            "value": "DIN EN ISO 19458 Beprobung \"Wie vom Verbraucher verwendet\" incl. Entnahmearmatur (Zweck C)"
+          },
+          {
+            "key": "1010",
+            "column": 2,
+            "value": "Beprobung \"Wie vom Verbraucher verwendet\" incl. Entnahmearmatur (Zweck C) DIN 19458 C Tab.1"
+          },
+          {
+            "key": "1020",
+            "column": 1,
+            "value": "DIN EN ISO 19458 Beprobung der Trinkwasserinstallation bis kurz vor der Entnahmearmatur (Zweck B)"
+          },
+          {
+            "key": "1020",
+            "column": 2,
+            "value": "DIN 19458 B Tab.1; Untersuchung auf Legionella spec. gem.TrinkwV Abs. 2 Nr. 2a: \"DIN EN ISO 19458, wie dort unter Zweck b beschrieben, eingehalten worden ist\""
+          },
+          {
+            "key": "1030",
+            "column": 1,
+            "value": "DIN EN ISO 19458 Beprobung des Verteilungsnetzes nach Ablaufen lassen des Wassers bis zur Temperaturkonstanz (Zweck A)"
+          },
+          {
+            "key": "1030",
+            "column": 2,
+            "value": "Beprobung des Verteilungsnetzes nach Ablaufen lassen des Wassers bis zur Temperaturkonstanz (Zweck A) DIN 19458 A Tab.1"
+          },
+          {
+            "key": "1070",
+            "column": 2,
+            "value": "UBA-Empfehlung: Probennahme nach Temperaturkonstanz, Ablaufwasser, Probenvolumen 1 L (gem. UBA-Empfehlung 12/2018, Beurteilung der Trinkwasserqualität hinsichtlich der Parameter Blei, Kupfer und Nickel („Probennahmeempfehlung“))"
+          },
+          {
+            "key": "1080",
+            "column": 2,
+            "value": "UBA-Empfehlung: Nach 4h Stagnationszeit ohne Wasserentnahme 1 L Probenvolumen (gem. UBA-Empfehlung 12/2018, Beurteilung der Trinkwasserqualität hinsichtlich der Parameter Blei, Kupfer und Nickel („Probennahmeempfehlung“))"
+          },
+          {
+            "key": "1090",
+            "column": 2,
+            "value": "UBA-Empfehlung: Nach 4h Stagnationszeit ohne Wasserentnahme 1 L Probenvolumen (gem. UBA-Empfehlung 12/2018, Beurteilung der Trinkwasserqualität hinsichtlich der Parameter Blei, Kupfer und Nickel („Probennahmeempfehlung“))"
+          }
         ]
-      ]
+      }
+    },
+    {
+      "delta": {
+        "to": "2",
+        "valid_from": "2025-04-01",
+        "columns": [
+          "Key",
+          "Probennahmeverfahren",
+          "Beschreibung"
+        ],
+        "key_index": 0,
+        "restored_cells": [
+          {
+            "key": "1010",
+            "column": 1,
+            "value": "Beprobung \"Wie vom Verbraucher verwendet\" incl. Entnahmearmatur (Zweck C)"
+          },
+          {
+            "key": "1020",
+            "column": 1,
+            "value": "Beprobung der Trinkwasserinstallation bis kurz vor der Entnahmearmatur (Zweck B)"
+          },
+          {
+            "key": "1030",
+            "column": 1,
+            "value": "Beprobung des Verteilungsnetzes nach Ablaufen lassen des Wassers bis zur Temperaturkonstanz (Zweck A)"
+          },
+          {
+            "key": "1070",
+            "column": 1,
+            "value": "S0 (Fließwasserprobe bei Temperaturkonstanz)"
+          },
+          {
+            "key": "1080",
+            "column": 1,
+            "value": "S1 (Stagnationsprobe nach 4h 1.Probe)"
+          },
+          {
+            "key": "1090",
+            "column": 1,
+            "value": "S2 (Stagnationsprobe nach 4h 2.Probe)"
+          },
+          {
+            "key": "1100",
+            "column": 1,
+            "value": "Schöpfprobe"
+          },
+          {
+            "key": "1110",
+            "column": 1,
+            "value": "Zufallsstichprobe ohne Ablauf (Z-Probe)"
+          }
+        ]
+      }
+    },
+    {
+      "delta": {
+        "to": "1",
+        "columns": [
+          "Key",
+          "Probennahmeverfahren",
+          "Beschreibung"
+        ],
+        "key_index": 0,
+        "added_rows": [
+          [
+            "1050",
+            "Legionellenbeprobung gem. UBA-Empfehlung 12-2018 in Ergänzung mit 09-12-2022",
+            "gem. UBA-Empfehlung 12-2018 \"Systemische Untersuchungen von TrinkwasserInstallationen auf Legionellen nach Trinkwasserverordnung - Probennahme, Untersuchungsgang und Angabe des Ergebnisses \" inkl. der Ergänzung vom 09.12.2022"
+          ],
+          [
+            "1060",
+            "Probennahme mit Abweichung von den allgemein anerkannten Regeln der Technik",
+            "Probennahme mit Abweichung von den allgemein anerkannten Regeln der Technik"
+          ]
+        ]
+      }
     }
   ]
 }

@@ -168,37 +168,39 @@
       ]
     ]
   },
-  "deltas": [
+  "steps": [
     {
-      "to": "1",
-      "columns": [
-        "Key",
-        "Art-Probennahmestelle",
-        "Beschreibung"
-      ],
-      "key_index": 0,
-      "restored_cells": [
-        {
-          "key": "1160",
-          "column": 1,
-          "value": "Probennahme unmittelbar nach Aufbereitung"
-        },
-        {
-          "key": "1160",
-          "column": 2,
-          "value": "Probennahmestelle unmittelbar nach der Aufbereitung"
-        },
-        {
-          "key": "1170",
-          "column": 1,
-          "value": "Probennahmearmaturen"
-        },
-        {
-          "key": "1170",
-          "column": 2,
-          "value": "Probennahmearmaturen (gem. DIN 35860:2020-11 „Probennahmearmaturen in der Trinkwasserinstallation - Anforderungen und Prüfungen“)"
-        }
-      ]
+      "delta": {
+        "to": "1",
+        "columns": [
+          "Key",
+          "Art-Probennahmestelle",
+          "Beschreibung"
+        ],
+        "key_index": 0,
+        "restored_cells": [
+          {
+            "key": "1160",
+            "column": 1,
+            "value": "Probennahme unmittelbar nach Aufbereitung"
+          },
+          {
+            "key": "1160",
+            "column": 2,
+            "value": "Probennahmestelle unmittelbar nach der Aufbereitung"
+          },
+          {
+            "key": "1170",
+            "column": 1,
+            "value": "Probennahmearmaturen"
+          },
+          {
+            "key": "1170",
+            "column": 2,
+            "value": "Probennahmearmaturen (gem. DIN 35860:2020-11 „Probennahmearmaturen in der Trinkwasserinstallation - Anforderungen und Prüfungen“)"
+          }
+        ]
+      }
     }
   ]
 }

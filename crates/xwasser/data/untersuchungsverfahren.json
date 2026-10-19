@@ -1896,1100 +1896,1104 @@
       ]
     ]
   },
-  "deltas": [
+  "steps": [
     {
-      "to": "2",
-      "valid_from": "2024-12-01",
-      "columns": [
-        "Key",
-        "Untersuchungsverfahren",
-        "Ersetzte-Staende",
-        "DEV-Kurzbezeichnung",
-        "Beschreibung",
-        "Hinweis"
-      ],
-      "key_index": 0,
-      "restored_cells": [
-        {
-          "key": "1560",
-          "column": 4,
-          "value": "Bestimmung ausgewählter heterocyclischer aromatischer Kohlenwasserstoffe (NSO-Heterocyclen) in Wasser - Verfahren mittels Gaschromatographie und massenspektrometrischer Detektion (GS/MS) nach Fest-Flüssig-Extraktion (SPE)"
-        },
-        {
-          "key": "1730",
-          "column": 4,
-          "value": "Bestimmung der gelösten Komplexbildner Nitrilotriessigsäure (NTA) , Ethylendinitrilotetraessigsäure (EDTA) und Diethylentrinitrilopentaessigsäure (DTPA) mit der Flüssigchromatographie (LC)"
-        },
-        {
-          "key": "1840",
-          "column": 4,
-          "value": "Bestimmung von ausgewählten polycyclischen aromatischen Kohlenwasserstoffen (PAK) in Gesamtwasserproben - Verfahren mittels Festphasenextraktion (SPE) mit SPE-Disks in Verbindung mit Gaschromatographie-Massenspektrometrie (GC-MS)"
-        },
-        {
-          "key": "2030",
-          "column": 4,
-          "value": "Gesamt-Alpha- und Gesamt-Beta-Aktivität - Dünnschichtverfahren"
-        },
-        {
-          "key": "2110",
-          "column": 4,
-          "value": "Bestimmung von ausgewählten Elementen durch induktiv gekoppelte Plasma-Atom-Emissionsspektrometrie (ICP-OES) "
-        },
-        {
-          "key": "2180",
-          "column": 4,
-          "value": "Kohlenstoff-14 - Verfahren mit dem Flüssigszintillationszähler"
-        },
-        {
-          "key": "2190",
-          "column": 4,
-          "value": "Blei-210 - Verfahren mit dem Flüssigszintillationszähler"
-        },
-        {
-          "key": "2200",
-          "column": 4,
-          "value": "Radon-222 - Teil 1: Grundlagen"
-        },
-        {
-          "key": "2210",
-          "column": 4,
-          "value": "Radon-222 - Teil 2: Verfahren mittels Gammaspektrometrie"
-        },
-        {
-          "key": "2220",
-          "column": 4,
-          "value": "Radon-222 - Teil 3: Verfahren mittels Emanometrie"
-        },
-        {
-          "key": "2230",
-          "column": 4,
-          "value": "Radon-222 - Teil 4: Verfahren mittels zweistufiger Flüssigszintillationszählung "
-        },
-        {
-          "key": "2250",
-          "column": 4,
-          "value": "Radium-226 - Teil 2: Verfahren mittels Emanometrie"
-        },
-        {
-          "key": "2260",
-          "column": 4,
-          "value": "Radium-226 - Teil 3: Verfahren mittels Kopräzipitation und Gammaspektrometrie"
-        },
-        {
-          "key": "2530",
-          "column": 4,
-          "value": "Bestimmung von ausgewählten Alkylphenolen - Teil 2: Gaschromatographisch-massenspektrometrische Bestimmung von Alkylphenolen, deren Ethoxylaten und Bisphenol A für nichtfiltrierte Proben unter Verwendung der Festphasenextraktion und Derivatisierung"
-        },
-        {
-          "key": "2580",
-          "column": 4,
-          "value": "Bestimmung ausgewählter Arzneimittelwirkstoffe, Transformationsprodukte und weiterer organischer Stoffe gelöst in Wasser und behandeltem Abwasser - Verfahren mittels Hochleistungs-Flüssigkeitschromatographie und massenspektrometrischer Detektion (HPLC-MS/MS oder -HRMS) nach Direktinjektion"
-        },
-        {
-          "key": "2590",
-          "column": 4,
-          "value": "Bestimmung ausgewählter Explosivstoffe und verwandter Verbindungen - Verfahren mittels Hochleistungs-Flüssigkeitschromatographie (HPLC) mit UV-Detektion"
-        },
-        {
-          "key": "2600",
-          "column": 4,
-          "value": "Radium-226 und Radium-228 - Verfahren mit dem Flüssigszintillationszähler"
-        },
-        {
-          "key": "2610",
-          "column": 4,
-          "value": "Bestimmung von Dalapon, Trichloressigsäure und ausgewählten Halogenessigsäuren - Verfahren mittels Gaschromatographie (GC-ECD und/oder GC-MS-Detektion) nach Flüssig-Flüssig-Extraktion und Derivatisierung"
-        },
-        {
-          "key": "2650",
-          "column": 4,
-          "value": "Bestimmung des biochemischen Sauerstoffbedarfs nach n Tagen (BSBₙ) - Teil 1: Verdünnungs- und Impfverfahren mit Zugabe von Allylthioharnstoff"
-        },
-        {
-          "key": "2700",
-          "column": 2,
-          "value": "DIN EN ISO 6888-1/A1:2023-01; DIN EN ISO 6888-1:2022-06"
-        },
-        {
-          "key": "2730",
-          "column": 2,
-          "value": "DIN 38408-4:1984-06 ."
-        },
-        {
-          "key": "2730",
-          "column": 4,
-          "value": "Bestimmung von freiem Chlor und Gesamtchlor - Teil 1: Titrimetrisches Verfahren mit N,N-Diethyl-1,4-Phenylendiamin"
-        },
-        {
-          "key": "2750",
-          "column": 4,
-          "value": "Bestimmung von freiem Chlor und Gesamtchlor - Teil 3: Iodometrisches Verfahren zur Bestimmung von Gesamtchlor"
-        },
-        {
-          "key": "2860",
-          "column": 4,
-          "value": "Gesamt-Alpha-Aktivität - Dickschichtverfahren"
-        },
-        {
-          "key": "2870",
-          "column": 4,
-          "value": "Gesamt-Beta-Aktivität - Dickschichtverfahren"
-        },
-        {
-          "key": "2880",
-          "column": 4,
-          "value": "Bestimmung der Aktivitätskonzentration von Tritium - Verfahren mit dem Flüssigszintillationszähler"
-        },
-        {
-          "key": "3080",
-          "column": 4,
-          "value": "Bestimmung von Aluminium - Photometrisches Verfahren mittels Brenzcatechinviolett"
-        },
-        {
-          "key": "3100",
-          "column": 4,
-          "value": "Bestimmung ausgewählter leichtflüchtiger organischer Verbindungen in Wasser - Verfahren mittels Gaschromatographie und Massenspektrometrie nach statischer Headspacetechnik (HS-GC-MS)"
-        },
-        {
-          "key": "3130",
-          "column": 4,
-          "value": "Bestimmung von Natrium und Kalium - Teil 3: Bestimmung von Natrium und Kalium mittels Flammenphotometrie"
-        },
-        {
-          "key": "3240",
-          "column": 4,
-          "value": "Bestimmung von cyclischen flüchtigen Methylsiloxanen in Wasser - Teil 2: Verfahren mittels Flüssig-Flüssig-Extraktion und Gaschromatographie-Massenspektrometrie (GC-MS)"
-        },
-        {
-          "key": "3250",
-          "column": 4,
-          "value": "Photometrische Bestimmung von Chrom(VI) mittels 1,5-Diphenylcarbazid "
-        },
-        {
-          "key": "3260",
-          "column": 4,
-          "value": "Bestimmung ausgewählter leichtflüchtiger organischer Verbindungen in Wasser - Verfahren mittels Gaschromatographie und Massenspektrometrie nach statischer Headspacetechnik (HS-GC-MS)"
-        },
-        {
-          "key": "3300",
-          "column": 4,
-          "value": "Bestimmung von 7 Metallen (Zink, Cadmium, Blei, Kupfer, Thallium, Nickel, Cobalt) mittels Voltammetrie"
-        },
-        {
-          "key": "3330",
-          "column": 4,
-          "value": "Bestimmung von Natrium und Kalium - Teil 3: Bestimmung von Natrium und Kalium mittels Flammenphotometrie"
-        },
-        {
-          "key": "3340",
-          "column": 4,
-          "value": "Bestimmung von Aluminium - Photometrisches Verfahren mittels Brenzcatechinviolett"
-        }
-      ]
+      "delta": {
+        "to": "2",
+        "valid_from": "2024-12-01",
+        "columns": [
+          "Key",
+          "Untersuchungsverfahren",
+          "Ersetzte-Staende",
+          "DEV-Kurzbezeichnung",
+          "Beschreibung",
+          "Hinweis"
+        ],
+        "key_index": 0,
+        "restored_cells": [
+          {
+            "key": "1560",
+            "column": 4,
+            "value": "Bestimmung ausgewählter heterocyclischer aromatischer Kohlenwasserstoffe (NSO-Heterocyclen) in Wasser - Verfahren mittels Gaschromatographie und massenspektrometrischer Detektion (GS/MS) nach Fest-Flüssig-Extraktion (SPE)"
+          },
+          {
+            "key": "1730",
+            "column": 4,
+            "value": "Bestimmung der gelösten Komplexbildner Nitrilotriessigsäure (NTA) , Ethylendinitrilotetraessigsäure (EDTA) und Diethylentrinitrilopentaessigsäure (DTPA) mit der Flüssigchromatographie (LC)"
+          },
+          {
+            "key": "1840",
+            "column": 4,
+            "value": "Bestimmung von ausgewählten polycyclischen aromatischen Kohlenwasserstoffen (PAK) in Gesamtwasserproben - Verfahren mittels Festphasenextraktion (SPE) mit SPE-Disks in Verbindung mit Gaschromatographie-Massenspektrometrie (GC-MS)"
+          },
+          {
+            "key": "2030",
+            "column": 4,
+            "value": "Gesamt-Alpha- und Gesamt-Beta-Aktivität - Dünnschichtverfahren"
+          },
+          {
+            "key": "2110",
+            "column": 4,
+            "value": "Bestimmung von ausgewählten Elementen durch induktiv gekoppelte Plasma-Atom-Emissionsspektrometrie (ICP-OES) "
+          },
+          {
+            "key": "2180",
+            "column": 4,
+            "value": "Kohlenstoff-14 - Verfahren mit dem Flüssigszintillationszähler"
+          },
+          {
+            "key": "2190",
+            "column": 4,
+            "value": "Blei-210 - Verfahren mit dem Flüssigszintillationszähler"
+          },
+          {
+            "key": "2200",
+            "column": 4,
+            "value": "Radon-222 - Teil 1: Grundlagen"
+          },
+          {
+            "key": "2210",
+            "column": 4,
+            "value": "Radon-222 - Teil 2: Verfahren mittels Gammaspektrometrie"
+          },
+          {
+            "key": "2220",
+            "column": 4,
+            "value": "Radon-222 - Teil 3: Verfahren mittels Emanometrie"
+          },
+          {
+            "key": "2230",
+            "column": 4,
+            "value": "Radon-222 - Teil 4: Verfahren mittels zweistufiger Flüssigszintillationszählung "
+          },
+          {
+            "key": "2250",
+            "column": 4,
+            "value": "Radium-226 - Teil 2: Verfahren mittels Emanometrie"
+          },
+          {
+            "key": "2260",
+            "column": 4,
+            "value": "Radium-226 - Teil 3: Verfahren mittels Kopräzipitation und Gammaspektrometrie"
+          },
+          {
+            "key": "2530",
+            "column": 4,
+            "value": "Bestimmung von ausgewählten Alkylphenolen - Teil 2: Gaschromatographisch-massenspektrometrische Bestimmung von Alkylphenolen, deren Ethoxylaten und Bisphenol A für nichtfiltrierte Proben unter Verwendung der Festphasenextraktion und Derivatisierung"
+          },
+          {
+            "key": "2580",
+            "column": 4,
+            "value": "Bestimmung ausgewählter Arzneimittelwirkstoffe, Transformationsprodukte und weiterer organischer Stoffe gelöst in Wasser und behandeltem Abwasser - Verfahren mittels Hochleistungs-Flüssigkeitschromatographie und massenspektrometrischer Detektion (HPLC-MS/MS oder -HRMS) nach Direktinjektion"
+          },
+          {
+            "key": "2590",
+            "column": 4,
+            "value": "Bestimmung ausgewählter Explosivstoffe und verwandter Verbindungen - Verfahren mittels Hochleistungs-Flüssigkeitschromatographie (HPLC) mit UV-Detektion"
+          },
+          {
+            "key": "2600",
+            "column": 4,
+            "value": "Radium-226 und Radium-228 - Verfahren mit dem Flüssigszintillationszähler"
+          },
+          {
+            "key": "2610",
+            "column": 4,
+            "value": "Bestimmung von Dalapon, Trichloressigsäure und ausgewählten Halogenessigsäuren - Verfahren mittels Gaschromatographie (GC-ECD und/oder GC-MS-Detektion) nach Flüssig-Flüssig-Extraktion und Derivatisierung"
+          },
+          {
+            "key": "2650",
+            "column": 4,
+            "value": "Bestimmung des biochemischen Sauerstoffbedarfs nach n Tagen (BSBₙ) - Teil 1: Verdünnungs- und Impfverfahren mit Zugabe von Allylthioharnstoff"
+          },
+          {
+            "key": "2700",
+            "column": 2,
+            "value": "DIN EN ISO 6888-1/A1:2023-01; DIN EN ISO 6888-1:2022-06"
+          },
+          {
+            "key": "2730",
+            "column": 2,
+            "value": "DIN 38408-4:1984-06 ."
+          },
+          {
+            "key": "2730",
+            "column": 4,
+            "value": "Bestimmung von freiem Chlor und Gesamtchlor - Teil 1: Titrimetrisches Verfahren mit N,N-Diethyl-1,4-Phenylendiamin"
+          },
+          {
+            "key": "2750",
+            "column": 4,
+            "value": "Bestimmung von freiem Chlor und Gesamtchlor - Teil 3: Iodometrisches Verfahren zur Bestimmung von Gesamtchlor"
+          },
+          {
+            "key": "2860",
+            "column": 4,
+            "value": "Gesamt-Alpha-Aktivität - Dickschichtverfahren"
+          },
+          {
+            "key": "2870",
+            "column": 4,
+            "value": "Gesamt-Beta-Aktivität - Dickschichtverfahren"
+          },
+          {
+            "key": "2880",
+            "column": 4,
+            "value": "Bestimmung der Aktivitätskonzentration von Tritium - Verfahren mit dem Flüssigszintillationszähler"
+          },
+          {
+            "key": "3080",
+            "column": 4,
+            "value": "Bestimmung von Aluminium - Photometrisches Verfahren mittels Brenzcatechinviolett"
+          },
+          {
+            "key": "3100",
+            "column": 4,
+            "value": "Bestimmung ausgewählter leichtflüchtiger organischer Verbindungen in Wasser - Verfahren mittels Gaschromatographie und Massenspektrometrie nach statischer Headspacetechnik (HS-GC-MS)"
+          },
+          {
+            "key": "3130",
+            "column": 4,
+            "value": "Bestimmung von Natrium und Kalium - Teil 3: Bestimmung von Natrium und Kalium mittels Flammenphotometrie"
+          },
+          {
+            "key": "3240",
+            "column": 4,
+            "value": "Bestimmung von cyclischen flüchtigen Methylsiloxanen in Wasser - Teil 2: Verfahren mittels Flüssig-Flüssig-Extraktion und Gaschromatographie-Massenspektrometrie (GC-MS)"
+          },
+          {
+            "key": "3250",
+            "column": 4,
+            "value": "Photometrische Bestimmung von Chrom(VI) mittels 1,5-Diphenylcarbazid "
+          },
+          {
+            "key": "3260",
+            "column": 4,
+            "value": "Bestimmung ausgewählter leichtflüchtiger organischer Verbindungen in Wasser - Verfahren mittels Gaschromatographie und Massenspektrometrie nach statischer Headspacetechnik (HS-GC-MS)"
+          },
+          {
+            "key": "3300",
+            "column": 4,
+            "value": "Bestimmung von 7 Metallen (Zink, Cadmium, Blei, Kupfer, Thallium, Nickel, Cobalt) mittels Voltammetrie"
+          },
+          {
+            "key": "3330",
+            "column": 4,
+            "value": "Bestimmung von Natrium und Kalium - Teil 3: Bestimmung von Natrium und Kalium mittels Flammenphotometrie"
+          },
+          {
+            "key": "3340",
+            "column": 4,
+            "value": "Bestimmung von Aluminium - Photometrisches Verfahren mittels Brenzcatechinviolett"
+          }
+        ]
+      }
     },
     {
-      "to": "1",
-      "columns": [
-        "Key",
-        "Untersuchungsverfahren",
-        "Ersetzte-Staende",
-        "Beschreibung"
-      ],
-      "key_index": 0,
-      "added_rows": [
-        [
-          "1760",
-          "DIN EN 12671:2016-09",
-          "",
-          "Produkte zur Aufbereitung von Wasser für den menschlichen Gebrauch: Vor Ort erzeugtes Chlordioxid"
+      "delta": {
+        "to": "1",
+        "columns": [
+          "Key",
+          "Untersuchungsverfahren",
+          "Ersetzte-Staende",
+          "Beschreibung"
         ],
-        [
-          "1940",
-          "DIN EN 901:2013-12",
-          "",
-          "Produkte zur Aufbereitung von Wasser für den menschlichen Gebrauch: Natriumhypochlorit"
+        "key_index": 0,
+        "added_rows": [
+          [
+            "1760",
+            "DIN EN 12671:2016-09",
+            "",
+            "Produkte zur Aufbereitung von Wasser für den menschlichen Gebrauch: Vor Ort erzeugtes Chlordioxid"
+          ],
+          [
+            "1940",
+            "DIN EN 901:2013-12",
+            "",
+            "Produkte zur Aufbereitung von Wasser für den menschlichen Gebrauch: Natriumhypochlorit"
+          ]
+        ],
+        "removed_rows": [
+          "3210",
+          "3220",
+          "3230",
+          "3240",
+          "3250",
+          "3260",
+          "3270",
+          "3280",
+          "3290",
+          "3300",
+          "3310",
+          "3320",
+          "3330",
+          "3340",
+          "3350",
+          "3360"
+        ],
+        "restored_cells": [
+          {
+            "key": "1010",
+            "column": 1,
+            "value": "Aktualisierung Empfeh. UBA: System. Untersuchungen Legionellen 2022-12"
+          },
+          {
+            "key": "1010",
+            "column": 3,
+            "value": "Systemische Untersuchungen von Trinkwasserinstallationen auf Legionellen nach Trinkwasserverordnung - Probennahme, Untersuchungsgang und Angabe des Ergebnisses"
+          },
+          {
+            "key": "1060",
+            "column": 3,
+            "value": "Geruch und Geschmack"
+          },
+          {
+            "key": "1070",
+            "column": 3,
+            "value": "Die Berechnung des gelösten Kohlendioxids, des Carbonat- und Hydrogencarbonat-Ions"
+          },
+          {
+            "key": "1090",
+            "column": 3,
+            "value": "Bestimmung der ausblasbaren, organisch gebundenen Halogene (POX) (nach DEV H 25)"
+          },
+          {
+            "key": "1120",
+            "column": 2,
+            "value": ""
+          },
+          {
+            "key": "1130",
+            "column": 3,
+            "value": "Bestimmung der UV-Absorption"
+          },
+          {
+            "key": "1150",
+            "column": 1,
+            "value": "DIN 38404-6:1984-05 inkl. Berichtigung 1:2018-12"
+          },
+          {
+            "key": "1160",
+            "column": 2,
+            "value": ""
+          },
+          {
+            "key": "1170",
+            "column": 3,
+            "value": "Bestimmung von Borat"
+          },
+          {
+            "key": "1180",
+            "column": 3,
+            "value": "Bestimmung von gelöster Kieselsäure (photometrisch)"
+          },
+          {
+            "key": "1190",
+            "column": 3,
+            "value": "Bestimmung von Selen (AAS)"
+          },
+          {
+            "key": "1200",
+            "column": 2,
+            "value": ""
+          },
+          {
+            "key": "1210",
+            "column": 1,
+            "value": "DIN 38405-29:1994-11 inkl. Berichtigung 1:2019-02"
+          },
+          {
+            "key": "1210",
+            "column": 3,
+            "value": "Bestimmung von Nitrat (photometrisch mit Sulfosalizylsäure)"
+          },
+          {
+            "key": "1220",
+            "column": 3,
+            "value": "Bestimmung von Antimon (AAS)"
+          },
+          {
+            "key": "1230",
+            "column": 1,
+            "value": "DIN 38405-33:2001-03 inkl. Berichtigung 1:2018-12"
+          },
+          {
+            "key": "1230",
+            "column": 3,
+            "value": "Bestimmung von Iodid (photometrisch)"
+          },
+          {
+            "key": "1270",
+            "column": 3,
+            "value": "Anionen (Gruppe D) Bestimmung von Cyaniden in gering belastetem Wasser mit der Ionenchromato-graphie oder potentiometrischer Titration"
+          },
+          {
+            "key": "1280",
+            "column": 2,
+            "value": ""
+          },
+          {
+            "key": "1300",
+            "column": 3,
+            "value": "Bestimmung von Nickel (AAS)"
+          },
+          {
+            "key": "1310",
+            "column": 3,
+            "value": "Bestimmung von Kalium (AAS)"
+          },
+          {
+            "key": "1320",
+            "column": 3,
+            "value": "Bestimmung von Natrium (AAS)"
+          },
+          {
+            "key": "1330",
+            "column": 3,
+            "value": "Bestimmung von Uran - Verfahren mittels adsorptiver Stripping-Voltametrie in Grund-, Roh und Trinkwässern"
+          },
+          {
+            "key": "1340",
+            "column": 3,
+            "value": "Bestimmung von gelöstem Silber (Graphitrohr-AAS)"
+          },
+          {
+            "key": "1360",
+            "column": 3,
+            "value": "Bestimmung von Cobalt (AAS)"
+          },
+          {
+            "key": "1370",
+            "column": 3,
+            "value": "Bestimmung von Thallium mittels GF-AAS"
+          },
+          {
+            "key": "1380",
+            "column": 2,
+            "value": ""
+          },
+          {
+            "key": "1380",
+            "column": 3,
+            "value": "Bestimmung von Calcium und Magnesium (komplexometrisch)"
+          },
+          {
+            "key": "1390",
+            "column": 3,
+            "value": "Bestimmung von Eisen (AAS)"
+          },
+          {
+            "key": "1400",
+            "column": 3,
+            "value": "Bestimmung von Mangan (AAS)"
+          },
+          {
+            "key": "1410",
+            "column": 3,
+            "value": "Bestimmung von Ammonium-Stickstoff"
+          },
+          {
+            "key": "1420",
+            "column": 2,
+            "value": ""
+          },
+          {
+            "key": "1420",
+            "column": 3,
+            "value": "Bestimmung von Blei (AAS)"
+          },
+          {
+            "key": "1430",
+            "column": 3,
+            "value": "Bestimmung von Kupfer (AAS)"
+          },
+          {
+            "key": "1440",
+            "column": 2,
+            "value": ""
+          },
+          {
+            "key": "1440",
+            "column": 3,
+            "value": "Bestimmung von Zink (AAS)"
+          },
+          {
+            "key": "1460",
+            "column": 3,
+            "value": "Bestimmung von Anilin-Derivaten (GC)"
+          },
+          {
+            "key": "1470",
+            "column": 3,
+            "value": "Bestimmung nitroaromatischer Verbindungen (GC)"
+          },
+          {
+            "key": "1480",
+            "column": 3,
+            "value": "Bestimmung von Glyphosat und AMPA (HPLC, Nachsäulenderivatisierung und Fluoreszenzdetektion)"
+          },
+          {
+            "key": "1500",
+            "column": 3,
+            "value": "Bestimmung von Trihalogenmethanen (THM) in Schwimm- und Badebeckenwasser mit Headspace-GC"
+          },
+          {
+            "key": "1520",
+            "column": 3,
+            "value": "Bestimmung ausgewählter Pflanzenschutzmittelwirkstoffe und andere organische Stoffe in Wasser - Verfahren mittels Hochleistungs-Flüssigkeitschromatographie und massenspektrometrischer Detektion (HPLC-MS/MS bzw. -HRMS) nach Direktinjektion"
+          },
+          {
+            "key": "1540",
+            "column": 3,
+            "value": "Bestimmung ausgewählter polycyclischer aromatischer Kohlenwasserstoffe (PAK); Verfahren mittels Gaschromatographie und massenspektrometrischer Detektion (GC-MS)"
+          },
+          {
+            "key": "1550",
+            "column": 3,
+            "value": "Bestimmung ausgewählter polyfluorierter Verbindungen (PFC) in Wasser - Verfahren mittels Hochleistungs-Flüssigkeitschromatographie und massenspektrometrischer Detektion (HPLC-MS/MS) nach Fest- Flüssig-Extraktion"
+          },
+          {
+            "key": "1570",
+            "column": 2,
+            "value": ""
+          },
+          {
+            "key": "1570",
+            "column": 3,
+            "value": "Gasförmige Bestandteile - Teil 3: Bestimmung von Ozon"
+          },
+          {
+            "key": "1610",
+            "column": 3,
+            "value": "Bestimmung von Wasserstoffperoxid und Addukten"
+          },
+          {
+            "key": "1620",
+            "column": 3,
+            "value": "Bestimmung des Phenol-Index (H16)"
+          },
+          {
+            "key": "1660",
+            "column": 2,
+            "value": ""
+          },
+          {
+            "key": "1680",
+            "column": 3,
+            "value": "Bestimmung der Wasserhärte"
+          },
+          {
+            "key": "1710",
+            "column": 3,
+            "value": "Bestimmung des Volumenanteils der absetzbaren Stoffe"
+          },
+          {
+            "key": "1720",
+            "column": 3,
+            "value": "Bestimmung von Acrylamid - Verfahren mittels Hochleistungs-Flüssigkeitschromatographie und massenspektrometrischer Detektion (HPLCMS/MS)"
+          },
+          {
+            "key": "1730",
+            "column": 3,
+            "value": "Bestimmung der Komplexbildner NTA, EDTA und DTPA mit der Flüssigchromatographie (LC)"
+          },
+          {
+            "key": "1750",
+            "column": 3,
+            "value": "Bestimmung von Chrom (AAS)"
+          },
+          {
+            "key": "1770",
+            "column": 3,
+            "value": "Bestimmung ausgewählter Chlorphenole (GC)"
+          },
+          {
+            "key": "1780",
+            "column": 2,
+            "value": ""
+          },
+          {
+            "key": "1780",
+            "column": 3,
+            "value": "Bestimmung des Trockenrückstands und des Wassergehalts"
+          },
+          {
+            "key": "1790",
+            "column": 3,
+            "value": "Bestimmung von Parathion, Parathion-methyl und anderen Organophosphor-Verb. (Dichlormethan-Extraktion GC)"
+          },
+          {
+            "key": "1810",
+            "column": 2,
+            "value": ""
+          },
+          {
+            "key": "1810",
+            "column": 3,
+            "value": "Bestimmung von TOC und DOC"
+          },
+          {
+            "key": "1850",
+            "column": 3,
+            "value": "Bestimmung von Organochlorpestiziden (OCP) in Gesamtwasserproben - Verfahren mittels Festphasenextraktion (SPE) mit SPE-Disks in Verbindung mit Gaschromatographie-Massenspektrometrie"
+          },
+          {
+            "key": "1860",
+            "column": 3,
+            "value": "Bestimmung von Pentabromdiphenylether (PBDE) in Gesamtwasserproben mittels Festphasenextraktion (SPE) mit SPE-Scheiben in Verbindung mit Gaschromatographie-Massenspektrometrie (GC-MS)"
+          },
+          {
+            "key": "1870",
+            "column": 2,
+            "value": ""
+          },
+          {
+            "key": "1870",
+            "column": 3,
+            "value": "Bestimmung des Biochemischen Sauerstoffbedarfs nach n Tagen (BSBn) - Teil 2: Verfahren für unverdünnte Proben (ISO 5815:1989, modifiziert); Deutsche Fassung EN 1899-2:1998"
+          },
+          {
+            "key": "1880",
+            "column": 3,
+            "value": "Bestimmung von gelöstem Sauerstoff (iodometrisch)"
+          },
+          {
+            "key": "1910",
+            "column": 2,
+            "value": ""
+          },
+          {
+            "key": "1910",
+            "column": 3,
+            "value": "Bestimmung von Nitrit (spektrometrisch)"
+          },
+          {
+            "key": "1920",
+            "column": 3,
+            "value": "Bestimmung der elektr. Leitfähigkeit"
+          },
+          {
+            "key": "1930",
+            "column": 2,
+            "value": ""
+          },
+          {
+            "key": "1930",
+            "column": 3,
+            "value": "Bestimmung suspendierter Stoffe - Verfahren durch Abtrennung mittels Glasfaserfilter (nach DEV H33)"
+          },
+          {
+            "key": "1960",
+            "column": 2,
+            "value": ""
+          },
+          {
+            "key": "1960",
+            "column": 3,
+            "value": "Bestimmung von LHKW (GC)"
+          },
+          {
+            "key": "1970",
+            "column": 2,
+            "value": ""
+          },
+          {
+            "key": "1970",
+            "column": 3,
+            "value": "Bestimmung der gelösten Anionen mittels Flüssigkeits-Ionenchromatografie.Teil 1: Bestimmung von Bromid, Chlorid, Nitrat, Nitrit, Fluorid, Nitrat, Nitrit, Phosphat und Sulfat"
+          },
+          {
+            "key": "1980",
+            "column": 3,
+            "value": "Bestimmung von Chromat, Iodid, Sulfit, Thiocyanat und Thiosulfat (IC)"
+          },
+          {
+            "key": "1990",
+            "column": 1,
+            "value": "DIN EN ISO 10304-4:1999-07"
+          },
+          {
+            "key": "1990",
+            "column": 2,
+            "value": ""
+          },
+          {
+            "key": "1990",
+            "column": 3,
+            "value": "Bestimmung von Chlorat, Chlorid und Chlorit, gering belastete Gewässer (IC)"
+          },
+          {
+            "key": "2000",
+            "column": 3,
+            "value": "Bestimmung des pH-Wertes"
+          },
+          {
+            "key": "2010",
+            "column": 3,
+            "value": "Bestimmung organischer Stickstoff- und Phosphorverbindungen (GC)"
+          },
+          {
+            "key": "2020",
+            "column": 2,
+            "value": "DIN 38404-16"
+          },
+          {
+            "key": "2030",
+            "column": 2,
+            "value": ""
+          },
+          {
+            "key": "2030",
+            "column": 3,
+            "value": "Bestimmung der Gesamt-Alpha- und Gesamt-Beta-Aktivität - Dünnschichtverfahren"
+          },
+          {
+            "key": "2070",
+            "column": 3,
+            "value": "Bestimmung ausgewählter PBSM (Hochauflösungs-Flüssigkeitschromatographie mit UV-Detektion nach Fest-Flüssig-Extraktion)"
+          },
+          {
+            "key": "2110",
+            "column": 2,
+            "value": ""
+          },
+          {
+            "key": "2140",
+            "column": 1,
+            "value": "DIN EN ISO 12020:2019-09"
+          },
+          {
+            "key": "2140",
+            "column": 2,
+            "value": ""
+          },
+          {
+            "key": "2140",
+            "column": 3,
+            "value": "Bestimmung von Aluminium (AAS)"
+          },
+          {
+            "key": "2150",
+            "column": 2,
+            "value": ""
+          },
+          {
+            "key": "2150",
+            "column": 3,
+            "value": "Bestimmung von Quecksilber (AAS, mit und ohne Anreicherung)"
+          },
+          {
+            "key": "2170",
+            "column": 1,
+            "value": "DIN EN ISO 13161:2013-01"
+          },
+          {
+            "key": "2180",
+            "column": 2,
+            "value": ""
+          },
+          {
+            "key": "2180",
+            "column": 3,
+            "value": "Bestimmung der Aktivität von Kohlenstoff-14 - Verfahren mit dem Flüssigszintillationszähler"
+          },
+          {
+            "key": "2240",
+            "column": 2,
+            "value": ""
+          },
+          {
+            "key": "2240",
+            "column": 3,
+            "value": "Bestimmung von Radium-226 - Teil 1: Verfahren mit dem Flüssigszintillationszähler"
+          },
+          {
+            "key": "2260",
+            "column": 3,
+            "value": "Radium-226 - Teil 3: Verfahren mittels Kopräzipitation und GammaspektrometrieVerfahren mittels Emanometrie"
+          },
+          {
+            "key": "2270",
+            "column": 3,
+            "value": "Bestimmung von Nitrit- und Nitratstickstoff (Fließanalyse und spektr. Detektion)"
+          },
+          {
+            "key": "2320",
+            "column": 3,
+            "value": "Bestimmung von Lithium, Natrium, Ammonium, Kalium, Mangan, Calcium, Magnesium, Barium (IC)"
+          },
+          {
+            "key": "2330",
+            "column": 3,
+            "value": "Bestimmung von Bromat (IC)"
+          },
+          {
+            "key": "2340",
+            "column": 3,
+            "value": "Wasserbeschaffenheit - Bestimmung von Spurenelementen mittels Atomabsorptionsspektrometrie mit dem Graphitrohr-Verfahren (ISO 15586:2003); Deutsche Fassung EN ISO 15586:2003"
+          },
+          {
+            "key": "2350",
+            "column": 3,
+            "value": "Bestimmung von leichtflüchtigen aromatischen Kohlenwasserstoffen mittels Purge-and-Trap GC"
+          },
+          {
+            "key": "2370",
+            "column": 2,
+            "value": ""
+          },
+          {
+            "key": "2380",
+            "column": 3,
+            "value": "Bestimmung von Chlorid (Fließanalyse und spektr. Detektion)"
+          },
+          {
+            "key": "2390",
+            "column": 2,
+            "value": ""
+          },
+          {
+            "key": "2390",
+            "column": 3,
+            "value": "Bestimmung ausgewählter Phenoxyalkancarbonsäure-Herbiziden, einschließlich Bentazon und Hydroxynitrilen, mittels GC"
+          },
+          {
+            "key": "2410",
+            "column": 3,
+            "value": "Nachweis und Zählung von Pseudomonas aeruginosa durch Membranfiltration"
+          },
+          {
+            "key": "2420",
+            "column": 3,
+            "value": "Wasserbeschaffenheit - Nachweis und Zählung von Pseudomonas aeruginosa - Membranfiltrationsverfahren (ISO 16266:2006); Deutsche Fassung EN ISO 16266:2008"
+          },
+          {
+            "key": "2440",
+            "column": 2,
+            "value": ""
+          },
+          {
+            "key": "2440",
+            "column": 3,
+            "value": "Anwendung der induktiv gekoppelten Plasma Massenspektrometrie - Teil 2: Bestimmung von ausgewählten Elementen einschließlich Uran-Isotope"
+          },
+          {
+            "key": "2450",
+            "column": 2,
+            "value": ""
+          },
+          {
+            "key": "2470",
+            "column": 2,
+            "value": ""
+          },
+          {
+            "key": "2470",
+            "column": 3,
+            "value": "Bestimmung von Quecksilber mittels Atomfluoreszenzspektrometrie"
+          },
+          {
+            "key": "2480",
+            "column": 3,
+            "value": "Bestimmung flüchtiger organischer Verbindungen in Wasser - Verfahren mittels Gaschromatographie und Massenspektrometrie (GC-MS) nach Headspace-Festphasenmikroextraktion (HS-SPME)"
+          },
+          {
+            "key": "2490",
+            "column": 2,
+            "value": ""
+          },
+          {
+            "key": "2490",
+            "column": 3,
+            "value": "Bestimmung von 15 PAK durch HPLC mit Fluoreszenzdetektion"
+          },
+          {
+            "key": "2500",
+            "column": 3,
+            "value": "Wasserbeschaffenheit - Bestimmung von Chrom(VI) - Photometrisches Verfahren für gering belastetes Wasser (ISO 18412:2005); Deutsche Fassung EN ISO 18412:2006"
+          },
+          {
+            "key": "2530",
+            "column": 3,
+            "value": "Bestimmung von ausgewählten Alkylphenolen - Teil 2: Gaschromatographische-massenspektrometrische Bestimmung von Alkylphenolen"
+          },
+          {
+            "key": "2560",
+            "column": 3,
+            "value": "Probennahme für mikrobiologische Untersuchungen"
+          },
+          {
+            "key": "2570",
+            "column": 3,
+            "value": "Bestimmung des gesamten organischen Kohlenstoffs (TOC), des gelösten organischen Kohlenstoffs (DOC), des gebundenen Stickstoffs (TNb) und des gelösten gebundenen Stickstoffs (DNb) nach katalytischer oxidativer Hochtemperaturverbrennung (ISO 20236:2018); Deutsche Fassung EN ISO 20236:2021"
+          },
+          {
+            "key": "2590",
+            "column": 3,
+            "value": "Bestimmung ausgewählter Explosivstoffe und verwandter Verbindungen (HPLC mit UV-Detektion)"
+          },
+          {
+            "key": "2600",
+            "column": 1,
+            "value": "DIN EN ISO 22908:2022-08"
+          },
+          {
+            "key": "2610",
+            "column": 1,
+            "value": "DIN EN ISO 23631:2006-05, inkl. Berichtigung DIN EN ISO 23631 1:2007-11 ."
+          },
+          {
+            "key": "2610",
+            "column": 3,
+            "value": "Wasserbeschaffenheit - Bestimmung von Dalapon, Trichloressigsäure und ausgewählten Halogenessigsäuren - Verfahren mittels Gaschromatographie (GC-ECD und/oder GC-MS-Detektion) nach Flüssig-Flüssig-Extraktion und Derivatisierung (ISO 23631:2006); Deutsche Fassung EN ISO 23631:2006"
+          },
+          {
+            "key": "2630",
+            "column": 2,
+            "value": "DIN 38407-34"
+          },
+          {
+            "key": "2630",
+            "column": 3,
+            "value": "Wasserbeschaffenheit - Bestimmung ausgewählter Pflanzenschutzmittel und Biozidprodukte - Verfahren mittels Festphasenmikroextraktion (SPME) gefolgt von der Gaschromatographie und Massenspektrometrie (GC-MS)"
+          },
+          {
+            "key": "2640",
+            "column": 3,
+            "value": "Bestimmung von gelöstem Sauerstoff (elektrochemisch)"
+          },
+          {
+            "key": "2650",
+            "column": 2,
+            "value": ""
+          },
+          {
+            "key": "2660",
+            "column": 2,
+            "value": ""
+          },
+          {
+            "key": "2660",
+            "column": 3,
+            "value": "Bestimmung von Cadmium (AAS)"
+          },
+          {
+            "key": "2670",
+            "column": 3,
+            "value": "Bestimmung der KZ durch Einimpfen von Nährmedium (quantitativ)"
+          },
+          {
+            "key": "2680",
+            "column": 3,
+            "value": "Bestimmung von Organochlorinsektiziden, PCB und Chlorbenzolen (GC nach Flüssig-Flüssig-Extraktion)"
+          },
+          {
+            "key": "2690",
+            "column": 2,
+            "value": ""
+          },
+          {
+            "key": "2690",
+            "column": 3,
+            "value": "Bestimmung von Phosphor (photometrisch mittels Ammoniummolybdat)"
+          },
+          {
+            "key": "2710",
+            "column": 2,
+            "value": ""
+          },
+          {
+            "key": "2720",
+            "column": 2,
+            "value": ""
+          },
+          {
+            "key": "2720",
+            "column": 3,
+            "value": "Bestimmung der Trübung - Teil 2: Semi-quantitatives Verfahren zur Beurteilung der Lichtdurchlässigkeit"
+          },
+          {
+            "key": "2730",
+            "column": 2,
+            "value": ""
+          },
+          {
+            "key": "2730",
+            "column": 3,
+            "value": "Bestimmung von freiem Chlor und Gesamtchlor (titrimetrisch mit DPD)"
+          },
+          {
+            "key": "2740",
+            "column": 3,
+            "value": "Bestimmung von freiem Chlor und Gesamtchlor (kolorimetrisch)"
+          },
+          {
+            "key": "2750",
+            "column": 3,
+            "value": "Bestimmung von freiem Chlor und Gesamtchlor (iodometrisch)"
+          },
+          {
+            "key": "2760",
+            "column": 3,
+            "value": "Bestimmung der Färbung"
+          },
+          {
+            "key": "2770",
+            "column": 3,
+            "value": "Nachweis und Zählung von intestinalen Enterokokken - Teil 1: MiniaturisiertesVerfahren durch Animpfen in Flüssigmedium (MPN-Verfahren)"
+          },
+          {
+            "key": "2790",
+            "column": 3,
+            "value": "Bestimmung von Calcium und Magnesium (AAS)"
+          },
+          {
+            "key": "2800",
+            "column": 2,
+            "value": ""
+          },
+          {
+            "key": "2830",
+            "column": 1,
+            "value": "DIN EN ISO 9308-3:1999-03"
+          },
+          {
+            "key": "2840",
+            "column": 3,
+            "value": "Bestimmung des Kohlenwasserstoff-Index - Teis 2: Verfahren nach Lösemittelextraktion und GC"
+          },
+          {
+            "key": "2850",
+            "column": 2,
+            "value": ""
+          },
+          {
+            "key": "2860",
+            "column": 2,
+            "value": ""
+          },
+          {
+            "key": "2870",
+            "column": 2,
+            "value": ""
+          },
+          {
+            "key": "2880",
+            "column": 2,
+            "value": "DIN 38404-13"
+          },
+          {
+            "key": "2880",
+            "column": 3,
+            "value": "Tritium - Verfahren mit dem Flüssigszintillationszähler"
+          },
+          {
+            "key": "2890",
+            "column": 1,
+            "value": "DIN EN ISO 9963-1:1996-03"
+          },
+          {
+            "key": "2890",
+            "column": 3,
+            "value": "Bestimmung der gesamten und der zusammengesetzten Alkalinität"
+          },
+          {
+            "key": "2900",
+            "column": 1,
+            "value": "DIN EN ISO 9963-2:1996-03"
+          },
+          {
+            "key": "2900",
+            "column": 3,
+            "value": "Bestimmung der Carbonatalkalinität"
+          },
+          {
+            "key": "2910",
+            "column": 3,
+            "value": "Gravimetrische Bestimmung von schwerflüchtigen lipophilen Stoffen nach Lösemittelextraktion"
+          },
+          {
+            "key": "2920",
+            "column": 1,
+            "value": "DIN ISO 15705:2003-01"
+          },
+          {
+            "key": "2930",
+            "column": 3,
+            "value": "Bestimmung von ausgewählten Parametern mittels Einzelanalysensystemenn - Teil 1: Ammonium, Nitrat, Nitrit, Chlorid, Orthophosphat, Sulfat und Silikat durch photometrische Detektion"
+          },
+          {
+            "key": "2950",
+            "column": 3,
+            "value": "Bestimmung des gelösten Sauerstoffs - Optisches Sensorverfahren (auf Basis der Fluoreszenzlöschung)"
+          },
+          {
+            "key": "2980",
+            "column": 2,
+            "value": ""
+          },
+          {
+            "key": "2980",
+            "column": 3,
+            "value": "Probennahme, Hinweise für Lebensmittelbetriebe"
+          },
+          {
+            "key": "3000",
+            "column": 1,
+            "value": "Empfehlung UBA: Systemische Untersuchungen auf Legionellen 2018-12 und 2022-12"
+          },
+          {
+            "key": "3000",
+            "column": 3,
+            "value": "Systemische Untersuchung von Trinkwasser-Installationen auf Legionellen nach Trinkwasserverordnung - Probennahme, Untersuchungsgang und Angabe des Ergebnisses"
+          },
+          {
+            "key": "3050",
+            "column": 3,
+            "value": "Bestimmung von Arcylamid mittels HPLC"
+          },
+          {
+            "key": "3070",
+            "column": 1,
+            "value": "Identifizierung von Legionella spec. mittels Latex-Agglutinationstest"
+          },
+          {
+            "key": "3070",
+            "column": 3,
+            "value": "Testkit: muss im Freitext genau beschrieben werden"
+          },
+          {
+            "key": "3080",
+            "column": 3,
+            "value": "Bestimmung von Aluminium (photometrisch)"
+          },
+          {
+            "key": "3090",
+            "column": 3,
+            "value": "Wasserbeschaffenheit - Bestimmung von Arsen und Antimon - Teil 2: Atomabsorptionsspektrometrie mit Hydridbildung (HG-AAS)"
+          },
+          {
+            "key": "3100",
+            "column": 3,
+            "value": "Wasserbeschaffenheit - Bestimmung ausgewählter leichtflüchtiger organischer Verbindungen in Wasser - Verfahren mittels Gaschromatographie und Massenspektrometrie nach statischer Headspacetechnik (HS-GC-MS)"
+          },
+          {
+            "key": "3110",
+            "column": 3,
+            "value": "Bestimmung von Perfluoroctansulfonat (PFOS) und Perfluoroctanat (PFOA) mit Festphasenextraktion und LC-MS"
+          },
+          {
+            "key": "3130",
+            "column": 3,
+            "value": "Bestimmung von Natrium und Kalium (Flammenphotometrie)"
+          },
+          {
+            "key": "3150",
+            "column": 3,
+            "value": "Koloniezahl in 1 ml (Plattengussverfahren)"
+          }
         ]
-      ],
-      "removed_rows": [
-        "3210",
-        "3220",
-        "3230",
-        "3240",
-        "3250",
-        "3260",
-        "3270",
-        "3280",
-        "3290",
-        "3300",
-        "3310",
-        "3320",
-        "3330",
-        "3340",
-        "3350",
-        "3360"
-      ],
-      "restored_cells": [
-        {
-          "key": "1010",
-          "column": 1,
-          "value": "Aktualisierung Empfeh. UBA: System. Untersuchungen Legionellen 2022-12"
-        },
-        {
-          "key": "1010",
-          "column": 3,
-          "value": "Systemische Untersuchungen von Trinkwasserinstallationen auf Legionellen nach Trinkwasserverordnung - Probennahme, Untersuchungsgang und Angabe des Ergebnisses"
-        },
-        {
-          "key": "1060",
-          "column": 3,
-          "value": "Geruch und Geschmack"
-        },
-        {
-          "key": "1070",
-          "column": 3,
-          "value": "Die Berechnung des gelösten Kohlendioxids, des Carbonat- und Hydrogencarbonat-Ions"
-        },
-        {
-          "key": "1090",
-          "column": 3,
-          "value": "Bestimmung der ausblasbaren, organisch gebundenen Halogene (POX) (nach DEV H 25)"
-        },
-        {
-          "key": "1120",
-          "column": 2,
-          "value": ""
-        },
-        {
-          "key": "1130",
-          "column": 3,
-          "value": "Bestimmung der UV-Absorption"
-        },
-        {
-          "key": "1150",
-          "column": 1,
-          "value": "DIN 38404-6:1984-05 inkl. Berichtigung 1:2018-12"
-        },
-        {
-          "key": "1160",
-          "column": 2,
-          "value": ""
-        },
-        {
-          "key": "1170",
-          "column": 3,
-          "value": "Bestimmung von Borat"
-        },
-        {
-          "key": "1180",
-          "column": 3,
-          "value": "Bestimmung von gelöster Kieselsäure (photometrisch)"
-        },
-        {
-          "key": "1190",
-          "column": 3,
-          "value": "Bestimmung von Selen (AAS)"
-        },
-        {
-          "key": "1200",
-          "column": 2,
-          "value": ""
-        },
-        {
-          "key": "1210",
-          "column": 1,
-          "value": "DIN 38405-29:1994-11 inkl. Berichtigung 1:2019-02"
-        },
-        {
-          "key": "1210",
-          "column": 3,
-          "value": "Bestimmung von Nitrat (photometrisch mit Sulfosalizylsäure)"
-        },
-        {
-          "key": "1220",
-          "column": 3,
-          "value": "Bestimmung von Antimon (AAS)"
-        },
-        {
-          "key": "1230",
-          "column": 1,
-          "value": "DIN 38405-33:2001-03 inkl. Berichtigung 1:2018-12"
-        },
-        {
-          "key": "1230",
-          "column": 3,
-          "value": "Bestimmung von Iodid (photometrisch)"
-        },
-        {
-          "key": "1270",
-          "column": 3,
-          "value": "Anionen (Gruppe D) Bestimmung von Cyaniden in gering belastetem Wasser mit der Ionenchromato-graphie oder potentiometrischer Titration"
-        },
-        {
-          "key": "1280",
-          "column": 2,
-          "value": ""
-        },
-        {
-          "key": "1300",
-          "column": 3,
-          "value": "Bestimmung von Nickel (AAS)"
-        },
-        {
-          "key": "1310",
-          "column": 3,
-          "value": "Bestimmung von Kalium (AAS)"
-        },
-        {
-          "key": "1320",
-          "column": 3,
-          "value": "Bestimmung von Natrium (AAS)"
-        },
-        {
-          "key": "1330",
-          "column": 3,
-          "value": "Bestimmung von Uran - Verfahren mittels adsorptiver Stripping-Voltametrie in Grund-, Roh und Trinkwässern"
-        },
-        {
-          "key": "1340",
-          "column": 3,
-          "value": "Bestimmung von gelöstem Silber (Graphitrohr-AAS)"
-        },
-        {
-          "key": "1360",
-          "column": 3,
-          "value": "Bestimmung von Cobalt (AAS)"
-        },
-        {
-          "key": "1370",
-          "column": 3,
-          "value": "Bestimmung von Thallium mittels GF-AAS"
-        },
-        {
-          "key": "1380",
-          "column": 2,
-          "value": ""
-        },
-        {
-          "key": "1380",
-          "column": 3,
-          "value": "Bestimmung von Calcium und Magnesium (komplexometrisch)"
-        },
-        {
-          "key": "1390",
-          "column": 3,
-          "value": "Bestimmung von Eisen (AAS)"
-        },
-        {
-          "key": "1400",
-          "column": 3,
-          "value": "Bestimmung von Mangan (AAS)"
-        },
-        {
-          "key": "1410",
-          "column": 3,
-          "value": "Bestimmung von Ammonium-Stickstoff"
-        },
-        {
-          "key": "1420",
-          "column": 2,
-          "value": ""
-        },
-        {
-          "key": "1420",
-          "column": 3,
-          "value": "Bestimmung von Blei (AAS)"
-        },
-        {
-          "key": "1430",
-          "column": 3,
-          "value": "Bestimmung von Kupfer (AAS)"
-        },
-        {
-          "key": "1440",
-          "column": 2,
-          "value": ""
-        },
-        {
-          "key": "1440",
-          "column": 3,
-          "value": "Bestimmung von Zink (AAS)"
-        },
-        {
-          "key": "1460",
-          "column": 3,
-          "value": "Bestimmung von Anilin-Derivaten (GC)"
-        },
-        {
-          "key": "1470",
-          "column": 3,
-          "value": "Bestimmung nitroaromatischer Verbindungen (GC)"
-        },
-        {
-          "key": "1480",
-          "column": 3,
-          "value": "Bestimmung von Glyphosat und AMPA (HPLC, Nachsäulenderivatisierung und Fluoreszenzdetektion)"
-        },
-        {
-          "key": "1500",
-          "column": 3,
-          "value": "Bestimmung von Trihalogenmethanen (THM) in Schwimm- und Badebeckenwasser mit Headspace-GC"
-        },
-        {
-          "key": "1520",
-          "column": 3,
-          "value": "Bestimmung ausgewählter Pflanzenschutzmittelwirkstoffe und andere organische Stoffe in Wasser - Verfahren mittels Hochleistungs-Flüssigkeitschromatographie und massenspektrometrischer Detektion (HPLC-MS/MS bzw. -HRMS) nach Direktinjektion"
-        },
-        {
-          "key": "1540",
-          "column": 3,
-          "value": "Bestimmung ausgewählter polycyclischer aromatischer Kohlenwasserstoffe (PAK); Verfahren mittels Gaschromatographie und massenspektrometrischer Detektion (GC-MS)"
-        },
-        {
-          "key": "1550",
-          "column": 3,
-          "value": "Bestimmung ausgewählter polyfluorierter Verbindungen (PFC) in Wasser - Verfahren mittels Hochleistungs-Flüssigkeitschromatographie und massenspektrometrischer Detektion (HPLC-MS/MS) nach Fest- Flüssig-Extraktion"
-        },
-        {
-          "key": "1570",
-          "column": 2,
-          "value": ""
-        },
-        {
-          "key": "1570",
-          "column": 3,
-          "value": "Gasförmige Bestandteile - Teil 3: Bestimmung von Ozon"
-        },
-        {
-          "key": "1610",
-          "column": 3,
-          "value": "Bestimmung von Wasserstoffperoxid und Addukten"
-        },
-        {
-          "key": "1620",
-          "column": 3,
-          "value": "Bestimmung des Phenol-Index (H16)"
-        },
-        {
-          "key": "1660",
-          "column": 2,
-          "value": ""
-        },
-        {
-          "key": "1680",
-          "column": 3,
-          "value": "Bestimmung der Wasserhärte"
-        },
-        {
-          "key": "1710",
-          "column": 3,
-          "value": "Bestimmung des Volumenanteils der absetzbaren Stoffe"
-        },
-        {
-          "key": "1720",
-          "column": 3,
-          "value": "Bestimmung von Acrylamid - Verfahren mittels Hochleistungs-Flüssigkeitschromatographie und massenspektrometrischer Detektion (HPLCMS/MS)"
-        },
-        {
-          "key": "1730",
-          "column": 3,
-          "value": "Bestimmung der Komplexbildner NTA, EDTA und DTPA mit der Flüssigchromatographie (LC)"
-        },
-        {
-          "key": "1750",
-          "column": 3,
-          "value": "Bestimmung von Chrom (AAS)"
-        },
-        {
-          "key": "1770",
-          "column": 3,
-          "value": "Bestimmung ausgewählter Chlorphenole (GC)"
-        },
-        {
-          "key": "1780",
-          "column": 2,
-          "value": ""
-        },
-        {
-          "key": "1780",
-          "column": 3,
-          "value": "Bestimmung des Trockenrückstands und des Wassergehalts"
-        },
-        {
-          "key": "1790",
-          "column": 3,
-          "value": "Bestimmung von Parathion, Parathion-methyl und anderen Organophosphor-Verb. (Dichlormethan-Extraktion GC)"
-        },
-        {
-          "key": "1810",
-          "column": 2,
-          "value": ""
-        },
-        {
-          "key": "1810",
-          "column": 3,
-          "value": "Bestimmung von TOC und DOC"
-        },
-        {
-          "key": "1850",
-          "column": 3,
-          "value": "Bestimmung von Organochlorpestiziden (OCP) in Gesamtwasserproben - Verfahren mittels Festphasenextraktion (SPE) mit SPE-Disks in Verbindung mit Gaschromatographie-Massenspektrometrie"
-        },
-        {
-          "key": "1860",
-          "column": 3,
-          "value": "Bestimmung von Pentabromdiphenylether (PBDE) in Gesamtwasserproben mittels Festphasenextraktion (SPE) mit SPE-Scheiben in Verbindung mit Gaschromatographie-Massenspektrometrie (GC-MS)"
-        },
-        {
-          "key": "1870",
-          "column": 2,
-          "value": ""
-        },
-        {
-          "key": "1870",
-          "column": 3,
-          "value": "Bestimmung des Biochemischen Sauerstoffbedarfs nach n Tagen (BSBn) - Teil 2: Verfahren für unverdünnte Proben (ISO 5815:1989, modifiziert); Deutsche Fassung EN 1899-2:1998"
-        },
-        {
-          "key": "1880",
-          "column": 3,
-          "value": "Bestimmung von gelöstem Sauerstoff (iodometrisch)"
-        },
-        {
-          "key": "1910",
-          "column": 2,
-          "value": ""
-        },
-        {
-          "key": "1910",
-          "column": 3,
-          "value": "Bestimmung von Nitrit (spektrometrisch)"
-        },
-        {
-          "key": "1920",
-          "column": 3,
-          "value": "Bestimmung der elektr. Leitfähigkeit"
-        },
-        {
-          "key": "1930",
-          "column": 2,
-          "value": ""
-        },
-        {
-          "key": "1930",
-          "column": 3,
-          "value": "Bestimmung suspendierter Stoffe - Verfahren durch Abtrennung mittels Glasfaserfilter (nach DEV H33)"
-        },
-        {
-          "key": "1960",
-          "column": 2,
-          "value": ""
-        },
-        {
-          "key": "1960",
-          "column": 3,
-          "value": "Bestimmung von LHKW (GC)"
-        },
-        {
-          "key": "1970",
-          "column": 2,
-          "value": ""
-        },
-        {
-          "key": "1970",
-          "column": 3,
-          "value": "Bestimmung der gelösten Anionen mittels Flüssigkeits-Ionenchromatografie.Teil 1: Bestimmung von Bromid, Chlorid, Nitrat, Nitrit, Fluorid, Nitrat, Nitrit, Phosphat und Sulfat"
-        },
-        {
-          "key": "1980",
-          "column": 3,
-          "value": "Bestimmung von Chromat, Iodid, Sulfit, Thiocyanat und Thiosulfat (IC)"
-        },
-        {
-          "key": "1990",
-          "column": 1,
-          "value": "DIN EN ISO 10304-4:1999-07"
-        },
-        {
-          "key": "1990",
-          "column": 2,
-          "value": ""
-        },
-        {
-          "key": "1990",
-          "column": 3,
-          "value": "Bestimmung von Chlorat, Chlorid und Chlorit, gering belastete Gewässer (IC)"
-        },
-        {
-          "key": "2000",
-          "column": 3,
-          "value": "Bestimmung des pH-Wertes"
-        },
-        {
-          "key": "2010",
-          "column": 3,
-          "value": "Bestimmung organischer Stickstoff- und Phosphorverbindungen (GC)"
-        },
-        {
-          "key": "2020",
-          "column": 2,
-          "value": "DIN 38404-16"
-        },
-        {
-          "key": "2030",
-          "column": 2,
-          "value": ""
-        },
-        {
-          "key": "2030",
-          "column": 3,
-          "value": "Bestimmung der Gesamt-Alpha- und Gesamt-Beta-Aktivität - Dünnschichtverfahren"
-        },
-        {
-          "key": "2070",
-          "column": 3,
-          "value": "Bestimmung ausgewählter PBSM (Hochauflösungs-Flüssigkeitschromatographie mit UV-Detektion nach Fest-Flüssig-Extraktion)"
-        },
-        {
-          "key": "2110",
-          "column": 2,
-          "value": ""
-        },
-        {
-          "key": "2140",
-          "column": 1,
-          "value": "DIN EN ISO 12020:2019-09"
-        },
-        {
-          "key": "2140",
-          "column": 2,
-          "value": ""
-        },
-        {
-          "key": "2140",
-          "column": 3,
-          "value": "Bestimmung von Aluminium (AAS)"
-        },
-        {
-          "key": "2150",
-          "column": 2,
-          "value": ""
-        },
-        {
-          "key": "2150",
-          "column": 3,
-          "value": "Bestimmung von Quecksilber (AAS, mit und ohne Anreicherung)"
-        },
-        {
-          "key": "2170",
-          "column": 1,
-          "value": "DIN EN ISO 13161:2013-01"
-        },
-        {
-          "key": "2180",
-          "column": 2,
-          "value": ""
-        },
-        {
-          "key": "2180",
-          "column": 3,
-          "value": "Bestimmung der Aktivität von Kohlenstoff-14 - Verfahren mit dem Flüssigszintillationszähler"
-        },
-        {
-          "key": "2240",
-          "column": 2,
-          "value": ""
-        },
-        {
-          "key": "2240",
-          "column": 3,
-          "value": "Bestimmung von Radium-226 - Teil 1: Verfahren mit dem Flüssigszintillationszähler"
-        },
-        {
-          "key": "2260",
-          "column": 3,
-          "value": "Radium-226 - Teil 3: Verfahren mittels Kopräzipitation und GammaspektrometrieVerfahren mittels Emanometrie"
-        },
-        {
-          "key": "2270",
-          "column": 3,
-          "value": "Bestimmung von Nitrit- und Nitratstickstoff (Fließanalyse und spektr. Detektion)"
-        },
-        {
-          "key": "2320",
-          "column": 3,
-          "value": "Bestimmung von Lithium, Natrium, Ammonium, Kalium, Mangan, Calcium, Magnesium, Barium (IC)"
-        },
-        {
-          "key": "2330",
-          "column": 3,
-          "value": "Bestimmung von Bromat (IC)"
-        },
-        {
-          "key": "2340",
-          "column": 3,
-          "value": "Wasserbeschaffenheit - Bestimmung von Spurenelementen mittels Atomabsorptionsspektrometrie mit dem Graphitrohr-Verfahren (ISO 15586:2003); Deutsche Fassung EN ISO 15586:2003"
-        },
-        {
-          "key": "2350",
-          "column": 3,
-          "value": "Bestimmung von leichtflüchtigen aromatischen Kohlenwasserstoffen mittels Purge-and-Trap GC"
-        },
-        {
-          "key": "2370",
-          "column": 2,
-          "value": ""
-        },
-        {
-          "key": "2380",
-          "column": 3,
-          "value": "Bestimmung von Chlorid (Fließanalyse und spektr. Detektion)"
-        },
-        {
-          "key": "2390",
-          "column": 2,
-          "value": ""
-        },
-        {
-          "key": "2390",
-          "column": 3,
-          "value": "Bestimmung ausgewählter Phenoxyalkancarbonsäure-Herbiziden, einschließlich Bentazon und Hydroxynitrilen, mittels GC"
-        },
-        {
-          "key": "2410",
-          "column": 3,
-          "value": "Nachweis und Zählung von Pseudomonas aeruginosa durch Membranfiltration"
-        },
-        {
-          "key": "2420",
-          "column": 3,
-          "value": "Wasserbeschaffenheit - Nachweis und Zählung von Pseudomonas aeruginosa - Membranfiltrationsverfahren (ISO 16266:2006); Deutsche Fassung EN ISO 16266:2008"
-        },
-        {
-          "key": "2440",
-          "column": 2,
-          "value": ""
-        },
-        {
-          "key": "2440",
-          "column": 3,
-          "value": "Anwendung der induktiv gekoppelten Plasma Massenspektrometrie - Teil 2: Bestimmung von ausgewählten Elementen einschließlich Uran-Isotope"
-        },
-        {
-          "key": "2450",
-          "column": 2,
-          "value": ""
-        },
-        {
-          "key": "2470",
-          "column": 2,
-          "value": ""
-        },
-        {
-          "key": "2470",
-          "column": 3,
-          "value": "Bestimmung von Quecksilber mittels Atomfluoreszenzspektrometrie"
-        },
-        {
-          "key": "2480",
-          "column": 3,
-          "value": "Bestimmung flüchtiger organischer Verbindungen in Wasser - Verfahren mittels Gaschromatographie und Massenspektrometrie (GC-MS) nach Headspace-Festphasenmikroextraktion (HS-SPME)"
-        },
-        {
-          "key": "2490",
-          "column": 2,
-          "value": ""
-        },
-        {
-          "key": "2490",
-          "column": 3,
-          "value": "Bestimmung von 15 PAK durch HPLC mit Fluoreszenzdetektion"
-        },
-        {
-          "key": "2500",
-          "column": 3,
-          "value": "Wasserbeschaffenheit - Bestimmung von Chrom(VI) - Photometrisches Verfahren für gering belastetes Wasser (ISO 18412:2005); Deutsche Fassung EN ISO 18412:2006"
-        },
-        {
-          "key": "2530",
-          "column": 3,
-          "value": "Bestimmung von ausgewählten Alkylphenolen - Teil 2: Gaschromatographische-massenspektrometrische Bestimmung von Alkylphenolen"
-        },
-        {
-          "key": "2560",
-          "column": 3,
-          "value": "Probennahme für mikrobiologische Untersuchungen"
-        },
-        {
-          "key": "2570",
-          "column": 3,
-          "value": "Bestimmung des gesamten organischen Kohlenstoffs (TOC), des gelösten organischen Kohlenstoffs (DOC), des gebundenen Stickstoffs (TNb) und des gelösten gebundenen Stickstoffs (DNb) nach katalytischer oxidativer Hochtemperaturverbrennung (ISO 20236:2018); Deutsche Fassung EN ISO 20236:2021"
-        },
-        {
-          "key": "2590",
-          "column": 3,
-          "value": "Bestimmung ausgewählter Explosivstoffe und verwandter Verbindungen (HPLC mit UV-Detektion)"
-        },
-        {
-          "key": "2600",
-          "column": 1,
-          "value": "DIN EN ISO 22908:2022-08"
-        },
-        {
-          "key": "2610",
-          "column": 1,
-          "value": "DIN EN ISO 23631:2006-05, inkl. Berichtigung DIN EN ISO 23631 1:2007-11 ."
-        },
-        {
-          "key": "2610",
-          "column": 3,
-          "value": "Wasserbeschaffenheit - Bestimmung von Dalapon, Trichloressigsäure und ausgewählten Halogenessigsäuren - Verfahren mittels Gaschromatographie (GC-ECD und/oder GC-MS-Detektion) nach Flüssig-Flüssig-Extraktion und Derivatisierung (ISO 23631:2006); Deutsche Fassung EN ISO 23631:2006"
-        },
-        {
-          "key": "2630",
-          "column": 2,
-          "value": "DIN 38407-34"
-        },
-        {
-          "key": "2630",
-          "column": 3,
-          "value": "Wasserbeschaffenheit - Bestimmung ausgewählter Pflanzenschutzmittel und Biozidprodukte - Verfahren mittels Festphasenmikroextraktion (SPME) gefolgt von der Gaschromatographie und Massenspektrometrie (GC-MS)"
-        },
-        {
-          "key": "2640",
-          "column": 3,
-          "value": "Bestimmung von gelöstem Sauerstoff (elektrochemisch)"
-        },
-        {
-          "key": "2650",
-          "column": 2,
-          "value": ""
-        },
-        {
-          "key": "2660",
-          "column": 2,
-          "value": ""
-        },
-        {
-          "key": "2660",
-          "column": 3,
-          "value": "Bestimmung von Cadmium (AAS)"
-        },
-        {
-          "key": "2670",
-          "column": 3,
-          "value": "Bestimmung der KZ durch Einimpfen von Nährmedium (quantitativ)"
-        },
-        {
-          "key": "2680",
-          "column": 3,
-          "value": "Bestimmung von Organochlorinsektiziden, PCB und Chlorbenzolen (GC nach Flüssig-Flüssig-Extraktion)"
-        },
-        {
-          "key": "2690",
-          "column": 2,
-          "value": ""
-        },
-        {
-          "key": "2690",
-          "column": 3,
-          "value": "Bestimmung von Phosphor (photometrisch mittels Ammoniummolybdat)"
-        },
-        {
-          "key": "2710",
-          "column": 2,
-          "value": ""
-        },
-        {
-          "key": "2720",
-          "column": 2,
-          "value": ""
-        },
-        {
-          "key": "2720",
-          "column": 3,
-          "value": "Bestimmung der Trübung - Teil 2: Semi-quantitatives Verfahren zur Beurteilung der Lichtdurchlässigkeit"
-        },
-        {
-          "key": "2730",
-          "column": 2,
-          "value": ""
-        },
-        {
-          "key": "2730",
-          "column": 3,
-          "value": "Bestimmung von freiem Chlor und Gesamtchlor (titrimetrisch mit DPD)"
-        },
-        {
-          "key": "2740",
-          "column": 3,
-          "value": "Bestimmung von freiem Chlor und Gesamtchlor (kolorimetrisch)"
-        },
-        {
-          "key": "2750",
-          "column": 3,
-          "value": "Bestimmung von freiem Chlor und Gesamtchlor (iodometrisch)"
-        },
-        {
-          "key": "2760",
-          "column": 3,
-          "value": "Bestimmung der Färbung"
-        },
-        {
-          "key": "2770",
-          "column": 3,
-          "value": "Nachweis und Zählung von intestinalen Enterokokken - Teil 1: MiniaturisiertesVerfahren durch Animpfen in Flüssigmedium (MPN-Verfahren)"
-        },
-        {
-          "key": "2790",
-          "column": 3,
-          "value": "Bestimmung von Calcium und Magnesium (AAS)"
-        },
-        {
-          "key": "2800",
-          "column": 2,
-          "value": ""
-        },
-        {
-          "key": "2830",
-          "column": 1,
-          "value": "DIN EN ISO 9308-3:1999-03"
-        },
-        {
-          "key": "2840",
-          "column": 3,
-          "value": "Bestimmung des Kohlenwasserstoff-Index - Teis 2: Verfahren nach Lösemittelextraktion und GC"
-        },
-        {
-          "key": "2850",
-          "column": 2,
-          "value": ""
-        },
-        {
-          "key": "2860",
-          "column": 2,
-          "value": ""
-        },
-        {
-          "key": "2870",
-          "column": 2,
-          "value": ""
-        },
-        {
-          "key": "2880",
-          "column": 2,
-          "value": "DIN 38404-13"
-        },
-        {
-          "key": "2880",
-          "column": 3,
-          "value": "Tritium - Verfahren mit dem Flüssigszintillationszähler"
-        },
-        {
-          "key": "2890",
-          "column": 1,
-          "value": "DIN EN ISO 9963-1:1996-03"
-        },
-        {
-          "key": "2890",
-          "column": 3,
-          "value": "Bestimmung der gesamten und der zusammengesetzten Alkalinität"
-        },
-        {
-          "key": "2900",
-          "column": 1,
-          "value": "DIN EN ISO 9963-2:1996-03"
-        },
-        {
-          "key": "2900",
-          "column": 3,
-          "value": "Bestimmung der Carbonatalkalinität"
-        },
-        {
-          "key": "2910",
-          "column": 3,
-          "value": "Gravimetrische Bestimmung von schwerflüchtigen lipophilen Stoffen nach Lösemittelextraktion"
-        },
-        {
-          "key": "2920",
-          "column": 1,
-          "value": "DIN ISO 15705:2003-01"
-        },
-        {
-          "key": "2930",
-          "column": 3,
-          "value": "Bestimmung von ausgewählten Parametern mittels Einzelanalysensystemenn - Teil 1: Ammonium, Nitrat, Nitrit, Chlorid, Orthophosphat, Sulfat und Silikat durch photometrische Detektion"
-        },
-        {
-          "key": "2950",
-          "column": 3,
-          "value": "Bestimmung des gelösten Sauerstoffs - Optisches Sensorverfahren (auf Basis der Fluoreszenzlöschung)"
-        },
-        {
-          "key": "2980",
-          "column": 2,
-          "value": ""
-        },
-        {
-          "key": "2980",
-          "column": 3,
-          "value": "Probennahme, Hinweise für Lebensmittelbetriebe"
-        },
-        {
-          "key": "3000",
-          "column": 1,
-          "value": "Empfehlung UBA: Systemische Untersuchungen auf Legionellen 2018-12 und 2022-12"
-        },
-        {
-          "key": "3000",
-          "column": 3,
-          "value": "Systemische Untersuchung von Trinkwasser-Installationen auf Legionellen nach Trinkwasserverordnung - Probennahme, Untersuchungsgang und Angabe des Ergebnisses"
-        },
-        {
-          "key": "3050",
-          "column": 3,
-          "value": "Bestimmung von Arcylamid mittels HPLC"
-        },
-        {
-          "key": "3070",
-          "column": 1,
-          "value": "Identifizierung von Legionella spec. mittels Latex-Agglutinationstest"
-        },
-        {
-          "key": "3070",
-          "column": 3,
-          "value": "Testkit: muss im Freitext genau beschrieben werden"
-        },
-        {
-          "key": "3080",
-          "column": 3,
-          "value": "Bestimmung von Aluminium (photometrisch)"
-        },
-        {
-          "key": "3090",
-          "column": 3,
-          "value": "Wasserbeschaffenheit - Bestimmung von Arsen und Antimon - Teil 2: Atomabsorptionsspektrometrie mit Hydridbildung (HG-AAS)"
-        },
-        {
-          "key": "3100",
-          "column": 3,
-          "value": "Wasserbeschaffenheit - Bestimmung ausgewählter leichtflüchtiger organischer Verbindungen in Wasser - Verfahren mittels Gaschromatographie und Massenspektrometrie nach statischer Headspacetechnik (HS-GC-MS)"
-        },
-        {
-          "key": "3110",
-          "column": 3,
-          "value": "Bestimmung von Perfluoroctansulfonat (PFOS) und Perfluoroctanat (PFOA) mit Festphasenextraktion und LC-MS"
-        },
-        {
-          "key": "3130",
-          "column": 3,
-          "value": "Bestimmung von Natrium und Kalium (Flammenphotometrie)"
-        },
-        {
-          "key": "3150",
-          "column": 3,
-          "value": "Koloniezahl in 1 ml (Plattengussverfahren)"
-        }
-      ]
+      }
     }
   ]
 }

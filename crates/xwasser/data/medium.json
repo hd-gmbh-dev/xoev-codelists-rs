@@ -68,26 +68,30 @@
       ]
     ]
   },
-  "deltas": [
+  "steps": [
     {
-      "to": "2",
-      "valid_from": "2025-09-22",
-      "columns": [
-        "Key",
-        "Medium"
-      ],
-      "key_index": 0
+      "delta": {
+        "to": "2",
+        "valid_from": "2025-09-22",
+        "columns": [
+          "Key",
+          "Medium"
+        ],
+        "key_index": 0
+      }
     },
     {
-      "to": "1",
-      "columns": [
-        "Key",
-        "Medium"
-      ],
-      "key_index": 0,
-      "removed_rows": [
-        "2010"
-      ]
+      "delta": {
+        "to": "1",
+        "columns": [
+          "Key",
+          "Medium"
+        ],
+        "key_index": 0,
+        "removed_rows": [
+          "2010"
+        ]
+      }
     }
   ]
 }

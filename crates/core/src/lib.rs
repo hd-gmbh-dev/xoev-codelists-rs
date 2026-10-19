@@ -115,7 +115,22 @@ pub struct Delta {
     /// `[key, column index in the older version, older value]`.
     #[serde(default, skip_serializing_if = "Vec::is_empty")]
     pub restored_cells: Vec<RestoredCell>,
+    /// Columns that were renamed between the versions (`from` = older name,
+    /// `to` = name in the newer version). Without this a rename would show up
+    /// as a changed cell in every single row.
+    #[serde(default, skip_serializing_if = "Vec::is_empty")]
+    pub renamed_columns: Vec<RenamedColumn>,
 }
+
+/// A column that changed its name between two versions.
+#[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
+pub struct RenamedColumn {
+    pub from: String,
+    pub to: String,
+}
+
+/// Minimum share of equal values for two columns to be treated as a rename.
+const RENAME_THRESHOLD: f64 = 0.9;
 
 /// One cell that has to be restored when walking a [`Delta`] backwards.
 #[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
@@ -125,6 +140,25 @@ pub struct RestoredCell {
     pub value: String,
 }
 
+/// One step backwards in time: usually a reverse delta, or a full snapshot when
+/// the delta would not be smaller than the snapshot itself (a version that
+/// renumbers its keys, for example).
+#[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
+#[serde(rename_all = "snake_case")]
+pub enum Step {
+    Delta(Delta),
+    Snapshot(Snapshot),
+}
+
+impl Step {
+    pub fn version(&self) -> &str {
+        match self {
+            Self::Delta(delta) => &delta.to,
+            Self::Snapshot(snapshot) => &snapshot.version,
+        }
+    }
+}
+
 /// All published versions of one codelist: the newest as a snapshot, older ones
 /// as reverse deltas.
 #[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
@@ -132,9 +166,9 @@ pub struct Dataset {
     pub urn: Arc<str>,
     /// Full snapshot of the newest version the dataset was built from.
     pub base: Snapshot,
-    /// Deltas from the base towards older versions, newest first.
+    /// Steps from the base towards older versions, newest first.
     #[serde(default, skip_serializing_if = "Vec::is_empty")]
-    pub deltas: Vec<Delta>,
+    pub steps: Vec<Step>,
 }
 
 impl Dataset {
@@ -161,22 +195,29 @@ impl Dataset {
                 }
             }
         }
-        let mut deltas = Vec::with_capacity(snapshots.len());
+        let mut steps = Vec::with_capacity(snapshots.len());
         let mut newer = base.clone();
         for older in snapshots.into_iter().rev() {
             if older.version == newer.version {
                 return Err(DatasetError::DuplicateVersion(older.version));
             }
-            deltas.push(diff(&older, &newer));
+            // A delta that is not smaller than the snapshot it rebuilds is not
+            // worth its complexity - store the snapshot instead.
+            let delta = diff(&older, &newer);
+            let step = if encoded_size(&delta) < encoded_size(&older) {
+                Step::Delta(delta)
+            } else {
+                Step::Snapshot(older.clone())
+            };
+            steps.push(step);
             newer = older;
         }
-        Ok(Self { urn, base, deltas })
+        Ok(Self { urn, base, steps })
     }
 
     /// Versions from newest to oldest.
     pub fn versions(&self) -> impl Iterator<Item = &str> {
-        std::iter::once(self.base.version.as_ref())
-            .chain(self.deltas.iter().map(|delta| delta.to.as_ref()))
+        std::iter::once(self.base.version.as_ref()).chain(self.steps.iter().map(Step::version))
     }
 
     /// The newest version.
@@ -190,8 +231,11 @@ impl Dataset {
         if current.version.as_ref() == version {
             return Some(current);
         }
-        for delta in &self.deltas {
-            current = apply(&current, delta);
+        for step in &self.steps {
+            current = match step {
+                Step::Delta(delta) => apply(&current, delta),
+                Step::Snapshot(snapshot) => snapshot.clone(),
+            };
             if current.version.as_ref() == version {
                 return Some(current);
             }
@@ -204,6 +248,13 @@ impl Dataset {
         self.resolve(version)
             .map(|snapshot| snapshot.contains_code(code))
     }
+}
+
+/// Size a value has in the dataset encoding, used to pick the cheaper step.
+fn encoded_size(value: &impl Serialize) -> usize {
+    serde_json::to_vec(value)
+        .map(|bytes| bytes.len())
+        .unwrap_or(usize::MAX)
 }
 
 /// Errors raised while assembling a [`Dataset`].
@@ -251,6 +302,12 @@ impl std::error::Error for DatasetError {}
 
 /// Compute the reverse delta that rebuilds `older` from `newer`.
 pub fn diff(older: &Snapshot, newer: &Snapshot) -> Delta {
+    let renamed_columns = detect_renamed_columns(older, newer);
+    let alias: std::collections::HashMap<&str, &str> = renamed_columns
+        .iter()
+        .map(|renamed| (renamed.from.as_str(), renamed.to.as_str()))
+        .collect();
+
     let removed_rows: Vec<String> = newer
         .rows
         .iter()
@@ -268,7 +325,8 @@ pub fn diff(older: &Snapshot, newer: &Snapshot) -> Delta {
             Some(newer_row) => {
                 for (idx, column) in older.columns.iter().enumerate() {
                     let older_value = &row[idx];
-                    let newer_value = newer.value(newer_row, column).unwrap_or_default();
+                    let source = alias.get(column.as_str()).copied().unwrap_or(column);
+                    let newer_value = newer.value(newer_row, source).unwrap_or_default();
                     if older_value != newer_value {
                         restored_cells.push(RestoredCell {
                             key: key.to_string(),
@@ -289,7 +347,77 @@ pub fn diff(older: &Snapshot, newer: &Snapshot) -> Delta {
         added_rows,
         removed_rows,
         restored_cells,
+        renamed_columns,
     }
+}
+
+/// Pair columns that exist in only one of the versions when their values are
+/// (almost) identical for the shared keys — i.e. the column was renamed.
+fn detect_renamed_columns(older: &Snapshot, newer: &Snapshot) -> Vec<RenamedColumn> {
+    let older_only: Vec<&str> = older
+        .columns
+        .iter()
+        .map(String::as_str)
+        .filter(|column| !newer.columns.iter().any(|name| name == column))
+        .collect();
+    let newer_only: Vec<&str> = newer
+        .columns
+        .iter()
+        .map(String::as_str)
+        .filter(|column| !older.columns.iter().any(|name| name == column))
+        .collect();
+    if older_only.is_empty() || newer_only.is_empty() {
+        return Vec::new();
+    }
+
+    let newer_rows: std::collections::HashMap<&str, &[String]> = newer
+        .rows
+        .iter()
+        .map(|row| (newer.key(row), row.as_slice()))
+        .collect();
+
+    let mut candidates: Vec<(f64, &str, &str)> = Vec::new();
+    for older_column in &older_only {
+        for newer_column in &newer_only {
+            let mut shared = 0usize;
+            let mut equal = 0usize;
+            for row in &older.rows {
+                let Some(newer_row) = newer_rows.get(older.key(row)) else {
+                    continue;
+                };
+                shared += 1;
+                let older_value = older.value(row, older_column).unwrap_or_default();
+                let newer_value = newer.value(newer_row, newer_column).unwrap_or_default();
+                if older_value == newer_value {
+                    equal += 1;
+                }
+            }
+            if shared == 0 {
+                continue;
+            }
+            let ratio = equal as f64 / shared as f64;
+            if ratio >= RENAME_THRESHOLD {
+                candidates.push((ratio, older_column, newer_column));
+            }
+        }
+    }
+
+    candidates.sort_by(|a, b| b.0.total_cmp(&a.0));
+    let mut taken_older: Vec<&str> = Vec::new();
+    let mut taken_newer: Vec<&str> = Vec::new();
+    let mut renamed = Vec::new();
+    for (_, older_column, newer_column) in candidates {
+        if taken_older.contains(&older_column) || taken_newer.contains(&newer_column) {
+            continue;
+        }
+        taken_older.push(older_column);
+        taken_newer.push(newer_column);
+        renamed.push(RenamedColumn {
+            from: older_column.to_string(),
+            to: newer_column.to_string(),
+        });
+    }
+    renamed
 }
 
 /// Apply a reverse delta, yielding the older snapshot.
@@ -299,6 +427,12 @@ pub fn apply(newer: &Snapshot, delta: &Delta) -> Snapshot {
     for cell in &delta.restored_cells {
         restored.entry(&cell.key).or_default().push(cell);
     }
+
+    let alias: std::collections::HashMap<&str, &str> = delta
+        .renamed_columns
+        .iter()
+        .map(|renamed| (renamed.from.as_str(), renamed.to.as_str()))
+        .collect();
 
     let mut rows: Vec<Vec<String>> = newer
         .rows
@@ -316,8 +450,9 @@ pub fn apply(newer: &Snapshot, delta: &Delta) -> Snapshot {
                 .columns
                 .iter()
                 .map(|column| {
+                    let source = alias.get(column.as_str()).copied().unwrap_or(column);
                     newer
-                        .value(row, column)
+                        .value(row, source)
                         .map(str::to_string)
                         .unwrap_or_default()
                 })
@@ -418,7 +553,9 @@ mod tests {
         );
 
         let dataset = Dataset::from_snapshots(vec![v2, v3]).unwrap();
-        let delta = &dataset.deltas[0];
+        let Step::Delta(delta) = &dataset.steps[0] else {
+            panic!("expected a delta step");
+        };
         assert_eq!(delta.to.as_ref(), "2");
         assert_eq!(delta.restored_cells.len(), 1);
         assert_eq!(delta.restored_cells[0].key, "1020");
@@ -435,6 +572,78 @@ mod tests {
         assert_eq!(dataset.contains_code("2", "1020"), Some(true));
         assert_eq!(dataset.contains_code("1", "1020"), Some(false));
         assert_eq!(dataset.contains_code("7", "1020"), None);
+    }
+
+    #[test]
+    fn renamed_column_does_not_change_every_cell() {
+        let v2 = snapshot(
+            "2",
+            &["SHATPH-Parameter-ID", "Parameter", "Einheit"],
+            &[&["10000", "Farbe", "nm"], &["10001", "Trübung", "NTU"]],
+        );
+        // typo fixed in the column name, one value corrected
+        let v3 = snapshot(
+            "3",
+            &["SHAPTH-Parameter-ID", "Parameter", "Einheit"],
+            &[&["10000", "Farbe", "nm"], &["10001", "Trübung", "FNU"]],
+        );
+
+        let delta = diff(&v2, &v3);
+        assert_eq!(
+            delta.renamed_columns,
+            vec![RenamedColumn {
+                from: "SHATPH-Parameter-ID".to_string(),
+                to: "SHAPTH-Parameter-ID".to_string(),
+            }]
+        );
+        assert_eq!(delta.restored_cells.len(), 1);
+        assert_eq!(delta.restored_cells[0].key, "10001");
+
+        let dataset = Dataset::from_snapshots(vec![v2.clone(), v3]).unwrap();
+        assert_eq!(dataset.resolve("2").as_ref(), Some(&v2));
+    }
+
+    #[test]
+    fn unrelated_columns_are_not_treated_as_renames() {
+        let v2 = snapshot("2", &["Key", "Alt"], &[&["1010", "a"], &["1020", "b"]]);
+        let v3 = snapshot("3", &["Key", "Neu"], &[&["1010", "x"], &["1020", "y"]]);
+
+        let delta = diff(&v2, &v3);
+        assert!(delta.renamed_columns.is_empty());
+        assert_eq!(delta.restored_cells.len(), 2);
+
+        let dataset = Dataset::from_snapshots(vec![v2.clone(), v3]).unwrap();
+        assert_eq!(dataset.resolve("2").as_ref(), Some(&v2));
+    }
+
+    #[test]
+    fn falls_back_to_a_snapshot_when_the_delta_is_not_smaller() {
+        // every key is renumbered, so a delta has to restate all rows and ends
+        // up bigger than the snapshot it rebuilds
+        let build = |version: &str, key: &str| Snapshot {
+            urn: "urn:xoev-de:xwasser:codeliste:medium".into(),
+            version: version.into(),
+            valid_from: None,
+            columns: vec![key.to_string(), "Text".to_string()],
+            key_index: 0,
+            rows: (0..50)
+                .map(|index| {
+                    vec![
+                        format!("{key}-{index}"),
+                        format!("Bezeichnung des Mediums Nummer {index}"),
+                    ]
+                })
+                .collect(),
+        };
+        let older = build("1", "Nummer");
+        let newer = build("2", "Key");
+
+        let dataset = Dataset::from_snapshots(vec![older.clone(), newer]).unwrap();
+        assert!(
+            matches!(dataset.steps[0], Step::Snapshot(_)),
+            "renumbered keys must not produce a larger-than-snapshot delta"
+        );
+        assert_eq!(dataset.resolve("1").as_ref(), Some(&older));
     }
 
     #[test]

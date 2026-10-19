@@ -140,25 +140,29 @@
       ]
     ]
   },
-  "deltas": [
+  "steps": [
     {
-      "to": "2",
-      "valid_from": "2024-09-27",
-      "columns": [
-        "Key",
-        "Untersuchungsanlass",
-        "Beschreibung"
-      ],
-      "key_index": 0
+      "delta": {
+        "to": "2",
+        "valid_from": "2024-09-27",
+        "columns": [
+          "Key",
+          "Untersuchungsanlass",
+          "Beschreibung"
+        ],
+        "key_index": 0
+      }
     },
     {
-      "to": "1",
-      "columns": [
-        "Key",
-        "Untersuchungsanlass",
-        "Beschreibung"
-      ],
-      "key_index": 0
+      "delta": {
+        "to": "1",
+        "columns": [
+          "Key",
+          "Untersuchungsanlass",
+          "Beschreibung"
+        ],
+        "key_index": 0
+      }
     }
   ]
 }

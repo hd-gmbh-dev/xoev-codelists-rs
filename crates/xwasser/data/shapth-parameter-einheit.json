@@ -200,74 +200,76 @@
       ]
     ]
   },
-  "deltas": [
+  "steps": [
     {
-      "to": "1",
-      "columns": [
-        "Key",
-        "Einheit"
-      ],
-      "key_index": 0,
-      "added_rows": [
-        [
-          "1070",
-          "GBq/a"
+      "delta": {
+        "to": "1",
+        "columns": [
+          "Key",
+          "Einheit"
         ],
-        [
-          "1240",
-          "TBq/a"
+        "key_index": 0,
+        "added_rows": [
+          [
+            "1070",
+            "GBq/a"
+          ],
+          [
+            "1240",
+            "TBq/a"
+          ],
+          [
+            "1270",
+            "dpm/ml Kr"
+          ],
+          [
+            "1280",
+            "fmol/l"
+          ],
+          [
+            "1320",
+            "mg/l CaCO3"
+          ],
+          [
+            "1380",
+            "pg/l"
+          ],
+          [
+            "1390",
+            "pmol/l"
+          ]
         ],
-        [
-          "1270",
-          "dpm/ml Kr"
+        "removed_rows": [
+          "1159",
+          "1181",
+          "1182",
+          "1198",
+          "1199",
+          "1430",
+          "1440",
+          "1450",
+          "1460",
+          "1470",
+          "1480"
         ],
-        [
-          "1280",
-          "fmol/l"
-        ],
-        [
-          "1320",
-          "mg/l CaCO3"
-        ],
-        [
-          "1380",
-          "pg/l"
-        ],
-        [
-          "1390",
-          "pmol/l"
+        "restored_cells": [
+          {
+            "key": "1160",
+            "column": 1,
+            "value": "KbE/100ml"
+          },
+          {
+            "key": "1170",
+            "column": 1,
+            "value": "KbE/250ml"
+          },
+          {
+            "key": "1180",
+            "column": 1,
+            "value": "KbE/ml"
+          }
         ]
-      ],
-      "removed_rows": [
-        "1159",
-        "1181",
-        "1182",
-        "1198",
-        "1199",
-        "1430",
-        "1440",
-        "1450",
-        "1460",
-        "1470",
-        "1480"
-      ],
-      "restored_cells": [
-        {
-          "key": "1160",
-          "column": 1,
-          "value": "KbE/100ml"
-        },
-        {
-          "key": "1170",
-          "column": 1,
-          "value": "KbE/250ml"
-        },
-        {
-          "key": "1180",
-          "column": 1,
-          "value": "KbE/ml"
-        }
-      ]
+      }
     }
   ]
 }

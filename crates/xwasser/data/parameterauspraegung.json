@@ -1262,1776 +1262,539 @@
       ]
     ]
   },
-  "deltas": [
+  "steps": [
     {
-      "to": "4",
-      "valid_from": "2025-04-01",
-      "columns": [
-        "SHAPTH-Parameterauspraegung-ID",
-        "Parameterklassifizierung",
-        "Stoffgruppe"
-      ],
-      "key_index": 0
+      "delta": {
+        "to": "4",
+        "valid_from": "2025-04-01",
+        "columns": [
+          "SHAPTH-Parameterauspraegung-ID",
+          "Parameterklassifizierung",
+          "Stoffgruppe"
+        ],
+        "key_index": 0
+      }
     },
     {
-      "to": "3",
-      "valid_from": "2024-12-01",
-      "columns": [
-        "SHAPTH-Parameterauspraegung-ID",
-        "Parameterklassifizierung",
-        "Stoffgruppe"
-      ],
-      "key_index": 0,
-      "restored_cells": [
-        {
-          "key": "80014-1",
-          "column": 1,
-          "value": "Wurde nachgewiesen"
-        },
-        {
-          "key": "80014-2",
-          "column": 1,
-          "value": "Wurde nicht nachgewiesen"
-        },
-        {
-          "key": "80015-1",
-          "column": 1,
-          "value": "Wurde nachgewiesen"
-        },
-        {
-          "key": "80015-2",
-          "column": 1,
-          "value": "Wurde nicht nachgewiesen"
-        },
-        {
-          "key": "80016-1",
-          "column": 1,
-          "value": "Wurde nachgewiesen"
-        },
-        {
-          "key": "80016-2",
-          "column": 1,
-          "value": "Wurde nicht nachgewiesen"
-        },
-        {
-          "key": "80017-1",
-          "column": 1,
-          "value": "Wurde nachgewiesen"
-        },
-        {
-          "key": "80017-2",
-          "column": 1,
-          "value": "Wurde nicht nachgewiesen"
-        },
-        {
-          "key": "80018-1",
-          "column": 1,
-          "value": "Wurde nachgewiesen"
-        },
-        {
-          "key": "80018-2",
-          "column": 1,
-          "value": "Wurde nicht nachgewiesen"
-        },
-        {
-          "key": "80019-1",
-          "column": 1,
-          "value": "Wurde nachgewiesen"
-        },
-        {
-          "key": "80019-2",
-          "column": 1,
-          "value": "Wurde nicht nachgewiesen"
-        },
-        {
-          "key": "80020-1",
-          "column": 1,
-          "value": "Wurde nachgewiesen"
-        },
-        {
-          "key": "80020-2",
-          "column": 1,
-          "value": "Wurde nicht nachgewiesen"
-        },
-        {
-          "key": "80022-1",
-          "column": 1,
-          "value": "Wurde nachgewiesen"
-        },
-        {
-          "key": "80022-2",
-          "column": 1,
-          "value": "Wurde nicht nachgewiesen"
-        },
-        {
-          "key": "80023-1",
-          "column": 1,
-          "value": "Wurde nachgewiesen"
-        },
-        {
-          "key": "80023-2",
-          "column": 1,
-          "value": "Wurde nicht nachgewiesen"
-        },
-        {
-          "key": "80026-1",
-          "column": 1,
-          "value": "Wurde nachgewiesen"
-        },
-        {
-          "key": "80026-2",
-          "column": 1,
-          "value": "Wurde nicht nachgewiesen"
-        },
-        {
-          "key": "80027-1",
-          "column": 1,
-          "value": "Wurde nachgewiesen"
-        },
-        {
-          "key": "80027-2",
-          "column": 1,
-          "value": "Wurde nicht nachgewiesen"
-        },
-        {
-          "key": "80033-1",
-          "column": 1,
-          "value": "Wurde nachgewiesen"
-        },
-        {
-          "key": "80033-2",
-          "column": 1,
-          "value": "Wurde nicht nachgewiesen"
-        },
-        {
-          "key": "80034-1",
-          "column": 1,
-          "value": "Wurde nachgewiesen"
-        },
-        {
-          "key": "80034-2",
-          "column": 1,
-          "value": "Wurde nicht nachgewiesen"
-        },
-        {
-          "key": "80040-1",
-          "column": 1,
-          "value": "Wurde nachgewiesen"
-        },
-        {
-          "key": "80040-2",
-          "column": 1,
-          "value": "Wurde nicht nachgewiesen"
-        },
-        {
-          "key": "80041-1",
-          "column": 1,
-          "value": "Wurde nachgewiesen"
-        },
-        {
-          "key": "80041-2",
-          "column": 1,
-          "value": "Wurde nicht nachgewiesen"
-        },
-        {
-          "key": "80042-1",
-          "column": 1,
-          "value": "Wurde nachgewiesen"
-        },
-        {
-          "key": "80042-2",
-          "column": 1,
-          "value": "Wurde nicht nachgewiesen"
-        },
-        {
-          "key": "80051-1",
-          "column": 1,
-          "value": "Wurde nachgewiesen"
-        },
-        {
-          "key": "80051-2",
-          "column": 1,
-          "value": "Wurde nicht nachgewiesen"
-        },
-        {
-          "key": "80053-1",
-          "column": 1,
-          "value": "Wurde nachgewiesen"
-        },
-        {
-          "key": "80053-2",
-          "column": 1,
-          "value": "Wurde nicht nachgewiesen"
-        },
-        {
-          "key": "80054-1",
-          "column": 1,
-          "value": "Wurde nachgewiesen"
-        },
-        {
-          "key": "80054-2",
-          "column": 1,
-          "value": "Wurde nicht nachgewiesen"
-        },
-        {
-          "key": "80057-1",
-          "column": 1,
-          "value": "Wurde nachgewiesen"
-        },
-        {
-          "key": "80057-2",
-          "column": 1,
-          "value": "Wurde nicht nachgewiesen"
-        },
-        {
-          "key": "80058-1",
-          "column": 1,
-          "value": "Wurde nachgewiesen"
-        },
-        {
-          "key": "80058-2",
-          "column": 1,
-          "value": "Wurde nicht nachgewiesen"
-        }
-      ]
-    },
-    {
-      "to": "2",
-      "valid_from": "2024-12-01",
-      "columns": [
-        "SHATPH-Parameterauspraegung-ID",
-        "Parameterklassifizierung",
-        "Stoffgruppe"
-      ],
-      "key_index": 0,
-      "restored_cells": [
-        {
-          "key": "10001-1",
-          "column": 0,
-          "value": "10001-1"
-        },
-        {
-          "key": "10001-2",
-          "column": 0,
-          "value": "10001-2"
-        },
-        {
-          "key": "10001-3",
-          "column": 0,
-          "value": "10001-3"
-        },
-        {
-          "key": "10001-4",
-          "column": 0,
-          "value": "10001-4"
-        },
-        {
-          "key": "10002-0",
-          "column": 0,
-          "value": "10002-0"
-        },
-        {
-          "key": "10002-1",
-          "column": 0,
-          "value": "10002-1"
-        },
-        {
-          "key": "10002-10",
-          "column": 0,
-          "value": "10002-10"
-        },
-        {
-          "key": "10002-2",
-          "column": 0,
-          "value": "10002-2"
-        },
-        {
-          "key": "10002-3",
-          "column": 0,
-          "value": "10002-3"
-        },
-        {
-          "key": "10002-4",
-          "column": 0,
-          "value": "10002-4"
-        },
-        {
-          "key": "10002-5",
-          "column": 0,
-          "value": "10002-5"
-        },
-        {
-          "key": "10002-6",
-          "column": 0,
-          "value": "10002-6"
-        },
-        {
-          "key": "10002-7",
-          "column": 0,
-          "value": "10002-7"
-        },
-        {
-          "key": "10002-8",
-          "column": 0,
-          "value": "10002-8"
-        },
-        {
-          "key": "10002-9",
-          "column": 0,
-          "value": "10002-9"
-        },
-        {
-          "key": "10003-1",
-          "column": 0,
-          "value": "10003-1"
-        },
-        {
-          "key": "10003-2",
-          "column": 0,
-          "value": "10003-2"
-        },
-        {
-          "key": "10003-3",
-          "column": 0,
-          "value": "10003-3"
-        },
-        {
-          "key": "10003-4",
-          "column": 0,
-          "value": "10003-4"
-        },
-        {
-          "key": "10004-0",
-          "column": 0,
-          "value": "10004-0"
-        },
-        {
-          "key": "10004-1",
-          "column": 0,
-          "value": "10004-1"
-        },
-        {
-          "key": "10004-10",
-          "column": 0,
-          "value": "10004-10"
-        },
-        {
-          "key": "10004-2",
-          "column": 0,
-          "value": "10004-2"
-        },
-        {
-          "key": "10004-3",
-          "column": 0,
-          "value": "10004-3"
-        },
-        {
-          "key": "10004-4",
-          "column": 0,
-          "value": "10004-4"
-        },
-        {
-          "key": "10004-5",
-          "column": 0,
-          "value": "10004-5"
-        },
-        {
-          "key": "10004-6",
-          "column": 0,
-          "value": "10004-6"
-        },
-        {
-          "key": "10004-7",
-          "column": 0,
-          "value": "10004-7"
-        },
-        {
-          "key": "10004-8",
-          "column": 0,
-          "value": "10004-8"
-        },
-        {
-          "key": "10004-9",
-          "column": 0,
-          "value": "10004-9"
-        },
-        {
-          "key": "10005-0",
-          "column": 0,
-          "value": "10005-0"
-        },
-        {
-          "key": "10005-1",
-          "column": 0,
-          "value": "10005-1"
-        },
-        {
-          "key": "10005-2",
-          "column": 0,
-          "value": "10005-2"
-        },
-        {
-          "key": "10005-3",
-          "column": 0,
-          "value": "10005-3"
-        },
-        {
-          "key": "10005-4",
-          "column": 0,
-          "value": "10005-4"
-        },
-        {
-          "key": "10005-5",
-          "column": 0,
-          "value": "10005-5"
-        },
-        {
-          "key": "10005-6",
-          "column": 0,
-          "value": "10005-6"
-        },
-        {
-          "key": "10005-7",
-          "column": 0,
-          "value": "10005-7"
-        },
-        {
-          "key": "10005-8",
-          "column": 0,
-          "value": "10005-8"
-        },
-        {
-          "key": "10006-0",
-          "column": 0,
-          "value": "10006-0"
-        },
-        {
-          "key": "10006-1",
-          "column": 0,
-          "value": "10006-1"
-        },
-        {
-          "key": "10006-2",
-          "column": 0,
-          "value": "10006-2"
-        },
-        {
-          "key": "10006-3",
-          "column": 0,
-          "value": "10006-3"
-        },
-        {
-          "key": "10006-4",
-          "column": 0,
-          "value": "10006-4"
-        },
-        {
-          "key": "10006-5",
-          "column": 0,
-          "value": "10006-5"
-        },
-        {
-          "key": "10006-6",
-          "column": 0,
-          "value": "10006-6"
-        },
-        {
-          "key": "10007-0",
-          "column": 0,
-          "value": "10007-0"
-        },
-        {
-          "key": "10007-1",
-          "column": 0,
-          "value": "10007-1"
-        },
-        {
-          "key": "10007-2",
-          "column": 0,
-          "value": "10007-2"
-        },
-        {
-          "key": "10007-3",
-          "column": 0,
-          "value": "10007-3"
-        },
-        {
-          "key": "10007-4",
-          "column": 0,
-          "value": "10007-4"
-        },
-        {
-          "key": "10007-5",
-          "column": 0,
-          "value": "10007-5"
-        },
-        {
-          "key": "10007-6",
-          "column": 0,
-          "value": "10007-6"
-        },
-        {
-          "key": "10008-0",
-          "column": 0,
-          "value": "10008-0"
-        },
-        {
-          "key": "10008-1",
-          "column": 0,
-          "value": "10008-1"
-        },
-        {
-          "key": "10008-2",
-          "column": 0,
-          "value": "10008-2"
-        },
-        {
-          "key": "10008-3",
-          "column": 0,
-          "value": "10008-3"
-        },
-        {
-          "key": "10008-4",
-          "column": 0,
-          "value": "10008-4"
-        },
-        {
-          "key": "10008-5",
-          "column": 0,
-          "value": "10008-5"
-        },
-        {
-          "key": "10008-6",
-          "column": 0,
-          "value": "10008-6"
-        },
-        {
-          "key": "10008-7",
-          "column": 0,
-          "value": "10008-7"
-        },
-        {
-          "key": "10008-8",
-          "column": 0,
-          "value": "10008-8"
-        },
-        {
-          "key": "10009-0",
-          "column": 0,
-          "value": "10009-0"
-        },
-        {
-          "key": "10009-1",
-          "column": 0,
-          "value": "10009-1"
-        },
-        {
-          "key": "10009-2",
-          "column": 0,
-          "value": "10009-2"
-        },
-        {
-          "key": "10009-3",
-          "column": 0,
-          "value": "10009-3"
-        },
-        {
-          "key": "10009-4",
-          "column": 0,
-          "value": "10009-4"
-        },
-        {
-          "key": "10009-5",
-          "column": 0,
-          "value": "10009-5"
-        },
-        {
-          "key": "10009-6",
-          "column": 0,
-          "value": "10009-6"
-        },
-        {
-          "key": "10010-0",
-          "column": 0,
-          "value": "10010-0"
-        },
-        {
-          "key": "10010-1",
-          "column": 0,
-          "value": "10010-1"
-        },
-        {
-          "key": "10010-2",
-          "column": 0,
-          "value": "10010-2"
-        },
-        {
-          "key": "10010-3",
-          "column": 0,
-          "value": "10010-3"
-        },
-        {
-          "key": "10010-4",
-          "column": 0,
-          "value": "10010-4"
-        },
-        {
-          "key": "10010-5",
-          "column": 0,
-          "value": "10010-5"
-        },
-        {
-          "key": "10010-6",
-          "column": 0,
-          "value": "10010-6"
-        },
-        {
-          "key": "10011-1",
-          "column": 0,
-          "value": "10011-1"
-        },
-        {
-          "key": "10011-2",
-          "column": 0,
-          "value": "10011-2"
-        },
-        {
-          "key": "10011-3",
-          "column": 0,
-          "value": "10011-3"
-        },
-        {
-          "key": "10011-4",
-          "column": 0,
-          "value": "10011-4"
-        },
-        {
-          "key": "10012-0",
-          "column": 0,
-          "value": "10012-0"
-        },
-        {
-          "key": "10012-1",
-          "column": 0,
-          "value": "10012-1"
-        },
-        {
-          "key": "10012-2",
-          "column": 0,
-          "value": "10012-2"
-        },
-        {
-          "key": "10012-3",
-          "column": 0,
-          "value": "10012-3"
-        },
-        {
-          "key": "10012-4",
-          "column": 0,
-          "value": "10012-4"
-        },
-        {
-          "key": "10012-5",
-          "column": 0,
-          "value": "10012-5"
-        },
-        {
-          "key": "10012-6",
-          "column": 0,
-          "value": "10012-6"
-        },
-        {
-          "key": "10012-7",
-          "column": 0,
-          "value": "10012-7"
-        },
-        {
-          "key": "10013-0",
-          "column": 0,
-          "value": "10013-0"
-        },
-        {
-          "key": "10013-1",
-          "column": 0,
-          "value": "10013-1"
-        },
-        {
-          "key": "10013-2",
-          "column": 0,
-          "value": "10013-2"
-        },
-        {
-          "key": "10013-3",
-          "column": 0,
-          "value": "10013-3"
-        },
-        {
-          "key": "10013-4",
-          "column": 0,
-          "value": "10013-4"
-        },
-        {
-          "key": "10013-5",
-          "column": 0,
-          "value": "10013-5"
-        },
-        {
-          "key": "10013-6",
-          "column": 0,
-          "value": "10013-6"
-        },
-        {
-          "key": "10013-7",
-          "column": 0,
-          "value": "10013-7"
-        },
-        {
-          "key": "10013-8",
-          "column": 0,
-          "value": "10013-8"
-        },
-        {
-          "key": "10014-1",
-          "column": 0,
-          "value": "10014-1"
-        },
-        {
-          "key": "10014-2",
-          "column": 0,
-          "value": "10014-2"
-        },
-        {
-          "key": "10014-3",
-          "column": 0,
-          "value": "10014-3"
-        },
-        {
-          "key": "10014-4",
-          "column": 0,
-          "value": "10014-4"
-        },
-        {
-          "key": "10015-0",
-          "column": 0,
-          "value": "10015-0"
-        },
-        {
-          "key": "10015-1",
-          "column": 0,
-          "value": "10015-1"
-        },
-        {
-          "key": "10015-2",
-          "column": 0,
-          "value": "10015-2"
-        },
-        {
-          "key": "10015-3",
-          "column": 0,
-          "value": "10015-3"
-        },
-        {
-          "key": "10015-4",
-          "column": 0,
-          "value": "10015-4"
-        },
-        {
-          "key": "10015-5",
-          "column": 0,
-          "value": "10015-5"
-        },
-        {
-          "key": "10015-6",
-          "column": 0,
-          "value": "10015-6"
-        },
-        {
-          "key": "10015-7",
-          "column": 0,
-          "value": "10015-7"
-        },
-        {
-          "key": "10016-0",
-          "column": 0,
-          "value": "10016-0"
-        },
-        {
-          "key": "10016-1",
-          "column": 0,
-          "value": "10016-1"
-        },
-        {
-          "key": "10016-2",
-          "column": 0,
-          "value": "10016-2"
-        },
-        {
-          "key": "10016-3",
-          "column": 0,
-          "value": "10016-3"
-        },
-        {
-          "key": "10016-4",
-          "column": 0,
-          "value": "10016-4"
-        },
-        {
-          "key": "10016-5",
-          "column": 0,
-          "value": "10016-5"
-        },
-        {
-          "key": "10016-6",
-          "column": 0,
-          "value": "10016-6"
-        },
-        {
-          "key": "10016-7",
-          "column": 0,
-          "value": "10016-7"
-        },
-        {
-          "key": "10016-8",
-          "column": 0,
-          "value": "10016-8"
-        },
-        {
-          "key": "10019-1",
-          "column": 0,
-          "value": "10019-1"
-        },
-        {
-          "key": "10019-2",
-          "column": 0,
-          "value": "10019-2"
-        },
-        {
-          "key": "10019-3",
-          "column": 0,
-          "value": "10019-3"
-        },
-        {
-          "key": "10019-4",
-          "column": 0,
-          "value": "10019-4"
-        },
-        {
-          "key": "10020-0",
-          "column": 0,
-          "value": "10020-0"
-        },
-        {
-          "key": "10020-1",
-          "column": 0,
-          "value": "10020-1"
-        },
-        {
-          "key": "10020-10",
-          "column": 0,
-          "value": "10020-10"
-        },
-        {
-          "key": "10020-2",
-          "column": 0,
-          "value": "10020-2"
-        },
-        {
-          "key": "10020-3",
-          "column": 0,
-          "value": "10020-3"
-        },
-        {
-          "key": "10020-4",
-          "column": 0,
-          "value": "10020-4"
-        },
-        {
-          "key": "10020-5",
-          "column": 0,
-          "value": "10020-5"
-        },
-        {
-          "key": "10020-6",
-          "column": 0,
-          "value": "10020-6"
-        },
-        {
-          "key": "10020-7",
-          "column": 0,
-          "value": "10020-7"
-        },
-        {
-          "key": "10020-8",
-          "column": 0,
-          "value": "10020-8"
-        },
-        {
-          "key": "10020-9",
-          "column": 0,
-          "value": "10020-9"
-        },
-        {
-          "key": "10021-0",
-          "column": 0,
-          "value": "10021-0"
-        },
-        {
-          "key": "10021-1",
-          "column": 0,
-          "value": "10021-1"
-        },
-        {
-          "key": "10021-2",
-          "column": 0,
-          "value": "10021-2"
-        },
-        {
-          "key": "10021-3",
-          "column": 0,
-          "value": "10021-3"
-        },
-        {
-          "key": "10021-4",
-          "column": 0,
-          "value": "10021-4"
-        },
-        {
-          "key": "10021-5",
-          "column": 0,
-          "value": "10021-5"
-        },
-        {
-          "key": "10022-1",
-          "column": 0,
-          "value": "10022-1"
-        },
-        {
-          "key": "10022-2",
-          "column": 0,
-          "value": "10022-2"
-        },
-        {
-          "key": "10022-3",
-          "column": 0,
-          "value": "10022-3"
-        },
-        {
-          "key": "10022-4",
-          "column": 0,
-          "value": "10022-4"
-        },
-        {
-          "key": "10023-0",
-          "column": 0,
-          "value": "10023-0"
-        },
-        {
-          "key": "10023-1",
-          "column": 0,
-          "value": "10023-1"
-        },
-        {
-          "key": "10023-10",
-          "column": 0,
-          "value": "10023-10"
-        },
-        {
-          "key": "10023-2",
-          "column": 0,
-          "value": "10023-2"
-        },
-        {
-          "key": "10023-3",
-          "column": 0,
-          "value": "10023-3"
-        },
-        {
-          "key": "10023-4",
-          "column": 0,
-          "value": "10023-4"
-        },
-        {
-          "key": "10023-5",
-          "column": 0,
-          "value": "10023-5"
-        },
-        {
-          "key": "10023-6",
-          "column": 0,
-          "value": "10023-6"
-        },
-        {
-          "key": "10023-7",
-          "column": 0,
-          "value": "10023-7"
-        },
-        {
-          "key": "10023-8",
-          "column": 0,
-          "value": "10023-8"
-        },
-        {
-          "key": "10023-9",
-          "column": 0,
-          "value": "10023-9"
-        },
-        {
-          "key": "10024-0",
-          "column": 0,
-          "value": "10024-0"
-        },
-        {
-          "key": "10024-1",
-          "column": 0,
-          "value": "10024-1"
-        },
-        {
-          "key": "10024-2",
-          "column": 0,
-          "value": "10024-2"
-        },
-        {
-          "key": "10024-3",
-          "column": 0,
-          "value": "10024-3"
-        },
-        {
-          "key": "10024-4",
-          "column": 0,
-          "value": "10024-4"
-        },
-        {
-          "key": "10024-5",
-          "column": 0,
-          "value": "10024-5"
-        },
-        {
-          "key": "11031-1",
-          "column": 0,
-          "value": "11031-1"
-        },
-        {
-          "key": "11031-2",
-          "column": 0,
-          "value": "11031-2"
-        },
-        {
-          "key": "11031-3",
-          "column": 0,
-          "value": "11031-3"
-        },
-        {
-          "key": "14004-1",
-          "column": 0,
-          "value": "14004-1"
-        },
-        {
-          "key": "14004-2",
-          "column": 0,
-          "value": "14004-2"
-        },
-        {
-          "key": "14004-3",
-          "column": 0,
-          "value": "14004-3"
-        },
-        {
-          "key": "80014-1",
-          "column": 0,
-          "value": "80014-1"
-        },
-        {
-          "key": "80014-2",
-          "column": 0,
-          "value": "80014-2"
-        },
-        {
-          "key": "80015-1",
-          "column": 0,
-          "value": "80015-1"
-        },
-        {
-          "key": "80015-2",
-          "column": 0,
-          "value": "80015-2"
-        },
-        {
-          "key": "80016-1",
-          "column": 0,
-          "value": "80016-1"
-        },
-        {
-          "key": "80016-2",
-          "column": 0,
-          "value": "80016-2"
-        },
-        {
-          "key": "80017-1",
-          "column": 0,
-          "value": "80017-1"
-        },
-        {
-          "key": "80017-2",
-          "column": 0,
-          "value": "80017-2"
-        },
-        {
-          "key": "80018-1",
-          "column": 0,
-          "value": "80018-1"
-        },
-        {
-          "key": "80018-2",
-          "column": 0,
-          "value": "80018-2"
-        },
-        {
-          "key": "80019-1",
-          "column": 0,
-          "value": "80019-1"
-        },
-        {
-          "key": "80019-2",
-          "column": 0,
-          "value": "80019-2"
-        },
-        {
-          "key": "80020-1",
-          "column": 0,
-          "value": "80020-1"
-        },
-        {
-          "key": "80020-2",
-          "column": 0,
-          "value": "80020-2"
-        },
-        {
-          "key": "80022-1",
-          "column": 0,
-          "value": "80022-1"
-        },
-        {
-          "key": "80022-2",
-          "column": 0,
-          "value": "80022-2"
-        },
-        {
-          "key": "80023-1",
-          "column": 0,
-          "value": "80023-1"
-        },
-        {
-          "key": "80023-2",
-          "column": 0,
-          "value": "80023-2"
-        },
-        {
-          "key": "80026-1",
-          "column": 0,
-          "value": "80026-1"
-        },
-        {
-          "key": "80026-2",
-          "column": 0,
-          "value": "80026-2"
-        },
-        {
-          "key": "80027-1",
-          "column": 0,
-          "value": "80027-1"
-        },
-        {
-          "key": "80027-2",
-          "column": 0,
-          "value": "80027-2"
-        },
-        {
-          "key": "80033-1",
-          "column": 0,
-          "value": "80033-1"
-        },
-        {
-          "key": "80033-2",
-          "column": 0,
-          "value": "80033-2"
-        },
-        {
-          "key": "80034-1",
-          "column": 0,
-          "value": "80034-1"
-        },
-        {
-          "key": "80034-2",
-          "column": 0,
-          "value": "80034-2"
-        },
-        {
-          "key": "80040-1",
-          "column": 0,
-          "value": "80040-1"
-        },
-        {
-          "key": "80040-2",
-          "column": 0,
-          "value": "80040-2"
-        },
-        {
-          "key": "80041-1",
-          "column": 0,
-          "value": "80041-1"
-        },
-        {
-          "key": "80041-2",
-          "column": 0,
-          "value": "80041-2"
-        },
-        {
-          "key": "80042-1",
-          "column": 0,
-          "value": "80042-1"
-        },
-        {
-          "key": "80042-2",
-          "column": 0,
-          "value": "80042-2"
-        },
-        {
-          "key": "80051-1",
-          "column": 0,
-          "value": "80051-1"
-        },
-        {
-          "key": "80051-2",
-          "column": 0,
-          "value": "80051-2"
-        },
-        {
-          "key": "80053-1",
-          "column": 0,
-          "value": "80053-1"
-        },
-        {
-          "key": "80053-2",
-          "column": 0,
-          "value": "80053-2"
-        },
-        {
-          "key": "80054-1",
-          "column": 0,
-          "value": "80054-1"
-        },
-        {
-          "key": "80054-2",
-          "column": 0,
-          "value": "80054-2"
-        },
-        {
-          "key": "80057-1",
-          "column": 0,
-          "value": "80057-1"
-        },
-        {
-          "key": "80057-2",
-          "column": 0,
-          "value": "80057-2"
-        },
-        {
-          "key": "80058-1",
-          "column": 0,
-          "value": "80058-1"
-        },
-        {
-          "key": "80058-2",
-          "column": 0,
-          "value": "80058-2"
-        }
-      ]
-    },
-    {
-      "to": "1",
-      "columns": [
-        "Key",
-        "SHAPTH-Parameter-Nummer",
-        "Position",
-        "Parameterauspraegung",
-        "US-Code",
-        "Clusterung",
-        "Beschreibung"
-      ],
-      "key_index": 0,
-      "added_rows": [
-        [
-          "1010",
-          "1026",
-          "0",
-          "Intensität (vor Ort)",
-          "1",
-          "Sensorische Probenbewertung (menschl. Sinne)",
-          "Intensität (vor Ort)"
+      "delta": {
+        "to": "3",
+        "valid_from": "2024-12-01",
+        "columns": [
+          "SHAPTH-Parameterauspraegung-ID",
+          "Parameterklassifizierung",
+          "Stoffgruppe"
         ],
-        [
-          "1020",
-          "1026",
-          "0",
-          "Art (vor Ort)",
-          "2",
-          "Sensorische Probenbewertung (menschl. Sinne)",
-          "Art (vor Ort)"
-        ],
-        [
-          "1030",
-          "1026",
-          "0",
-          "Intensität (im Labor)",
-          "3",
-          "Sensorische Probenbewertung (menschl. Sinne)",
-          "Intensität (im Labor)"
-        ],
-        [
-          "1040",
-          "1026",
-          "0",
-          "Art (im Labor)",
-          "4",
-          "Sensorische Probenbewertung (menschl. Sinne)",
-          "Art (im Labor)"
-        ],
-        [
-          "1050",
-          "1031",
-          "0",
-          "Intensität (vor Ort)",
-          "1",
-          "Sensorische Probenbewertung (menschl. Sinne)",
-          "Intensität (vor Ort)"
-        ],
-        [
-          "1060",
-          "1031",
-          "0",
-          "Bemerkungen_2 (vor Ort)",
-          "2",
-          "Sensorische Probenbewertung (menschl. Sinne)",
-          "Bemerkungen_2 (vor Ort)"
-        ],
-        [
-          "1070",
-          "1031",
-          "0",
-          "Bemerkungen_3 (vor Ort)",
-          "3",
-          "Sensorische Probenbewertung (menschl. Sinne)",
-          "Bemerkungen_3 (vor Ort)"
-        ],
-        [
-          "1080",
-          "1031",
-          "0",
-          "Intensität (im Labor)",
-          "4",
-          "Sensorische Probenbewertung (menschl. Sinne)",
-          "Intensität (im Labor)"
-        ],
-        [
-          "1090",
-          "1031",
-          "0",
-          "Bemerkungen_2 (im Labor)",
-          "5",
-          "Sensorische Probenbewertung (menschl. Sinne)",
-          "Bemerkungen_2 (im Labor)"
-        ],
-        [
-          "1100",
-          "1031",
-          "0",
-          "Bemerkungen_3 (im Labor)",
-          "6",
-          "Sensorische Probenbewertung (menschl. Sinne)",
-          "Bemerkungen_3 (im Labor)"
-        ],
-        [
-          "1110",
-          "1042",
-          "0",
-          "Intensität (vor Ort)",
-          "1",
-          "Sensorische Probenbewertung (menschl. Sinne)",
-          "Intensität (vor Ort)"
-        ],
-        [
-          "1120",
-          "1042",
-          "0",
-          "allgemeine Art (vor Ort)",
-          "2",
-          "Sensorische Probenbewertung (menschl. Sinne)",
-          "allgemeine Art (vor Ort)"
-        ],
-        [
-          "1130",
-          "1042",
-          "0",
-          "differenzierte Art (vor Ort)",
-          "3",
-          "Sensorische Probenbewertung (menschl. Sinne)",
-          "differenzierte Art (vor Ort)"
-        ],
-        [
-          "1140",
-          "1042",
-          "0",
-          "Intensität (im Labor)",
-          "4",
-          "Sensorische Probenbewertung (menschl. Sinne)",
-          "Intensität (im Labor)"
-        ],
-        [
-          "1150",
-          "1042",
-          "0",
-          "allgemeine Art (im Labor)",
-          "5",
-          "Sensorische Probenbewertung (menschl. Sinne)",
-          "allgemeine Art (im Labor)"
-        ],
-        [
-          "1160",
-          "1042",
-          "0",
-          "differenzierte Art (im Labor)",
-          "6",
-          "Sensorische Probenbewertung (menschl. Sinne)",
-          "differenzierte Art (im Labor)"
-        ],
-        [
-          "1170",
-          "1052",
-          "0",
-          "Intensität (vor Ort)",
-          "1",
-          "Sensorische Probenbewertung (menschl. Sinne)",
-          "Intensität (vor Ort)"
-        ],
-        [
-          "1180",
-          "1052",
-          "0",
-          "allgemeine Art (vor Ort)",
-          "2",
-          "Sensorische Probenbewertung (menschl. Sinne)",
-          "allgemeine Art (vor Ort)"
-        ],
-        [
-          "1190",
-          "1052",
-          "0",
-          "differenzierte Art (vor Ort)",
-          "3",
-          "Sensorische Probenbewertung (menschl. Sinne)",
-          "differenzierte Art (vor Ort)"
-        ],
-        [
-          "1200",
-          "1052",
-          "0",
-          "Intensität (im Labor)",
-          "4",
-          "Sensorische Probenbewertung (menschl. Sinne)",
-          "Intensität (im Labor)"
-        ],
-        [
-          "1210",
-          "1052",
-          "0",
-          "allgemeine Art (im Labor)",
-          "5",
-          "Sensorische Probenbewertung (menschl. Sinne)",
-          "allgemeine Art (im Labor)"
-        ],
-        [
-          "1220",
-          "1052",
-          "0",
-          "differenzierte Art (im Labor)",
-          "6",
-          "Sensorische Probenbewertung (menschl. Sinne)",
-          "differenzierte Art (im Labor)"
-        ],
-        [
-          "1230",
-          "1787",
-          "0",
-          "Vor Ort",
-          "1",
-          "Mikrobiologie",
-          "Vor Ort"
-        ],
-        [
-          "1240",
-          "1787",
-          "0",
-          "Im Labor",
-          "2",
-          "Mikrobiologie",
-          "Im Labor"
-        ],
-        [
-          "1250",
-          "1793",
-          "0",
-          "Vor Ort",
-          "1",
-          "Mikrobiologie",
-          "Vor Ort"
-        ],
-        [
-          "1260",
-          "1793",
-          "0",
-          "Im Labor",
-          "2",
-          "Mikrobiologie",
-          "Im Labor"
-        ],
-        [
-          "1300",
-          "1795",
-          "0",
-          "Legionella pn SG1",
-          "4",
-          "Mikrobiologie",
-          "Legionella pn SG1"
-        ],
-        [
-          "1310",
-          "1795",
-          "0",
-          "Legionella pn SG2-15",
-          "5",
-          "Mikrobiologie",
-          "Legionella pn SG2-15"
-        ],
-        [
-          "1320",
-          "1795",
-          "0",
-          "Legionella (non pn)",
-          "6",
-          "Mikrobiologie",
-          "Legionella (non pn)"
+        "key_index": 0,
+        "restored_cells": [
+          {
+            "key": "80014-1",
+            "column": 1,
+            "value": "Wurde nachgewiesen"
+          },
+          {
+            "key": "80014-2",
+            "column": 1,
+            "value": "Wurde nicht nachgewiesen"
+          },
+          {
+            "key": "80015-1",
+            "column": 1,
+            "value": "Wurde nachgewiesen"
+          },
+          {
+            "key": "80015-2",
+            "column": 1,
+            "value": "Wurde nicht nachgewiesen"
+          },
+          {
+            "key": "80016-1",
+            "column": 1,
+            "value": "Wurde nachgewiesen"
+          },
+          {
+            "key": "80016-2",
+            "column": 1,
+            "value": "Wurde nicht nachgewiesen"
+          },
+          {
+            "key": "80017-1",
+            "column": 1,
+            "value": "Wurde nachgewiesen"
+          },
+          {
+            "key": "80017-2",
+            "column": 1,
+            "value": "Wurde nicht nachgewiesen"
+          },
+          {
+            "key": "80018-1",
+            "column": 1,
+            "value": "Wurde nachgewiesen"
+          },
+          {
+            "key": "80018-2",
+            "column": 1,
+            "value": "Wurde nicht nachgewiesen"
+          },
+          {
+            "key": "80019-1",
+            "column": 1,
+            "value": "Wurde nachgewiesen"
+          },
+          {
+            "key": "80019-2",
+            "column": 1,
+            "value": "Wurde nicht nachgewiesen"
+          },
+          {
+            "key": "80020-1",
+            "column": 1,
+            "value": "Wurde nachgewiesen"
+          },
+          {
+            "key": "80020-2",
+            "column": 1,
+            "value": "Wurde nicht nachgewiesen"
+          },
+          {
+            "key": "80022-1",
+            "column": 1,
+            "value": "Wurde nachgewiesen"
+          },
+          {
+            "key": "80022-2",
+            "column": 1,
+            "value": "Wurde nicht nachgewiesen"
+          },
+          {
+            "key": "80023-1",
+            "column": 1,
+            "value": "Wurde nachgewiesen"
+          },
+          {
+            "key": "80023-2",
+            "column": 1,
+            "value": "Wurde nicht nachgewiesen"
+          },
+          {
+            "key": "80026-1",
+            "column": 1,
+            "value": "Wurde nachgewiesen"
+          },
+          {
+            "key": "80026-2",
+            "column": 1,
+            "value": "Wurde nicht nachgewiesen"
+          },
+          {
+            "key": "80027-1",
+            "column": 1,
+            "value": "Wurde nachgewiesen"
+          },
+          {
+            "key": "80027-2",
+            "column": 1,
+            "value": "Wurde nicht nachgewiesen"
+          },
+          {
+            "key": "80033-1",
+            "column": 1,
+            "value": "Wurde nachgewiesen"
+          },
+          {
+            "key": "80033-2",
+            "column": 1,
+            "value": "Wurde nicht nachgewiesen"
+          },
+          {
+            "key": "80034-1",
+            "column": 1,
+            "value": "Wurde nachgewiesen"
+          },
+          {
+            "key": "80034-2",
+            "column": 1,
+            "value": "Wurde nicht nachgewiesen"
+          },
+          {
+            "key": "80040-1",
+            "column": 1,
+            "value": "Wurde nachgewiesen"
+          },
+          {
+            "key": "80040-2",
+            "column": 1,
+            "value": "Wurde nicht nachgewiesen"
+          },
+          {
+            "key": "80041-1",
+            "column": 1,
+            "value": "Wurde nachgewiesen"
+          },
+          {
+            "key": "80041-2",
+            "column": 1,
+            "value": "Wurde nicht nachgewiesen"
+          },
+          {
+            "key": "80042-1",
+            "column": 1,
+            "value": "Wurde nachgewiesen"
+          },
+          {
+            "key": "80042-2",
+            "column": 1,
+            "value": "Wurde nicht nachgewiesen"
+          },
+          {
+            "key": "80051-1",
+            "column": 1,
+            "value": "Wurde nachgewiesen"
+          },
+          {
+            "key": "80051-2",
+            "column": 1,
+            "value": "Wurde nicht nachgewiesen"
+          },
+          {
+            "key": "80053-1",
+            "column": 1,
+            "value": "Wurde nachgewiesen"
+          },
+          {
+            "key": "80053-2",
+            "column": 1,
+            "value": "Wurde nicht nachgewiesen"
+          },
+          {
+            "key": "80054-1",
+            "column": 1,
+            "value": "Wurde nachgewiesen"
+          },
+          {
+            "key": "80054-2",
+            "column": 1,
+            "value": "Wurde nicht nachgewiesen"
+          },
+          {
+            "key": "80057-1",
+            "column": 1,
+            "value": "Wurde nachgewiesen"
+          },
+          {
+            "key": "80057-2",
+            "column": 1,
+            "value": "Wurde nicht nachgewiesen"
+          },
+          {
+            "key": "80058-1",
+            "column": 1,
+            "value": "Wurde nachgewiesen"
+          },
+          {
+            "key": "80058-2",
+            "column": 1,
+            "value": "Wurde nicht nachgewiesen"
+          }
         ]
-      ],
-      "removed_rows": [
-        "10001-1",
-        "10001-2",
-        "10001-3",
-        "10001-4",
-        "10002-0",
-        "10002-1",
-        "10002-10",
-        "10002-2",
-        "10002-3",
-        "10002-4",
-        "10002-5",
-        "10002-6",
-        "10002-7",
-        "10002-8",
-        "10002-9",
-        "10003-1",
-        "10003-2",
-        "10003-3",
-        "10003-4",
-        "10004-0",
-        "10004-1",
-        "10004-10",
-        "10004-2",
-        "10004-3",
-        "10004-4",
-        "10004-5",
-        "10004-6",
-        "10004-7",
-        "10004-8",
-        "10004-9",
-        "10005-0",
-        "10005-1",
-        "10005-2",
-        "10005-3",
-        "10005-4",
-        "10005-5",
-        "10005-6",
-        "10005-7",
-        "10005-8",
-        "10006-0",
-        "10006-1",
-        "10006-2",
-        "10006-3",
-        "10006-4",
-        "10006-5",
-        "10006-6",
-        "10007-0",
-        "10007-1",
-        "10007-2",
-        "10007-3",
-        "10007-4",
-        "10007-5",
-        "10007-6",
-        "10008-0",
-        "10008-1",
-        "10008-2",
-        "10008-3",
-        "10008-4",
-        "10008-5",
-        "10008-6",
-        "10008-7",
-        "10008-8",
-        "10009-0",
-        "10009-1",
-        "10009-2",
-        "10009-3",
-        "10009-4",
-        "10009-5",
-        "10009-6",
-        "10010-0",
-        "10010-1",
-        "10010-2",
-        "10010-3",
-        "10010-4",
-        "10010-5",
-        "10010-6",
-        "10011-1",
-        "10011-2",
-        "10011-3",
-        "10011-4",
-        "10012-0",
-        "10012-1",
-        "10012-2",
-        "10012-3",
-        "10012-4",
-        "10012-5",
-        "10012-6",
-        "10012-7",
-        "10013-0",
-        "10013-1",
-        "10013-2",
-        "10013-3",
-        "10013-4",
-        "10013-5",
-        "10013-6",
-        "10013-7",
-        "10013-8",
-        "10014-1",
-        "10014-2",
-        "10014-3",
-        "10014-4",
-        "10015-0",
-        "10015-1",
-        "10015-2",
-        "10015-3",
-        "10015-4",
-        "10015-5",
-        "10015-6",
-        "10015-7",
-        "10016-0",
-        "10016-1",
-        "10016-2",
-        "10016-3",
-        "10016-4",
-        "10016-5",
-        "10016-6",
-        "10016-7",
-        "10016-8",
-        "10019-1",
-        "10019-2",
-        "10019-3",
-        "10019-4",
-        "10020-0",
-        "10020-1",
-        "10020-10",
-        "10020-2",
-        "10020-3",
-        "10020-4",
-        "10020-5",
-        "10020-6",
-        "10020-7",
-        "10020-8",
-        "10020-9",
-        "10021-0",
-        "10021-1",
-        "10021-2",
-        "10021-3",
-        "10021-4",
-        "10021-5",
-        "10022-1",
-        "10022-2",
-        "10022-3",
-        "10022-4",
-        "10023-0",
-        "10023-1",
-        "10023-10",
-        "10023-2",
-        "10023-3",
-        "10023-4",
-        "10023-5",
-        "10023-6",
-        "10023-7",
-        "10023-8",
-        "10023-9",
-        "10024-0",
-        "10024-1",
-        "10024-2",
-        "10024-3",
-        "10024-4",
-        "10024-5",
-        "11031-1",
-        "11031-2",
-        "11031-3",
-        "14004-1",
-        "14004-2",
-        "14004-3",
-        "80014-1",
-        "80014-2",
-        "80015-1",
-        "80015-2",
-        "80016-1",
-        "80016-2",
-        "80017-1",
-        "80017-2",
-        "80018-1",
-        "80018-2",
-        "80019-1",
-        "80019-2",
-        "80020-1",
-        "80020-2",
-        "80022-1",
-        "80022-2",
-        "80023-1",
-        "80023-2",
-        "80026-1",
-        "80026-2",
-        "80027-1",
-        "80027-2",
-        "80033-1",
-        "80033-2",
-        "80034-1",
-        "80034-2",
-        "80040-1",
-        "80040-2",
-        "80041-1",
-        "80041-2",
-        "80042-1",
-        "80042-2",
-        "80051-1",
-        "80051-2",
-        "80053-1",
-        "80053-2",
-        "80054-1",
-        "80054-2",
-        "80057-1",
-        "80057-2",
-        "80058-1",
-        "80058-2"
-      ]
+      }
+    },
+    {
+      "delta": {
+        "to": "2",
+        "valid_from": "2024-12-01",
+        "columns": [
+          "SHATPH-Parameterauspraegung-ID",
+          "Parameterklassifizierung",
+          "Stoffgruppe"
+        ],
+        "key_index": 0,
+        "renamed_columns": [
+          {
+            "from": "SHATPH-Parameterauspraegung-ID",
+            "to": "SHAPTH-Parameterauspraegung-ID"
+          }
+        ]
+      }
+    },
+    {
+      "snapshot": {
+        "urn": "urn:xoev-de:xwasser:codeliste:parameterauspraegung",
+        "version": "1",
+        "columns": [
+          "Key",
+          "SHAPTH-Parameter-Nummer",
+          "Position",
+          "Parameterauspraegung",
+          "US-Code",
+          "Clusterung",
+          "Beschreibung"
+        ],
+        "key_index": 0,
+        "rows": [
+          [
+            "1010",
+            "1026",
+            "0",
+            "Intensität (vor Ort)",
+            "1",
+            "Sensorische Probenbewertung (menschl. Sinne)",
+            "Intensität (vor Ort)"
+          ],
+          [
+            "1020",
+            "1026",
+            "0",
+            "Art (vor Ort)",
+            "2",
+            "Sensorische Probenbewertung (menschl. Sinne)",
+            "Art (vor Ort)"
+          ],
+          [
+            "1030",
+            "1026",
+            "0",
+            "Intensität (im Labor)",
+            "3",
+            "Sensorische Probenbewertung (menschl. Sinne)",
+            "Intensität (im Labor)"
+          ],
+          [
+            "1040",
+            "1026",
+            "0",
+            "Art (im Labor)",
+            "4",
+            "Sensorische Probenbewertung (menschl. Sinne)",
+            "Art (im Labor)"
+          ],
+          [
+            "1050",
+            "1031",
+            "0",
+            "Intensität (vor Ort)",
+            "1",
+            "Sensorische Probenbewertung (menschl. Sinne)",
+            "Intensität (vor Ort)"
+          ],
+          [
+            "1060",
+            "1031",
+            "0",
+            "Bemerkungen_2 (vor Ort)",
+            "2",
+            "Sensorische Probenbewertung (menschl. Sinne)",
+            "Bemerkungen_2 (vor Ort)"
+          ],
+          [
+            "1070",
+            "1031",
+            "0",
+            "Bemerkungen_3 (vor Ort)",
+            "3",
+            "Sensorische Probenbewertung (menschl. Sinne)",
+            "Bemerkungen_3 (vor Ort)"
+          ],
+          [
+            "1080",
+            "1031",
+            "0",
+            "Intensität (im Labor)",
+            "4",
+            "Sensorische Probenbewertung (menschl. Sinne)",
+            "Intensität (im Labor)"
+          ],
+          [
+            "1090",
+            "1031",
+            "0",
+            "Bemerkungen_2 (im Labor)",
+            "5",
+            "Sensorische Probenbewertung (menschl. Sinne)",
+            "Bemerkungen_2 (im Labor)"
+          ],
+          [
+            "1100",
+            "1031",
+            "0",
+            "Bemerkungen_3 (im Labor)",
+            "6",
+            "Sensorische Probenbewertung (menschl. Sinne)",
+            "Bemerkungen_3 (im Labor)"
+          ],
+          [
+            "1110",
+            "1042",
+            "0",
+            "Intensität (vor Ort)",
+            "1",
+            "Sensorische Probenbewertung (menschl. Sinne)",
+            "Intensität (vor Ort)"
+          ],
+          [
+            "1120",
+            "1042",
+            "0",
+            "allgemeine Art (vor Ort)",
+            "2",
+            "Sensorische Probenbewertung (menschl. Sinne)",
+            "allgemeine Art (vor Ort)"
+          ],
+          [
+            "1130",
+            "1042",
+            "0",
+            "differenzierte Art (vor Ort)",
+            "3",
+            "Sensorische Probenbewertung (menschl. Sinne)",
+            "differenzierte Art (vor Ort)"
+          ],
+          [
+            "1140",
+            "1042",
+            "0",
+            "Intensität (im Labor)",
+            "4",
+            "Sensorische Probenbewertung (menschl. Sinne)",
+            "Intensität (im Labor)"
+          ],
+          [
+            "1150",
+            "1042",
+            "0",
+            "allgemeine Art (im Labor)",
+            "5",
+            "Sensorische Probenbewertung (menschl. Sinne)",
+            "allgemeine Art (im Labor)"
+          ],
+          [
+            "1160",
+            "1042",
+            "0",
+            "differenzierte Art (im Labor)",
+            "6",
+            "Sensorische Probenbewertung (menschl. Sinne)",
+            "differenzierte Art (im Labor)"
+          ],
+          [
+            "1170",
+            "1052",
+            "0",
+            "Intensität (vor Ort)",
+            "1",
+            "Sensorische Probenbewertung (menschl. Sinne)",
+            "Intensität (vor Ort)"
+          ],
+          [
+            "1180",
+            "1052",
+            "0",
+            "allgemeine Art (vor Ort)",
+            "2",
+            "Sensorische Probenbewertung (menschl. Sinne)",
+            "allgemeine Art (vor Ort)"
+          ],
+          [
+            "1190",
+            "1052",
+            "0",
+            "differenzierte Art (vor Ort)",
+            "3",
+            "Sensorische Probenbewertung (menschl. Sinne)",
+            "differenzierte Art (vor Ort)"
+          ],
+          [
+            "1200",
+            "1052",
+            "0",
+            "Intensität (im Labor)",
+            "4",
+            "Sensorische Probenbewertung (menschl. Sinne)",
+            "Intensität (im Labor)"
+          ],
+          [
+            "1210",
+            "1052",
+            "0",
+            "allgemeine Art (im Labor)",
+            "5",
+            "Sensorische Probenbewertung (menschl. Sinne)",
+            "allgemeine Art (im Labor)"
+          ],
+          [
+            "1220",
+            "1052",
+            "0",
+            "differenzierte Art (im Labor)",
+            "6",
+            "Sensorische Probenbewertung (menschl. Sinne)",
+            "differenzierte Art (im Labor)"
+          ],
+          [
+            "1230",
+            "1787",
+            "0",
+            "Vor Ort",
+            "1",
+            "Mikrobiologie",
+            "Vor Ort"
+          ],
+          [
+            "1240",
+            "1787",
+            "0",
+            "Im Labor",
+            "2",
+            "Mikrobiologie",
+            "Im Labor"
+          ],
+          [
+            "1250",
+            "1793",
+            "0",
+            "Vor Ort",
+            "1",
+            "Mikrobiologie",
+            "Vor Ort"
+          ],
+          [
+            "1260",
+            "1793",
+            "0",
+            "Im Labor",
+            "2",
+            "Mikrobiologie",
+            "Im Labor"
+          ],
+          [
+            "1300",
+            "1795",
+            "0",
+            "Legionella pn SG1",
+            "4",
+            "Mikrobiologie",
+            "Legionella pn SG1"
+          ],
+          [
+            "1310",
+            "1795",
+            "0",
+            "Legionella pn SG2-15",
+            "5",
+            "Mikrobiologie",
+            "Legionella pn SG2-15"
+          ],
+          [
+            "1320",
+            "1795",
+            "0",
+            "Legionella (non pn)",
+            "6",
+            "Mikrobiologie",
+            "Legionella (non pn)"
+          ]
+        ]
+      }
     }
   ]
 }

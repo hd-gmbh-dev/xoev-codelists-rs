@@ -386,58 +386,62 @@
       ]
     ]
   },
-  "deltas": [
+  "steps": [
     {
-      "to": "2",
-      "valid_from": "2025-09-22",
-      "columns": [
-        "Key",
-        "Art-Objekt",
-        "Beschreibung"
-      ],
-      "key_index": 0,
-      "restored_cells": [
-        {
-          "key": "1140",
-          "column": 1,
-          "value": "Gemeinschaftsunterkunft gem. §36 IfSG; (Obdachlosenunterkünfte; Einrichtungen zur gemeinschaftlichen Unterbringung von Asylbewerbern, vollziehbar Ausreisepflichtigen, Flüchtlingen und Spätaussiedlern; sonstige Massenunterkünfte; Justizvollzugsanstalten)"
-        },
-        {
-          "key": "1140",
-          "column": 2,
-          "value": "Gemeinschaftsunterkunft die unter die Verordnungsermächtigung zum Infektionsschutz bei bestimmten Einrichtungen, Unternehmen und Personen gem. §36 IfSG fallen und nicht anderweitig aufgelistet sind. (Obdachlosenunterkünfte; Einrichtungen zur gemeinschaftlichen Unterbringung von Asylbewerbern, vollziehbar Ausreisepflichtigen, Flüchtlingen und Spätaussiedlern; sonstige Massenunterkünfte; Justizvollzugsanstalten)"
-        }
-      ]
+      "delta": {
+        "to": "2",
+        "valid_from": "2025-09-22",
+        "columns": [
+          "Key",
+          "Art-Objekt",
+          "Beschreibung"
+        ],
+        "key_index": 0,
+        "restored_cells": [
+          {
+            "key": "1140",
+            "column": 1,
+            "value": "Gemeinschaftsunterkunft gem. §36 IfSG; (Obdachlosenunterkünfte; Einrichtungen zur gemeinschaftlichen Unterbringung von Asylbewerbern, vollziehbar Ausreisepflichtigen, Flüchtlingen und Spätaussiedlern; sonstige Massenunterkünfte; Justizvollzugsanstalten)"
+          },
+          {
+            "key": "1140",
+            "column": 2,
+            "value": "Gemeinschaftsunterkunft die unter die Verordnungsermächtigung zum Infektionsschutz bei bestimmten Einrichtungen, Unternehmen und Personen gem. §36 IfSG fallen und nicht anderweitig aufgelistet sind. (Obdachlosenunterkünfte; Einrichtungen zur gemeinschaftlichen Unterbringung von Asylbewerbern, vollziehbar Ausreisepflichtigen, Flüchtlingen und Spätaussiedlern; sonstige Massenunterkünfte; Justizvollzugsanstalten)"
+          }
+        ]
+      }
     },
     {
-      "to": "1",
-      "columns": [
-        "Key",
-        "Art-Objekt",
-        "Beschreibung"
-      ],
-      "key_index": 0,
-      "removed_rows": [
-        "1550",
-        "1560",
-        "1570",
-        "1580",
-        "1590",
-        "1600",
-        "1610"
-      ],
-      "restored_cells": [
-        {
-          "key": "1330",
-          "column": 1,
-          "value": "Mobiles Objekt (Wasserfahrzeug)"
-        },
-        {
-          "key": "1330",
-          "column": 2,
-          "value": "Mobiles Objekt (Wasserfahrzeug)"
-        }
-      ]
+      "delta": {
+        "to": "1",
+        "columns": [
+          "Key",
+          "Art-Objekt",
+          "Beschreibung"
+        ],
+        "key_index": 0,
+        "removed_rows": [
+          "1550",
+          "1560",
+          "1570",
+          "1580",
+          "1590",
+          "1600",
+          "1610"
+        ],
+        "restored_cells": [
+          {
+            "key": "1330",
+            "column": 1,
+            "value": "Mobiles Objekt (Wasserfahrzeug)"
+          },
+          {
+            "key": "1330",
+            "column": 2,
+            "value": "Mobiles Objekt (Wasserfahrzeug)"
+          }
+        ]
+      }
     }
   ]
 }

@@ -750,39 +750,43 @@
       ]
     ]
   },
-  "deltas": [
+  "steps": [
     {
-      "to": "2",
-      "valid_from": "2024-12-01",
-      "columns": [
-        "Key",
-        "AufbereitungsstoffeDesinfektionsverfahren",
-        "CAS-Nummer",
-        "Verwendungszweck",
-        "Beschreibung"
-      ],
-      "key_index": 0,
-      "restored_cells": [
-        {
-          "key": "1870",
-          "column": 2,
-          "value": "131148-05- 5"
-        }
-      ]
+      "delta": {
+        "to": "2",
+        "valid_from": "2024-12-01",
+        "columns": [
+          "Key",
+          "AufbereitungsstoffeDesinfektionsverfahren",
+          "CAS-Nummer",
+          "Verwendungszweck",
+          "Beschreibung"
+        ],
+        "key_index": 0,
+        "restored_cells": [
+          {
+            "key": "1870",
+            "column": 2,
+            "value": "131148-05- 5"
+          }
+        ]
+      }
     },
     {
-      "to": "1",
-      "columns": [
-        "Key",
-        "AufbereitungsstoffeDesinfektionsverfahren",
-        "CAS-Nummer",
-        "Verwendungszweck",
-        "Beschreibung"
-      ],
-      "key_index": 0,
-      "removed_rows": [
-        "9020"
-      ]
+      "delta": {
+        "to": "1",
+        "columns": [
+          "Key",
+          "AufbereitungsstoffeDesinfektionsverfahren",
+          "CAS-Nummer",
+          "Verwendungszweck",
+          "Beschreibung"
+        ],
+        "key_index": 0,
+        "removed_rows": [
+          "9020"
+        ]
+      }
     }
   ]
 }

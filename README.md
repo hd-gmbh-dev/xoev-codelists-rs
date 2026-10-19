@@ -50,10 +50,19 @@ assert_eq!(catalog.contains(urn, "1", "9999"), Some(false));
 ## Data
 
 `crates/<publisher>/data/<slug>.json` holds one dataset per codelist: the newest
-version as a full snapshot plus **reverse deltas** towards older versions. Reserve
-deltas because a codelist version is almost never a new list — measured on real
-pairs, a version step touches 0.05 %–15 % of the rows (an AGS step changes 16 of
-11 227 rows), while a full snapshot per version would be ~300 MB for AGS alone.
+version as a full snapshot plus **reverse deltas** towards older versions. Deltas
+because a codelist version is almost never a new list — measured on real pairs, a
+version step touches 0.05 %–15 % of the rows (an AGS step changes 16 of 11 227
+rows), while a full snapshot per version would be ~300 MB for AGS alone.
+
+Two rules keep a chain small:
+
+- **Column aliasing** — when a column is renamed between versions (`SHATPH-Parameter-ID`
+  → `SHAPTH-Parameter-ID`), the delta records one rename instead of a changed cell
+  in every row. Renames are detected by comparing values across shared keys
+  (≥ 90 % equal).
+- **Resync fallback** — a step that would not be smaller than the snapshot it
+  rebuilds (e.g. a version that renumbers all keys) is stored as a snapshot.
 
 Regenerate with
 
@@ -61,9 +70,11 @@ Regenerate with
 cargo run -p xtask -- sync --publisher xwasser
 ```
 
-The command downloads every published version from XRepository, rebuilds each
-version from the deltas and aborts if the reconstruction differs from the
-original.
+The command downloads every published version from XRepository, reports the size
+of each step, rebuilds each version from the chain and aborts if a reconstruction
+differs from the original. Steps above 90 % of the snapshot they rebuild are
+treated as suspect; a step above 25 % and 8 KB is annotated as content churn and
+worth a look (`ALLOW_LARGE_DELTAS=1` accepts suspect steps).
 
 ## Status
 

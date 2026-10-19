@@ -228,31 +228,33 @@
       ]
     ]
   },
-  "deltas": [
+  "steps": [
     {
-      "to": "1",
-      "columns": [
-        "Key",
-        "Massnahme",
-        "UBA-Code",
-        "EU-Code",
-        "Beschreibung",
-        "Action",
-        "Description"
-      ],
-      "key_index": 0,
-      "restored_cells": [
-        {
-          "key": "1070",
-          "column": 5,
-          "value": "catchmentRelatedActionsToTerminateOrMitigateCause "
-        },
-        {
-          "key": "1170",
-          "column": 6,
-          "value": "Emergency actions for the consumers’ health and safety: Restrictions for sensitive users (E3)"
-        }
-      ]
+      "delta": {
+        "to": "1",
+        "columns": [
+          "Key",
+          "Massnahme",
+          "UBA-Code",
+          "EU-Code",
+          "Beschreibung",
+          "Action",
+          "Description"
+        ],
+        "key_index": 0,
+        "restored_cells": [
+          {
+            "key": "1070",
+            "column": 5,
+            "value": "catchmentRelatedActionsToTerminateOrMitigateCause "
+          },
+          {
+            "key": "1170",
+            "column": 6,
+            "value": "Emergency actions for the consumers’ health and safety: Restrictions for sensitive users (E3)"
+          }
+        ]
+      }
     }
   ]
 }

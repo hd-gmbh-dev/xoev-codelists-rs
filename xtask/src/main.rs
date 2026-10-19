@@ -8,7 +8,7 @@ use std::path::PathBuf;
 
 use anyhow::{Context, Result, anyhow, bail};
 use clap::{Parser, Subcommand};
-use xoev_codelists::{Dataset, Snapshot};
+use xoev_codelists::{Dataset, Snapshot, Step};
 use xrepository_rs::client::Client;
 use xrepository_rs::model::xcodelist_data::XCodelistData;
 
@@ -28,9 +28,14 @@ enum Command {
         /// Only this codelist URN (default: all of the publisher).
         #[arg(long)]
         urn: Option<String>,
-        /// Skip the network and rebuild datasets from `--from` snapshots.
+        /// Directory to write the datasets to.
         #[arg(long)]
         out: Option<PathBuf>,
+        /// Report a delta as suspect when it is larger than this share of the
+        /// version it reconstructs (such a step usually means an unaliased
+        /// column rename or a changed key scheme).
+        #[arg(long, default_value_t = 0.9)]
+        max_delta_ratio: f64,
     },
     /// List the codelists of a publisher and their published versions.
     List {
@@ -49,6 +54,7 @@ async fn main() -> Result<()> {
             publisher,
             urn,
             out,
+            max_delta_ratio,
         } => {
             let publisher = codelists::publisher(&publisher)?;
             let out = out.unwrap_or_else(|| {
@@ -87,6 +93,40 @@ async fn main() -> Result<()> {
                     }
                 }
 
+                // Keep every step small: print what each one costs and refuse to
+                // silently store a delta that is not worth keeping.
+                let mut suspect: Vec<String> = Vec::new();
+                for (index, step) in dataset.steps.iter().enumerate() {
+                    let older = &snapshots[snapshots.len() - 2 - index];
+                    let step_size = serde_json::to_vec(step)?.len();
+                    let version_size = serde_json::to_vec(older)?.len().max(1);
+                    let ratio = step_size as f64 / version_size as f64;
+                    let (kind, note) = match step {
+                        Step::Snapshot(_) => ("resync", ""),
+                        Step::Delta(delta) => {
+                            let note = if ratio > max_delta_ratio.max(0.5) {
+                                suspect.push(format!("{} ({:.0}%)", delta.to, ratio * 100.0));
+                                " <-- check"
+                            } else if ratio > 0.25 && step_size > 8 * 1024 {
+                                " (content churn)"
+                            } else {
+                                ""
+                            };
+                            ("delta", note)
+                        }
+                    };
+                    println!(
+                        "  {:<3} -> {:<6} {:>7} B of {:>8} B ({:>5.1}%){}",
+                        dataset.base.version,
+                        step.version(),
+                        step_size,
+                        version_size,
+                        ratio * 100.0,
+                        note
+                    );
+                    let _ = kind;
+                }
+
                 let slug = codelists::slug(codelist.urn);
                 let path = out.join(format!("{slug}.json"));
                 tokio::fs::write(&path, serde_json::to_vec_pretty(&dataset)?)
@@ -99,6 +139,20 @@ async fn main() -> Result<()> {
                     dataset.versions().count(),
                     dataset.versions().collect::<Vec<_>>().join(" < ")
                 );
+                if !suspect.is_empty() {
+                    println!(
+                        "  WARNING: delta near snapshot size for {}: {}",
+                        codelist.urn,
+                        suspect.join(", ")
+                    );
+                    if std::env::var("ALLOW_LARGE_DELTAS").is_err() {
+                        bail!(
+                            "{}: {} step(s) exceed the delta budget (set ALLOW_LARGE_DELTAS=1 to accept)",
+                            codelist.urn,
+                            suspect.len()
+                        );
+                    }
+                }
             }
         }
         Command::List { publisher } => {
