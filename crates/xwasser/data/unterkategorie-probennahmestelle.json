@@ -1,0 +1,113 @@
+{
+  "urn": "urn:xoev-de:xwasser:codeliste:unterkategorie-probennahmestelle",
+  "base": {
+    "urn": "urn:xoev-de:xwasser:codeliste:unterkategorie-probennahmestelle",
+    "version": "1",
+    "valid_from": "2024-09-20",
+    "columns": [
+      "Key",
+      "Kategorie",
+      "Unterkategorie",
+      "Beschreibung"
+    ],
+    "key_index": 0,
+    "rows": [
+      [
+        "1030",
+        "T - Häusliche Trinkwasserinstallation",
+        "Austritt des Trinkwassererwärmers",
+        "Austritt des Trinkwassererwärmers"
+      ],
+      [
+        "1040",
+        "W - Wasserwerk(sausgang)",
+        "Behälter innerhalb eines Wasserwerks",
+        "Behälter innerhalb eines Wasserwerks"
+      ],
+      [
+        "1090",
+        "T - Häusliche Trinkwasserinstallation",
+        "Eintritt der Zirkulationsleitung in den Trinkwassererwärmer",
+        "Eintritt der Zirkulationsleitung in den Trinkwassererwärmer gem. twin Nr. 06 (Zirkulationsrücklauf)"
+      ],
+      [
+        "1100",
+        "N - Öffentliches Verteilungsnetz",
+        "Einzelne Kammer/Behälter in einem Hochbehälter",
+        "Einzelne Kammer/Behälter in einem Hochbehälter"
+      ],
+      [
+        "1130",
+        "W - Wasserwerk(sausgang)",
+        "Innerhalb der Aufbereitung [genauen Ort bezeichnen]",
+        "Innerhalb der Aufbereitung im Wasserwerk; Der genaue Ort innerhalb der Aufbereitung ist in der Beschreibung der Probennahmestelle zu nennen"
+      ],
+      [
+        "1150",
+        "T - Häusliche Trinkwasserinstallation",
+        "Nach Aufbereitung",
+        "Nach Aufbereitung (in der Trinkwasserinstallation)"
+      ],
+      [
+        "1180",
+        "W - Wasserwerk(sausgang)",
+        "Wasserfassung",
+        "Wasserfassung"
+      ],
+      [
+        "1200",
+        "T - Häusliche Trinkwasserinstallation",
+        "Steigstrang",
+        "Steigstrang - (in der Peripherie)"
+      ],
+      [
+        "1220",
+        "T - Häusliche Trinkwasserinstallation",
+        "Trinkwasserbrunnen Dauerläufer",
+        "Trinkwasserbrunnen Dauerläufer"
+      ],
+      [
+        "1230",
+        "T - Häusliche Trinkwasserinstallation",
+        "Trinkwasserbrunnen Nichtdauerläufer (diskontinuierlich laufende Trinkwasserbrunnen)",
+        "Trinkwasserbrunnen Nichtdauerläufer (diskontinuierlich laufende Trinkwasserbrunnen)"
+      ],
+      [
+        "1240",
+        "L - Übergabestelle Trinkwasser-Installation",
+        "TW-Übergabepunkt WVA an Nutzer",
+        "Trinkwasser-Übergabepunkt WVA an Nutzer"
+      ],
+      [
+        "1260",
+        "N - Öffentliches Verteilungsnetz",
+        "Vorlagebehälter für die Druckerhöhung",
+        "Vorlagebehälter für die Druckerhöhung (Tiefbehälter)"
+      ],
+      [
+        "1265",
+        "W - Wasserwerk(sausgang)",
+        "Wasserwerksausgang mit Desinfektion",
+        "Wasserwerksausgang unmittelbar nach der Aufbereitung im desinfizierten Wasser; gilt auch für c- und f-Anlagen"
+      ],
+      [
+        "1270",
+        "W - Wasserwerk(sausgang)",
+        "Wasserwerksausgang ohne Desinfektion",
+        "Wasserwerksausgang ohne Desinfektion"
+      ],
+      [
+        "1280",
+        "W - Wasserwerk(sausgang)",
+        "Wasserwerkseingang",
+        "Wasserwerkseingang"
+      ],
+      [
+        "1300",
+        "T - Häusliche Trinkwasserinstallation",
+        "Sonstiger Rücklauf",
+        "Sonstiger Rücklauf (z. B. Kaltwasserzirkulation) Die genaue Bezeichnung ist in der Beschreibung der Probennahmestelle zu nennen."
+      ]
+    ]
+  }
+}

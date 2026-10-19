@@ -1,0 +1,443 @@
+{
+  "urn": "urn:xoev-de:xwasser:codeliste:art-objekt",
+  "base": {
+    "urn": "urn:xoev-de:xwasser:codeliste:art-objekt",
+    "version": "3",
+    "valid_from": "2026-05-01",
+    "columns": [
+      "Key",
+      "Art-Objekt",
+      "Beschreibung",
+      "Wasserart"
+    ],
+    "key_index": 0,
+    "rows": [
+      [
+        "1010",
+        "Apotheke",
+        "Apotheke",
+        "1"
+      ],
+      [
+        "1020",
+        "Arztpraxis",
+        "Arztpraxis",
+        "1"
+      ],
+      [
+        "1030",
+        "Autowaschanlage",
+        "Autowaschanlage",
+        "1"
+      ],
+      [
+        "1040",
+        "Befüllungsanlagen von Eisenbahnverkehrsunternehmen (EVU)",
+        "Befüllungsanlagen von Eisenbahnverkehrsunternehmen (EVU)",
+        "1"
+      ],
+      [
+        "1050",
+        "Bürogebäude",
+        "Bürogebäude",
+        "1"
+      ],
+      [
+        "1060",
+        "Campingplatz / Heim / Ferienlager o. ä.",
+        "Campingplatz / Heim / Ferienlager o. ä.",
+        "1"
+      ],
+      [
+        "1070",
+        "Einrichtung für ambulantes Operieren, Dialyseeinrichtung, Entbindungseinrichtung, Tagesklinik, Rehabilitation",
+        "Einrichtung für ambulantes Operieren, Dialyseeinrichtung, Entbindungseinrichtung, Tagesklinik, Rehabilitation",
+        "1"
+      ],
+      [
+        "1080",
+        "Einrichtungen des Leichen- und Bestattungswesens",
+        "Einrichtungen des Leichen- und Bestattungswesens",
+        "1"
+      ],
+      [
+        "1090",
+        "Einrichtungen zur Entsorgung von Abwasser und Abfällen",
+        "Einrichtungen zur Entsorgung von Abwasser und Abfällen",
+        "1"
+      ],
+      [
+        "1100",
+        "Fabrik",
+        "Fabrik",
+        "1"
+      ],
+      [
+        "1110",
+        "Feuerwehr",
+        "Feuerwehr",
+        "1"
+      ],
+      [
+        "1120",
+        "Flughafen",
+        "Flughafen",
+        "1"
+      ],
+      [
+        "1130",
+        "Gastronomischer Betrieb",
+        "Gastronomischer Betrieb",
+        "1"
+      ],
+      [
+        "1140",
+        "Gemeinschaftsunterkunft gem. §36 IfSG",
+        "Gemeinschaftsunterkunft, die unter die Verordnungsermächtigung zum Infektionsschutz bei bestimmten Einrichtungen, Unternehmen und Personen gem. §36 IfSG fallen und nicht anderweitig aufgelistet sind (Obdachlosenunterkünfte; Einrichtungen zur gemeinschaftlichen Unterbringung von Asylbewerbern, vollziehbar Ausreisepflichtigen, Flüchtlingen und Spätaussiedlern; sonstige Massenunterkünfte; Justizvollzugsanstalten).",
+        "1"
+      ],
+      [
+        "1150",
+        "Gotteshaus (Kirche, Moschee, Synagoge, …)",
+        "Gotteshaus (Kirche, Moschee, Synagoge, …)",
+        "1"
+      ],
+      [
+        "1160",
+        "Hafen / Bootsanlegestelle",
+        "Hafen / Bootsanlegestelle",
+        "1"
+      ],
+      [
+        "1170",
+        "Hochbehälter, Druckerhöhungsanlage o. ä.",
+        "Hochbehälter, Druckerhöhungsanlage o. ä.",
+        "1"
+      ],
+      [
+        "1180",
+        "Hotel / Gaststätte / Jugendherberge o. ä.",
+        "Hotel / Gaststätte / Jugendherberge o. ä.",
+        "1"
+      ],
+      [
+        "1190",
+        "Hydrant",
+        "Hydrant",
+        "1"
+      ],
+      [
+        "1200",
+        "Kindertagesstätte, Kinderhort, o. ä.",
+        "Kindertagesstätte, Kinderhort, o. ä.",
+        "1"
+      ],
+      [
+        "1210",
+        "Kloster/Ordenshaus",
+        "Kloster/Ordenshaus",
+        "1"
+      ],
+      [
+        "1220",
+        "Krankenhaus",
+        "Krankenhaus",
+        "1"
+      ],
+      [
+        "1230",
+        "Landwirtschaftlicher Betrieb / Bauernhof",
+        "Landwirtschaftlicher Betrieb / Bauernhof",
+        "1"
+      ],
+      [
+        "1240",
+        "Lebensmittelunternehmen",
+        "Lebensmittelunternehmen",
+        "1"
+      ],
+      [
+        "1250",
+        "Meeresbauwerk",
+        "Meeresbauwerk",
+        "1"
+      ],
+      [
+        "1260",
+        "Mietobjekt (< 5 Wohneinheiten)",
+        "Mietobjekt (< 5 Wohneinheiten)",
+        "1"
+      ],
+      [
+        "1270",
+        "Mietobjekt (>= 5 Wohneinheiten)",
+        "Mietobjekt (>= 5 Wohneinheiten)",
+        "1"
+      ],
+      [
+        "1280",
+        "Militärbasis/-stützpunkt",
+        "Militärbasis/-stützpunkt",
+        "1"
+      ],
+      [
+        "1290",
+        "Mobile medizinische Einrichtung (bspw. Rettungswagen/Rettungshelikopter)",
+        "Mobile medizinische Einrichtung (bspw. Rettungswagen/Rettungshelikopter)",
+        "1"
+      ],
+      [
+        "1300",
+        "Mobiles Objekt (Landfahrzeug außer Zug und mobile medizinische Einrichtungen)",
+        "Mobiles Objekt (Landfahrzeug außer Zug und mobile medizinische Einrichtungen)",
+        "1"
+      ],
+      [
+        "1310",
+        "Mobiles Objekt (Luftfahrzeug)",
+        "Mobiles Objekt (Luftfahrzeug)",
+        "1"
+      ],
+      [
+        "1320",
+        "Mobiles Objekt (Sonstiges)",
+        "Sonstiges Mobiles Objekt (Ist in der Beschreibung genau zu bezeichnen)",
+        "1"
+      ],
+      [
+        "1330",
+        "Mobiles Objekt (Wasserfahrzeug/Schiff)",
+        "Mobiles Objekt (Wasserfahrzeug/Schiff)",
+        "1"
+      ],
+      [
+        "1340",
+        "Mobiles Objekt (Zug)",
+        "Mobiles Objekt (Zug)",
+        "1"
+      ],
+      [
+        "1350",
+        "Museum / Ausstellung",
+        "Museum / Ausstellung",
+        "1"
+      ],
+      [
+        "1360",
+        "Oberirdische Brunnenstube/Brunnenhaus",
+        "oberirdische Brunnenstube/Brunnenhaus",
+        "1"
+      ],
+      [
+        "1370",
+        "Objekt in öffentlicher Hand (z. B. Behörden)",
+        "Objekt in öffentlicher Hand (z. B. Behörden)",
+        "1"
+      ],
+      [
+        "1380",
+        "(Öffentlicher) Trinkwasserbrunnen",
+        "(Öffentlicher) Trinkwasserbrunnen",
+        "1"
+      ],
+      [
+        "1390",
+        "(Öffentliches) Verteilungsnetz",
+        "(Öffentliches) Verteilungsnetz",
+        "1"
+      ],
+      [
+        "1400",
+        "Pensionen und Ferienwohnungen mit wechselndem Personenkreis",
+        "Pensionen und Ferienwohnungen mit wechselndem Personenkreis",
+        "1"
+      ],
+      [
+        "1410",
+        "Pflege-/Altenheim oder -einrichtung",
+        "Pflege-/Altenheim oder -einrichtung",
+        "1"
+      ],
+      [
+        "1420",
+        "Privater Haushalt",
+        "Privater Haushalt",
+        "1"
+      ],
+      [
+        "1430",
+        "Pumpenhaus",
+        "Pumpenhaus",
+        "1"
+      ],
+      [
+        "1440",
+        "Quelle",
+        "Quelle",
+        "1"
+      ],
+      [
+        "1450",
+        "Schule oder sonstige Bildungseinrichtung",
+        "Schule oder sonstige Bildungseinrichtung",
+        "1"
+      ],
+      [
+        "1460",
+        "Sport-/Freizeiteinrichtung",
+        "Sport-/Freizeiteinrichtung",
+        "1"
+      ],
+      [
+        "1470",
+        "Stadion / Konzerthalle / Messegelände",
+        "Stadion / Konzerthalle / Messegelände",
+        "1"
+      ],
+      [
+        "1480",
+        "Studentenwohnheim",
+        "Studentenwohnheim",
+        "1"
+      ],
+      [
+        "1490",
+        "Talsperre",
+        "Talsperre",
+        "1"
+      ],
+      [
+        "1500",
+        "Tankstelle / (Autobahn-)Raststätte",
+        "Tankstelle / (Autobahn-)Raststätte",
+        "1"
+      ],
+      [
+        "1510",
+        "Universität",
+        "Universität",
+        "1"
+      ],
+      [
+        "1520",
+        "Unterirdische Brunnenstube",
+        "unterirdische Brunnenstube",
+        "1"
+      ],
+      [
+        "1530",
+        "Wassertransport-Fahrzeug",
+        "Wassertransport-Fahrzeug",
+        "1"
+      ],
+      [
+        "1540",
+        "Wasserwerk",
+        "Wasserwerk",
+        "1"
+      ],
+      [
+        "1550",
+        "Volksfeste, Märkte und ähnliche Veranstaltungen",
+        "Volksfeste, Märkte und ähnliche Veranstaltungen",
+        "1"
+      ],
+      [
+        "1560",
+        "Tiefbehälter",
+        "Tiefbehälter",
+        "1"
+      ],
+      [
+        "1570",
+        "Überpumpwerk",
+        "Überpumpwerk",
+        "1"
+      ],
+      [
+        "1580",
+        "Zwischenpumpwerk",
+        "Zwischenpumpwerk",
+        "1"
+      ],
+      [
+        "1590",
+        "Tiefspiegelbrunnen",
+        "Tiefspiegelbrunnen",
+        "1"
+      ],
+      [
+        "1600",
+        "Berghütte",
+        "Berghütte",
+        "1"
+      ],
+      [
+        "1610",
+        "Seilbahnstation",
+        "Seilbahnstation",
+        "1"
+      ],
+      [
+        "9010",
+        "Sonstiges",
+        "Sonstiges (Ist in der Beschreibung genau zu bezeichnen)",
+        "1"
+      ]
+    ]
+  },
+  "deltas": [
+    {
+      "to": "2",
+      "valid_from": "2025-09-22",
+      "columns": [
+        "Key",
+        "Art-Objekt",
+        "Beschreibung"
+      ],
+      "key_index": 0,
+      "restored_cells": [
+        {
+          "key": "1140",
+          "column": 1,
+          "value": "Gemeinschaftsunterkunft gem. §36 IfSG; (Obdachlosenunterkünfte; Einrichtungen zur gemeinschaftlichen Unterbringung von Asylbewerbern, vollziehbar Ausreisepflichtigen, Flüchtlingen und Spätaussiedlern; sonstige Massenunterkünfte; Justizvollzugsanstalten)"
+        },
+        {
+          "key": "1140",
+          "column": 2,
+          "value": "Gemeinschaftsunterkunft die unter die Verordnungsermächtigung zum Infektionsschutz bei bestimmten Einrichtungen, Unternehmen und Personen gem. §36 IfSG fallen und nicht anderweitig aufgelistet sind. (Obdachlosenunterkünfte; Einrichtungen zur gemeinschaftlichen Unterbringung von Asylbewerbern, vollziehbar Ausreisepflichtigen, Flüchtlingen und Spätaussiedlern; sonstige Massenunterkünfte; Justizvollzugsanstalten)"
+        }
+      ]
+    },
+    {
+      "to": "1",
+      "columns": [
+        "Key",
+        "Art-Objekt",
+        "Beschreibung"
+      ],
+      "key_index": 0,
+      "removed_rows": [
+        "1550",
+        "1560",
+        "1570",
+        "1580",
+        "1590",
+        "1600",
+        "1610"
+      ],
+      "restored_cells": [
+        {
+          "key": "1330",
+          "column": 1,
+          "value": "Mobiles Objekt (Wasserfahrzeug)"
+        },
+        {
+          "key": "1330",
+          "column": 2,
+          "value": "Mobiles Objekt (Wasserfahrzeug)"
+        }
+      ]
+    }
+  ]
+}

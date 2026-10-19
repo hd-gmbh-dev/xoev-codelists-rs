@@ -1,0 +1,204 @@
+{
+  "urn": "urn:xoev-de:xwasser:codeliste:art-probennahmestelle",
+  "base": {
+    "urn": "urn:xoev-de:xwasser:codeliste:art-probennahmestelle",
+    "version": "2",
+    "valid_from": "2026-05-01",
+    "columns": [
+      "Key",
+      "Art-Probennahmestelle",
+      "Beschreibung"
+    ],
+    "key_index": 0,
+    "rows": [
+      [
+        "1010",
+        "Armatur mit Verbrühungsschutz",
+        "Armatur mit Verbrühungsschutz gem. twin Nr. 06"
+      ],
+      [
+        "1020",
+        "Außen-Entnahmearmatur",
+        "Außen-Entnahmearmatur (Wasserhahn)"
+      ],
+      [
+        "1030",
+        "Austritt des Trinkwassererwärmers",
+        "Austritt des Trinkwassererwärmers"
+      ],
+      [
+        "1040",
+        "Behälter innerhalb eines Wasserwerks",
+        "Behälter innerhalb eines Wasserwerks"
+      ],
+      [
+        "1050",
+        "Duschschlauch mit Brausekopf",
+        "Duschschlauch mit Brausekopf"
+      ],
+      [
+        "1060",
+        "Duschschlauch ohne Brausekopf",
+        "Duschschlauch ohne Brausekopf"
+      ],
+      [
+        "1070",
+        "Eckventil",
+        "Eckventil"
+      ],
+      [
+        "1080",
+        "Einhebel-Mischarmatur",
+        "Einhebel-Mischarmatur gem. twin Nr. 06"
+      ],
+      [
+        "1090",
+        "Eintritt der Zirkulationsleitung in den Trinkwassererwärmer",
+        "Eintritt der Zirkulationsleitung in den Trinkwassererwärmer gem. twin Nr. 06"
+      ],
+      [
+        "1100",
+        "Einzelne Kammer/Behälter in einem Hochbehälter",
+        "Einzelne Kammer/Behälter in einem Hochbehälter"
+      ],
+      [
+        "1110",
+        "Entleerungsventil",
+        "Entleerungsventil gem. twin Nr. 06"
+      ],
+      [
+        "1120",
+        "Innen-Entnahmearmatur",
+        "Entnahmearmatur in einem Raum (Wasserhahn)"
+      ],
+      [
+        "1130",
+        "Innerhalb der Aufbereitung [genauen Ort bezeichnen]",
+        "Innerhalb der Aufbereitung; Der genaue Ort innerhalb der Aufbereitung ist in der Beschreibung der Probennahmestelle zu nennen"
+      ],
+      [
+        "1140",
+        "Kugelhahn",
+        "Kugelhahn gem. twin Nr. 06"
+      ],
+      [
+        "1150",
+        "Nach Aufbereitung",
+        "Nach Aufbereitung"
+      ],
+      [
+        "1160",
+        "Probenahme unmittelbar nach Aufbereitung",
+        "Probenahmestelle unmittelbar nach der Aufbereitung"
+      ],
+      [
+        "1170",
+        "Probenahmearmaturen",
+        "Probenahmearmaturen (gem. DIN 35860:2020-11 „Probenahmearmaturen in der Trinkwasserinstallation - Anforderungen und Prüfungen“)"
+      ],
+      [
+        "1180",
+        "Rohwasserbrunnen",
+        "Rohwasserbrunnen"
+      ],
+      [
+        "1190",
+        "Rücklauf der Zirkulationsleitung in den Trinkwassererwärmer",
+        "Rücklauf der Zirkulationsleitung in den Trinkwassererwärmer"
+      ],
+      [
+        "1200",
+        "Steigstrang - oberes Ende der Steigstrangleitung",
+        "Steigstrang - oberes Ende der Steigstrangleitung (in der Peripherie)"
+      ],
+      [
+        "1210",
+        "Steigstrang - unteres Ende der Steigstrangleitung",
+        "Steigstrang - unteres Ende der Steigstrangleitung (beim hydraulischen Abgleich)"
+      ],
+      [
+        "1220",
+        "Trinkwasserbrunnen Dauerläufer",
+        "Trinkwasserbrunnen Dauerläufer"
+      ],
+      [
+        "1230",
+        "Trinkwasserbrunnen Nichtdauerläufer (diskontinuierlich laufende Trinkwasserbrunnen)",
+        "Trinkwasserbrunnen Nichtdauerläufer (diskontinuierlich laufende Trinkwasserbrunnen)"
+      ],
+      [
+        "1240",
+        "TW-Übergabepunkt WVA an Nutzer",
+        "TW-Übergabepunkt WVA an Nutzer"
+      ],
+      [
+        "1250",
+        "Vor Aufbereitung",
+        "Vor Aufbereitung"
+      ],
+      [
+        "1260",
+        "Vorlagebehälter für die Druckerhöhung",
+        "Vorlagebehälter für die Druckerhöhung"
+      ],
+      [
+        "1270",
+        "Wasserwerksausgang",
+        "Wasserwerksausgang"
+      ],
+      [
+        "1280",
+        "Wasserwerkseingang",
+        "Wasserwerkseingang"
+      ],
+      [
+        "1290",
+        "Zweigriff-Mischarmatur",
+        "Zweigriff-Mischarmatur gem. twin Nr. 06"
+      ],
+      [
+        "1300",
+        "Sonstiger Rücklauf",
+        "Sonstiger Rücklauf"
+      ],
+      [
+        "9010",
+        "Sonstiges",
+        "Sonstiges (Eingabe als Textfeld)"
+      ]
+    ]
+  },
+  "deltas": [
+    {
+      "to": "1",
+      "columns": [
+        "Key",
+        "Art-Probennahmestelle",
+        "Beschreibung"
+      ],
+      "key_index": 0,
+      "restored_cells": [
+        {
+          "key": "1160",
+          "column": 1,
+          "value": "Probennahme unmittelbar nach Aufbereitung"
+        },
+        {
+          "key": "1160",
+          "column": 2,
+          "value": "Probennahmestelle unmittelbar nach der Aufbereitung"
+        },
+        {
+          "key": "1170",
+          "column": 1,
+          "value": "Probennahmearmaturen"
+        },
+        {
+          "key": "1170",
+          "column": 2,
+          "value": "Probennahmearmaturen (gem. DIN 35860:2020-11 „Probennahmearmaturen in der Trinkwasserinstallation - Anforderungen und Prüfungen“)"
+        }
+      ]
+    }
+  ]
+}

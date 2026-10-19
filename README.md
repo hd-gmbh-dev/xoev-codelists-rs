@@ -27,6 +27,44 @@ cycle. Per-codelist granularity is a cargo feature of the publisher crate.
 
 `xoev-codelists` — a single package with an index keyed by `{urn, version}`.
 
+## Usage
+
+```rust
+use xoev_codelists_xwasser::catalog;
+
+let catalog = catalog();
+let urn = "urn:xoev-de:xwasser:codeliste:untersuchungsverfahren";
+
+// newest published version
+let current = catalog.current_version(urn).unwrap();
+
+// a version chosen by the sender of a message (XÖV code type 3)
+let snapshot = catalog.resolve(urn, "1").unwrap();
+let label = snapshot.text("1010", "Untersuchungsverfahren").unwrap();
+
+// validation against the version the document declares
+assert_eq!(catalog.contains(urn, "1", "1010"), Some(true));
+assert_eq!(catalog.contains(urn, "1", "9999"), Some(false));
+```
+
+## Data
+
+`crates/<publisher>/data/<slug>.json` holds one dataset per codelist: the newest
+version as a full snapshot plus **reverse deltas** towards older versions. Reserve
+deltas because a codelist version is almost never a new list — measured on real
+pairs, a version step touches 0.05 %–15 % of the rows (an AGS step changes 16 of
+11 227 rows), while a full snapshot per version would be ~300 MB for AGS alone.
+
+Regenerate with
+
+```sh
+cargo run -p xtask -- sync --publisher xwasser
+```
+
+The command downloads every published version from XRepository, rebuilds each
+version from the deltas and aborts if the reconstruction differs from the
+original.
+
 ## Status
 
 `0.1.0-alpha.x` reserves the crate and package names; the datasets (base version
