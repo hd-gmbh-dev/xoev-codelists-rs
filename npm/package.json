@@ -1,0 +1,19 @@
+{
+    "name": "xoev-codelists",
+    "version": "0.1.0-alpha.1",
+    "description": "Versioned codelists referenced by XOE standards, indexed by urn + version",
+    "license": "MIT",
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/hd-gmbh-dev/xoev-codelists-rs.git"
+    },
+    "files": [
+        "index.json",
+        "README.md"
+    ],
+    "keywords": [
+        "codelist",
+        "xoev",
+        "validation"
+    ]
+}

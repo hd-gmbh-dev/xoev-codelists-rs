@@ -1,0 +1,49 @@
+name: Publish to crates.io and registry.npmjs.org
+
+on:
+  push:
+    tags:
+      - "v*"
+  workflow_dispatch:
+
+jobs:
+  publish:
+    name: Publish
+    runs-on: ubuntu-24.04
+    permissions:
+      contents: read
+      id-token: write
+    steps:
+      - uses: actions/checkout@v4
+      - uses: dtolnay/rust-toolchain@1.94.1
+      - name: Publish to crates.io
+        run: |
+          VERSION=$(cargo pkgid -p xoev-codelists 2>/dev/null | sed 's/.*@//')
+          echo "Version: $VERSION"
+          for crate in xoev-codelists \
+                       xoev-codelists-xwasser \
+                       xoev-codelists-destatis \
+                       xoev-codelists-xunternehmen \
+                       xoev-codelists-dsmeld \
+                       xoev-codelists-xauslaender \
+                       xoev-codelists-bmi-bit; do
+            if curl -s -4 --fail-with-body \
+                  -H "User-Agent: github-actions/${GITHUB_REPOSITORY}" \
+                  "https://crates.io/api/v1/crates/${crate}/versions" \
+                  | jq -e --arg v "${VERSION}" '.versions[] | select(.num == $v) | .num' > /dev/null; then
+              echo "Skipping $crate - already published ($VERSION)"
+            else
+              cargo publish --token "${CRATES_TOKEN}" -p "$crate"
+            fi
+          done
+        env:
+          CRATES_TOKEN: ${{ secrets.CRATES_TOKEN }}
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "20.x"
+          registry-url: "https://registry.npmjs.org"
+      - name: Publish to registry.npmjs.org
+        run: npm publish --provenance --access public --tag alpha
+        working-directory: ./npm
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}

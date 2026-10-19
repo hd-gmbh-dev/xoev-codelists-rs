@@ -1,0 +1,13 @@
+[workspace]
+resolver = "3"
+members = ["crates/*"]
+
+[workspace.package]
+edition = "2024"
+version = "0.1.0-alpha.1"
+rust-version = "1.94.1"
+authors = ["H & D GmbH Open Source <contact-oss@h-d-gmbh.de>"]
+license = "MIT"
+repository = "https://github.com/hd-gmbh-dev/xoev-codelists-rs"
+categories = ["data-structures"]
+keywords = ["codelist", "xoev", "validation"]

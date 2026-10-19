@@ -1,0 +1,13 @@
+[package]
+name = "xoev-codelists-destatis"
+description = "Codelist data published under `urn:de:bund:destatis:bevoelkerungsstatistik:schluessel:` (Destatis)"
+version.workspace = true
+edition.workspace = true
+rust-version.workspace = true
+authors.workspace = true
+license.workspace = true
+repository.workspace = true
+categories.workspace = true
+keywords.workspace = true
+
+[dependencies]
