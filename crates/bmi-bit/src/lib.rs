@@ -10,7 +10,18 @@ use std::sync::LazyLock;
 use xoev_codelists::Catalog;
 
 /// Compressed dataset bundle, see [`xoev_codelists::decode_bundle`].
+///
+/// With the `codes` feature (and without `full`) this is the code-only bundle:
+/// it validates transmitted codes but carries no labels.
+#[cfg(feature = "full")]
 pub static DATASETS: &[u8] = include_bytes!("../data/datasets.zst");
+
+/// Code-only bundle: per codelist and version just the set of valid codes.
+#[cfg(all(feature = "codes", not(feature = "full")))]
+pub static DATASETS: &[u8] = include_bytes!("../data/codes.zst");
+
+#[cfg(not(any(feature = "full", feature = "codes")))]
+compile_error!("enable either the `full` or the `codes` feature");
 
 /// Namespace all URNs of this crate's codelists start with.
 pub const NAMESPACE: &str = "urn:xoev-de:bund:bmi:bit:codeliste:";

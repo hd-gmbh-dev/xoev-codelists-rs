@@ -10,6 +10,13 @@ repository.workspace = true
 categories.workspace = true
 keywords.workspace = true
 
+[features]
+default = ["full"]
+# full rows: labels, columns, validation
+full = []
+# codes only: just enough to validate a transmitted code (much smaller bundle)
+codes = []
+
 [dependencies]
 xoev-codelists = { version = "=0.1.0-alpha.1", path = "../core" }
 

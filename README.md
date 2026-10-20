@@ -55,6 +55,20 @@ towards older versions. Bundling compressed is what ends up inside binaries and
 wasm builds; the individual JSON documents are regenerated locally (gitignored)
 because they are generated data.
 
+### Bundles: full vs codes-only
+
+Each publisher crate embeds one bundle, selected by cargo feature:
+
+| features | bundle | contains | use |
+|---|---|---|---|
+| `full` (default) | `datasets.zst` | all columns per version | labels, limits, full validation |
+| `codes` (with `default-features = false`) | `codes.zst` | the key column only | validating a transmitted code |
+
+Code validation is the smallest useful artifact: the whole code-only bundle for
+**all 27 codelists and 272 versions is 56 KiB** (vs. 412 KiB full). Note that
+hashing the names instead of shipping them is *not* smaller — German place names
+compress better than random digests.
+
 ### Sizes (all publishers, 2026-10)
 
 | publisher | codelists | versions | raw JSON | bundle (zstd -19) |
@@ -66,6 +80,7 @@ because they are generated data.
 | `bmi-bit` | 1 | 47 | 19 KiB | 3.6 KiB |
 | `dsmeld` | 1 | 4 | 4 KiB | 0.8 KiB |
 | **total** | **27** | **272** | **2.7 MiB** | **412 KiB** |
+| **code-only bundles** | **27** | **272** | 55 KiB | **56 KiB** |
 
 ### Why deltas
 

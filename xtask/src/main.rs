@@ -88,6 +88,14 @@ fn fingerprint(path: &str) -> String {
     path.replace(['/', ':', '.', ' '], "_")
 }
 
+/// What a bundle carries. `Codes` keeps only the key column, which is all a
+/// receiver needs to validate a transmitted code.
+#[derive(Debug, Clone, Copy, PartialEq, Eq, clap::ValueEnum)]
+enum Variant {
+    Full,
+    Codes,
+}
+
 #[derive(Parser)]
 struct Args {
     #[command(subcommand)]
@@ -104,6 +112,9 @@ enum Command {
         /// Only this codelist URN (default: all of the publisher).
         #[arg(long)]
         urn: Option<String>,
+        /// What to bundle: the full rows, or only the codes (validation).
+        #[arg(long, value_enum, default_value_t = Variant::Full)]
+        variant: Variant,
         /// Skip versions that were valid before this date (ISO, e.g. 2024-01-01).
         #[arg(long)]
         since: Option<String>,
@@ -135,6 +146,7 @@ async fn main() -> Result<()> {
             out,
             max_delta_ratio,
             since,
+            variant,
         } => {
             let publisher = codelists::publisher(&publisher)?;
             let out = out.unwrap_or_else(|| {
@@ -147,6 +159,10 @@ async fn main() -> Result<()> {
                 .with_context(|| format!("create {}", out.display()))?;
 
             let mut bundle_documents: Vec<(String, Vec<u8>)> = Vec::new();
+            let bundle_name = match variant {
+                Variant::Full => "datasets.zst",
+                Variant::Codes => "codes.zst",
+            };
             for codelist in publisher.codelists {
                 if urn.as_deref().is_some_and(|u| u != codelist.urn) {
                     continue;
@@ -158,6 +174,10 @@ async fn main() -> Result<()> {
                     // pinned one is kept
                     snapshots = snapshots.split_off(snapshots.len() - 1);
                 }
+                let snapshots = match variant {
+                    Variant::Full => snapshots.clone(),
+                    Variant::Codes => snapshots.iter().map(codes_only).collect(),
+                };
                 let dataset = Dataset::from_snapshots(snapshots.clone())
                     .with_context(|| format!("build dataset for {}", codelist.urn))?;
 
@@ -251,7 +271,7 @@ async fn main() -> Result<()> {
                 raw.extend_from_slice(document);
             }
             let compressed = zstd::encode_all(raw.as_slice(), 19)?;
-            let bundle_path = out.join("datasets.zst");
+            let bundle_path = out.join(bundle_name);
             tokio::fs::write(&bundle_path, &compressed).await?;
             println!(
                 "\nbundle {}: {} codelists, {} KiB raw -> {} KiB compressed",
@@ -351,6 +371,22 @@ async fn fetch_versions(
             .then_with(|| a.version.cmp(&b.version))
     });
     Ok(snapshots)
+}
+
+/// Reduce a snapshot to its key column: what code validation needs.
+fn codes_only(snapshot: &Snapshot) -> Snapshot {
+    Snapshot {
+        urn: snapshot.urn.clone(),
+        version: snapshot.version.clone(),
+        valid_from: snapshot.valid_from.clone(),
+        columns: vec![snapshot.columns[snapshot.key_index].clone()],
+        key_index: 0,
+        rows: snapshot
+            .rows
+            .iter()
+            .map(|row| vec![row[snapshot.key_index].clone()])
+            .collect(),
+    }
 }
 
 fn snapshot(version_urn: &str, data: XCodelistData) -> Result<Snapshot> {
