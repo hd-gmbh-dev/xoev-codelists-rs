@@ -23,5 +23,7 @@ jobs:
         run: cargo clippy --no-deps -- -D warnings
       - name: Test (full bundles)
         run: cargo test
+      - name: Test (label bundles)
+        run: cargo test --no-default-features --features labels -p xoev-codelists-xwasser
       - name: Test (code-only bundles)
         run: cargo test --no-default-features --features codes -p xoev-codelists-xwasser

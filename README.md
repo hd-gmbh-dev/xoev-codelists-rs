@@ -73,10 +73,11 @@ because they are generated data.
 
 Each publisher crate embeds one bundle, selected by cargo feature:
 
-| features | bundle | contains | use |
-|---|---|---|---|
-| `full` (default) | `datasets.zst` | all columns per version | labels, limits, full validation |
-| `codes` (with `default-features = false`) | `codes.zst` | the key column only | validating a transmitted code |
+| features | bundle | contains | use | xwasser size |
+|---|---|---|---|---|
+| `full` (default) | `datasets.zst` | all columns per version | limits, full validation | 109 KiB |
+| `labels` (`default-features = false`) | `labels.zst` | key + label column | dropdowns, display | **36 KiB** |
+| `codes` (`default-features = false`) | `codes.zst` | key column only | validating a transmitted code | **4.3 KiB** |
 
 Code validation is the smallest useful artifact: the whole code-only bundle for
 **all 27 codelists and 272 versions is 56 KiB** (vs. 412 KiB full). Note that
@@ -94,7 +95,8 @@ compress better than random digests.
 | `bmi-bit` | 1 | 47 | 19 KiB | 3.6 KiB |
 | `dsmeld` | 1 | 4 | 4 KiB | 0.8 KiB |
 | **total** | **27** | **272** | **2.7 MiB** | **412 KiB** |
-| **code-only bundles** | **27** | **272** | 55 KiB | **56 KiB** |
+| **label bundles** | **27** | **272** | 1.9 MiB | **239 KiB** (XWasser: 36 KiB) |
+| **code-only bundles** | **27** | **272** | 55 KiB | **56 KiB** (XWasser: 4.3 KiB) |
 
 ### Why deltas
 

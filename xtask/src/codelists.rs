@@ -12,6 +12,24 @@ pub struct Codelist {
     pub versioned: bool,
 }
 
+/// Column that carries the human readable label of a code. `None` uses the
+/// second column, which is the convention in the XWasser codelists.
+pub fn label_column(urn: &str) -> Option<&'static str> {
+    Some(match urn {
+        "urn:xoev-de:xwasser:codeliste:shapth-parameter" => "Langname",
+        "urn:xoev-de:xwasser:codeliste:medium" => "Medium",
+        "urn:xoev-de:xwasser:codeliste:untersuchungsverfahren" => "Untersuchungsverfahren",
+        "urn:xoev-de:xwasser:codeliste:parameterauspraegung" => "Parameterauspraegung",
+        "urn:xoev-de:xwasser:codeliste:probennahmeverfahren" => "Probennahmeverfahren",
+        "urn:xoev-de:xwasser:codeliste:aufbereitungsstoffe-desinfektionsverfahren" => {
+            "Aufbereitungsstoffe und Desinfektionsverfahren"
+        }
+        "urn:xoev-de:xwasser:codeliste:shapth-parameter-einheit" => "Einheit",
+        "urn:xoev-de:xwasser:codeliste:art-objekt" => "Art des Objekts",
+        _ => return None,
+    })
+}
+
 pub struct Publisher {
     pub crate_name: &'static str,
     pub codelists: &'static [Codelist],

@@ -239,10 +239,11 @@ impl Dataset {
             if older.version == newer.version {
                 return Err(DatasetError::DuplicateVersion(older.version));
             }
-            // A delta that is not smaller than the snapshot it rebuilds is not
-            // worth its complexity - store the snapshot instead.
+            // A delta only replaces a snapshot when it is clearly cheaper: every
+            // delta is therefore smaller than half the version it rebuilds, and
+            // a version that mostly rewrites its predecessor costs a snapshot.
             let delta = diff(&older, &newer);
-            let step = if encoded_size(&delta) < encoded_size(&older) {
+            let step = if encoded_size(&delta) * 2 < encoded_size(&older) {
                 Step::Delta(delta)
             } else {
                 Step::Snapshot(older.clone())
@@ -613,10 +614,7 @@ mod tests {
             ],
         );
 
-        let dataset = Dataset::from_snapshots(vec![v2, v3]).unwrap();
-        let Step::Delta(delta) = &dataset.steps[0] else {
-            panic!("expected a delta step");
-        };
+        let delta = diff(&v2, &v3);
         assert_eq!(delta.to.as_ref(), "2");
         assert_eq!(delta.restored_cells.len(), 1);
         assert_eq!(delta.restored_cells[0].key, "1020");

@@ -14,8 +14,9 @@ XAusländer and BMI/BIT.
 
 ```
 index.json                 all codelists with their published versions
-codelists/<slug>.json      full dataset: all rows, columns and labels per version
-codes/<slug>.json          code-only dataset: just the valid codes per version
+codelists/<slug>.json      full dataset: all rows and columns per version
+labels/<slug>.json         key + label column per version (dropdowns, display)
+codes/<slug>.json          key column per version (validation only)
 ```
 
 A dataset is one snapshot of the newest version plus reverse deltas towards older
@@ -60,8 +61,10 @@ renamed columns) and appends `delta.added_rows`. The Rust reference
 implementation is `xoev_codelists::apply`.
 
 For validation only, `codes/<slug>.json` is enough: it holds the key column per
-version, which is all you need to check a transmitted code. 17 KiB gzipped for all
-27 codelists and 272 versions.
+version, which is all you need to check a transmitted code (17 KiB gzipped for all
+27 codelists and 272 versions). For dropdowns and display, `labels/<slug>.json`
+adds the label column (46 KiB gzipped for the 15 codelists the XWasser frontend
+uses, all versions included).
 
 ## License
 

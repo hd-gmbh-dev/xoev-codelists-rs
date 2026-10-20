@@ -16,12 +16,16 @@ use xoev_codelists::Catalog;
 #[cfg(feature = "full")]
 pub static DATASETS: &[u8] = include_bytes!("../data/datasets.zst");
 
+/// Label bundle: key column plus the label column per version.
+#[cfg(all(feature = "labels", not(feature = "full")))]
+pub static DATASETS: &[u8] = include_bytes!("../data/labels.zst");
+
 /// Code-only bundle: per codelist and version just the set of valid codes.
-#[cfg(all(feature = "codes", not(feature = "full")))]
+#[cfg(all(feature = "codes", not(any(feature = "full", feature = "labels"))))]
 pub static DATASETS: &[u8] = include_bytes!("../data/codes.zst");
 
-#[cfg(not(any(feature = "full", feature = "codes")))]
-compile_error!("enable either the `full` or the `codes` feature");
+#[cfg(not(any(feature = "full", feature = "labels", feature = "codes")))]
+compile_error!("enable one of the `full`, `labels` or `codes` features");
 
 /// Namespace all URNs of this crate's codelists start with.
 pub const NAMESPACE: &str = "urn:xoev-de:xwasser:codeliste:";
@@ -93,9 +97,10 @@ mod version_aware_tests {
         assert_eq!(catalog.contains(UNTERSUCHUNGSVERFAHREN, "9", "1760"), None);
     }
 
+    /// Only true for the code-only bundle (one column, no labels).
     #[test]
     fn the_code_only_bundle_validates_but_has_no_labels() {
-        if cfg!(feature = "full") {
+        if cfg!(any(feature = "full", feature = "labels")) {
             return;
         }
         let snapshot = catalog()
@@ -105,9 +110,31 @@ mod version_aware_tests {
         assert!(snapshot.contains_code("1760"));
     }
 
+    /// The label bundle carries the key and the label column - enough for a
+    /// dropdown - while keeping every version.
+    #[test]
+    fn the_label_bundle_carries_key_and_label() {
+        if cfg!(any(feature = "full", feature = "codes")) {
+            return;
+        }
+        let snapshot = catalog()
+            .resolve(UNTERSUCHUNGSVERFAHREN, "1")
+            .expect("version 1");
+        assert_eq!(snapshot.columns.len(), 2, "labels bundle: key + label");
+        assert!(
+            snapshot
+                .text("1760", "Untersuchungsverfahren")
+                .is_some_and(|text| !text.is_empty())
+        );
+        assert_eq!(
+            catalog().contains(UNTERSUCHUNGSVERFAHREN, "3", "1760"),
+            Some(false)
+        );
+    }
+
     #[test]
     fn label_of_an_old_code_is_resolved_from_its_version() {
-        if !cfg!(feature = "full") {
+        if cfg!(feature = "codes") {
             return;
         }
         let catalog = catalog();

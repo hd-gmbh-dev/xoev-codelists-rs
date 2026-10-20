@@ -93,6 +93,9 @@ fn fingerprint(path: &str) -> String {
 #[derive(Debug, Clone, Copy, PartialEq, Eq, clap::ValueEnum)]
 enum Variant {
     Full,
+    /// Key column plus the label column: enough for a dropdown.
+    Labels,
+    /// Key column only: enough to validate a transmitted code.
     Codes,
 }
 
@@ -121,11 +124,6 @@ enum Command {
         /// Directory to write the datasets to.
         #[arg(long)]
         out: Option<PathBuf>,
-        /// Report a delta as suspect when it is larger than this share of the
-        /// version it reconstructs (such a step usually means an unaliased
-        /// column rename or a changed key scheme).
-        #[arg(long, default_value_t = 0.9)]
-        max_delta_ratio: f64,
     },
     /// Write the npm package from the committed bundles (no network needed).
     Export {
@@ -150,7 +148,6 @@ async fn main() -> Result<()> {
             publisher,
             urn,
             out,
-            max_delta_ratio,
             since,
             variant,
         } => {
@@ -167,6 +164,7 @@ async fn main() -> Result<()> {
             let mut bundle_documents: Vec<(String, Vec<u8>)> = Vec::new();
             let bundle_name = match variant {
                 Variant::Full => "datasets.zst",
+                Variant::Labels => "labels.zst",
                 Variant::Codes => "codes.zst",
             };
             for codelist in publisher.codelists {
@@ -182,6 +180,10 @@ async fn main() -> Result<()> {
                 }
                 let snapshots = match variant {
                     Variant::Full => snapshots.clone(),
+                    Variant::Labels => snapshots
+                        .iter()
+                        .map(|snapshot| projected(snapshot, codelists::label_column(codelist.urn)))
+                        .collect(),
                     Variant::Codes => snapshots.iter().map(codes_only).collect(),
                 };
                 let dataset = Dataset::from_snapshots(snapshots.clone())
@@ -204,7 +206,7 @@ async fn main() -> Result<()> {
 
                 // Keep every step small: print what each one costs and refuse to
                 // silently store a delta that is not worth keeping.
-                let mut suspect: Vec<String> = Vec::new();
+
                 for (index, step) in dataset.steps.iter().enumerate() {
                     let older = &snapshots[snapshots.len() - 2 - index]
                         .clone()
@@ -214,15 +216,15 @@ async fn main() -> Result<()> {
                     let ratio = step_size as f64 / version_size as f64;
                     let (kind, note) = match step {
                         Step::Snapshot(_) => ("resync", ""),
-                        Step::Delta(delta) => {
-                            let note = if ratio > max_delta_ratio.max(0.5) {
-                                suspect.push(format!("{} ({:.0}%)", delta.to, ratio * 100.0));
-                                " <-- check"
-                            } else if ratio > 0.25 && step_size > 8 * 1024 {
-                                " (content churn)"
+                        Step::Delta(_delta) => {
+                            // deltas are capped at half the snapshot by
+                            // construction, so anything above 25% is worth a look
+                            let note = if ratio > 0.25 {
+                                " <-- mostly rewritten"
                             } else {
                                 ""
                             };
+
                             ("delta", note)
                         }
                     };
@@ -253,20 +255,6 @@ async fn main() -> Result<()> {
                     dataset.versions().count(),
                     dataset.versions().collect::<Vec<_>>().join(" < ")
                 );
-                if !suspect.is_empty() {
-                    println!(
-                        "  WARNING: delta near snapshot size for {}: {}",
-                        codelist.urn,
-                        suspect.join(", ")
-                    );
-                    if std::env::var("ALLOW_LARGE_DELTAS").is_err() {
-                        bail!(
-                            "{}: {} step(s) exceed the delta budget (set ALLOW_LARGE_DELTAS=1 to accept)",
-                            codelist.urn,
-                            suspect.len()
-                        );
-                    }
-                }
             }
             // One compressed bundle per publisher: this is what the crates
             // embed, the individual JSON files stay out of version control.
@@ -382,6 +370,30 @@ async fn fetch_versions(
     Ok(snapshots)
 }
 
+/// Reduce a snapshot to the key column plus the label column.
+fn projected(snapshot: &Snapshot, label_column: Option<&str>) -> Snapshot {
+    let key_index = snapshot.key_index;
+    let key = snapshot.columns[key_index].clone();
+    let label_index = label_column
+        .and_then(|column| snapshot.columns.iter().position(|name| name == column))
+        .unwrap_or(if snapshot.columns.len() > 1 { 1 } else { key_index });
+    if label_index == key_index {
+        return codes_only(snapshot);
+    }
+    Snapshot {
+        urn: snapshot.urn.clone(),
+        version: snapshot.version.clone(),
+        valid_from: snapshot.valid_from.clone(),
+        columns: vec![key.clone(), snapshot.columns[label_index].clone()],
+        key_index: 0,
+        rows: snapshot
+            .rows
+            .iter()
+            .map(|row| vec![row[key_index].clone(), row[label_index].clone()])
+            .collect(),
+    }
+}
+
 /// Reduce a snapshot to its key column: what code validation needs.
 fn codes_only(snapshot: &Snapshot) -> Snapshot {
     Snapshot {
@@ -458,8 +470,10 @@ fn snapshot(version_urn: &str, data: XCodelistData) -> Result<Snapshot> {
 /// needs instead of shipping a bundle.
 async fn export_npm(npm: &std::path::Path) -> Result<()> {
     let codelists_dir = npm.join("codelists");
+    let labels_dir = npm.join("labels");
     let codes_dir = npm.join("codes");
     tokio::fs::create_dir_all(&codelists_dir).await?;
+    tokio::fs::create_dir_all(&labels_dir).await?;
     tokio::fs::create_dir_all(&codes_dir).await?;
 
     let mut index = Vec::new();
@@ -477,6 +491,7 @@ async fn export_npm(npm: &std::path::Path) -> Result<()> {
 
         for (file, variant) in [
             (Some(bundle.clone()), "datasets"),
+            (sibling(&bundle, "labels.zst"), "labels"),
             (sibling(&bundle, "codes.zst"), "codes"),
         ] {
             let Some(file) = file else { continue };
@@ -492,9 +507,10 @@ async fn export_npm(npm: &std::path::Path) -> Result<()> {
             for document in documents {
                 let dataset: Dataset = serde_json::from_str(document)?;
                 let slug = codelists::slug(&dataset.urn);
-                let (dir, key) = match variant {
-                    "datasets" => (&codelists_dir, "labels"),
-                    _ => (&codes_dir, "codes"),
+                let dir = match variant {
+                    "datasets" => &codelists_dir,
+                    "labels" => &labels_dir,
+                    _ => &codes_dir,
                 };
                 let path = dir.join(format!("{slug}.json"));
                 tokio::fs::write(&path, document.as_bytes()).await?;
@@ -505,11 +521,10 @@ async fn export_npm(npm: &std::path::Path) -> Result<()> {
                         "publisher": publisher,
                         "versions": dataset.versions().collect::<Vec<_>>(),
                         "current": dataset.current_version(),
-                        "labels": format!("codelists/{slug}.json"),
+                        "rows": format!("codelists/{slug}.json"),
+                        "labels": format!("labels/{slug}.json"),
                         "codes": format!("codes/{slug}.json"),
                     }));
-                } else {
-                    let _ = key;
                 }
             }
         }

@@ -3,8 +3,9 @@
     {
       "codes": "codes/ags.json",
       "current": "2026-09-30",
-      "labels": "codelists/ags.json",
+      "labels": "labels/ags.json",
       "publisher": "destatis",
+      "rows": "codelists/ags.json",
       "urn": "urn:de:bund:destatis:bevoelkerungsstatistik:schluessel:ags",
       "versions": [
         "2026-09-30",
@@ -118,8 +119,9 @@
     {
       "codes": "codes/bezirk.json",
       "current": "2019-07-31",
-      "labels": "codelists/bezirk.json",
+      "labels": "labels/bezirk.json",
       "publisher": "destatis",
+      "rows": "codelists/bezirk.json",
       "urn": "urn:de:bund:destatis:bevoelkerungsstatistik:schluessel:bezirk",
       "versions": [
         "2019-07-31",
@@ -133,8 +135,9 @@
     {
       "codes": "codes/kreis.json",
       "current": "2026-01-31",
-      "labels": "codelists/kreis.json",
+      "labels": "labels/kreis.json",
       "publisher": "destatis",
+      "rows": "codelists/kreis.json",
       "urn": "urn:de:bund:destatis:bevoelkerungsstatistik:schluessel:kreis",
       "versions": [
         "2026-01-31",
@@ -158,8 +161,9 @@
     {
       "codes": "codes/rs.json",
       "current": "2026-09-30",
-      "labels": "codelists/rs.json",
+      "labels": "labels/rs.json",
       "publisher": "destatis",
+      "rows": "codelists/rs.json",
       "urn": "urn:de:bund:destatis:bevoelkerungsstatistik:schluessel:rs",
       "versions": [
         "2026-09-30"
@@ -168,8 +172,9 @@
     {
       "codes": "codes/staat.json",
       "current": "2026-08-05",
-      "labels": "codelists/staat.json",
+      "labels": "labels/staat.json",
       "publisher": "destatis",
+      "rows": "codelists/staat.json",
       "urn": "urn:de:bund:destatis:bevoelkerungsstatistik:schluessel:staat",
       "versions": [
         "2026-08-05",
@@ -195,8 +200,9 @@
     {
       "codes": "codes/staatsangehoerigkeit.json",
       "current": "2026-08-05",
-      "labels": "codelists/staatsangehoerigkeit.json",
+      "labels": "labels/staatsangehoerigkeit.json",
       "publisher": "destatis",
+      "rows": "codelists/staatsangehoerigkeit.json",
       "urn": "urn:de:bund:destatis:bevoelkerungsstatistik:schluessel:staatsangehoerigkeit",
       "versions": [
         "2026-08-05",
@@ -221,8 +227,9 @@
     {
       "codes": "codes/pass-und-ausweisdokumente.json",
       "current": "5",
-      "labels": "codelists/pass-und-ausweisdokumente.json",
+      "labels": "labels/pass-und-ausweisdokumente.json",
       "publisher": "dsmeld",
+      "rows": "codelists/pass-und-ausweisdokumente.json",
       "urn": "urn:de:dsmeld:schluesseltabelle:pass.und.ausweisdokumente",
       "versions": [
         "5",
@@ -234,8 +241,9 @@
     {
       "codes": "codes/dvdv-praefix.json",
       "current": "51",
-      "labels": "codelists/dvdv-praefix.json",
+      "labels": "labels/dvdv-praefix.json",
       "publisher": "bmi-bit",
+      "rows": "codelists/dvdv-praefix.json",
       "urn": "urn:xoev-de:bund:bmi:bit:codeliste:dvdv.praefix",
       "versions": [
         "51",
@@ -290,8 +298,9 @@
     {
       "codes": "codes/sprachenkatalog.json",
       "current": "11",
-      "labels": "codelists/sprachenkatalog.json",
+      "labels": "labels/sprachenkatalog.json",
       "publisher": "xauslaender",
+      "rows": "codelists/sprachenkatalog.json",
       "urn": "urn:xoev-de:xauslaender:codeliste:sprachenkatalog",
       "versions": [
         "11",
@@ -308,8 +317,9 @@
     {
       "codes": "codes/artgesetzlichervertreter.json",
       "current": "1",
-      "labels": "codelists/artgesetzlichervertreter.json",
+      "labels": "labels/artgesetzlichervertreter.json",
       "publisher": "xunternehmen",
+      "rows": "codelists/artgesetzlichervertreter.json",
       "urn": "urn:xoev-de:xunternehmen:codeliste:artgesetzlichervertreter",
       "versions": [
         "1"
@@ -318,8 +328,9 @@
     {
       "codes": "codes/rechtsformen.json",
       "current": "2.4",
-      "labels": "codelists/rechtsformen.json",
+      "labels": "labels/rechtsformen.json",
       "publisher": "xunternehmen",
+      "rows": "codelists/rechtsformen.json",
       "urn": "urn:xoev-de:xunternehmen:codeliste:rechtsformen",
       "versions": [
         "2.4",
@@ -333,8 +344,9 @@
     {
       "codes": "codes/art-entnahmearmatur.json",
       "current": "1",
-      "labels": "codelists/art-entnahmearmatur.json",
+      "labels": "labels/art-entnahmearmatur.json",
       "publisher": "xwasser",
+      "rows": "codelists/art-entnahmearmatur.json",
       "urn": "urn:xoev-de:xwasser:codeliste:art-entnahmearmatur",
       "versions": [
         "1"
@@ -343,8 +355,9 @@
     {
       "codes": "codes/art-objekt.json",
       "current": "3",
-      "labels": "codelists/art-objekt.json",
+      "labels": "labels/art-objekt.json",
       "publisher": "xwasser",
+      "rows": "codelists/art-objekt.json",
       "urn": "urn:xoev-de:xwasser:codeliste:art-objekt",
       "versions": [
         "3",
@@ -355,8 +368,9 @@
     {
       "codes": "codes/art-probennahmestelle.json",
       "current": "2",
-      "labels": "codelists/art-probennahmestelle.json",
+      "labels": "labels/art-probennahmestelle.json",
       "publisher": "xwasser",
+      "rows": "codelists/art-probennahmestelle.json",
       "urn": "urn:xoev-de:xwasser:codeliste:art-probennahmestelle",
       "versions": [
         "2",
@@ -366,8 +380,9 @@
     {
       "codes": "codes/aufbereitungsstoffe-desinfektionsverfahren.json",
       "current": "3",
-      "labels": "codelists/aufbereitungsstoffe-desinfektionsverfahren.json",
+      "labels": "labels/aufbereitungsstoffe-desinfektionsverfahren.json",
       "publisher": "xwasser",
+      "rows": "codelists/aufbereitungsstoffe-desinfektionsverfahren.json",
       "urn": "urn:xoev-de:xwasser:codeliste:aufbereitungsstoffe-desinfektionsverfahren",
       "versions": [
         "3",
@@ -378,8 +393,9 @@
     {
       "codes": "codes/desinfektionsart.json",
       "current": "2",
-      "labels": "codelists/desinfektionsart.json",
+      "labels": "labels/desinfektionsart.json",
       "publisher": "xwasser",
+      "rows": "codelists/desinfektionsart.json",
       "urn": "urn:xoev-de:xwasser:codeliste:desinfektionsart",
       "versions": [
         "2",
@@ -389,8 +405,9 @@
     {
       "codes": "codes/massnahmen.json",
       "current": "2",
-      "labels": "codelists/massnahmen.json",
+      "labels": "labels/massnahmen.json",
       "publisher": "xwasser",
+      "rows": "codelists/massnahmen.json",
       "urn": "urn:xoev-de:xwasser:codeliste:massnahmen",
       "versions": [
         "2",
@@ -400,8 +417,9 @@
     {
       "codes": "codes/medium.json",
       "current": "3",
-      "labels": "codelists/medium.json",
+      "labels": "labels/medium.json",
       "publisher": "xwasser",
+      "rows": "codelists/medium.json",
       "urn": "urn:xoev-de:xwasser:codeliste:medium",
       "versions": [
         "3",
@@ -412,8 +430,9 @@
     {
       "codes": "codes/parameterauspraegung.json",
       "current": "5",
-      "labels": "codelists/parameterauspraegung.json",
+      "labels": "labels/parameterauspraegung.json",
       "publisher": "xwasser",
+      "rows": "codelists/parameterauspraegung.json",
       "urn": "urn:xoev-de:xwasser:codeliste:parameterauspraegung",
       "versions": [
         "5",
@@ -426,8 +445,9 @@
     {
       "codes": "codes/probenentnahmegeraet.json",
       "current": "1",
-      "labels": "codelists/probenentnahmegeraet.json",
+      "labels": "labels/probenentnahmegeraet.json",
       "publisher": "xwasser",
+      "rows": "codelists/probenentnahmegeraet.json",
       "urn": "urn:xoev-de:xwasser:codeliste:probenentnahmegeraet",
       "versions": [
         "1"
@@ -436,8 +456,9 @@
     {
       "codes": "codes/probengefaess.json",
       "current": "1",
-      "labels": "codelists/probengefaess.json",
+      "labels": "labels/probengefaess.json",
       "publisher": "xwasser",
+      "rows": "codelists/probengefaess.json",
       "urn": "urn:xoev-de:xwasser:codeliste:probengefaess",
       "versions": [
         "1"
@@ -446,8 +467,9 @@
     {
       "codes": "codes/probennahmeverfahren.json",
       "current": "4",
-      "labels": "codelists/probennahmeverfahren.json",
+      "labels": "labels/probennahmeverfahren.json",
       "publisher": "xwasser",
+      "rows": "codelists/probennahmeverfahren.json",
       "urn": "urn:xoev-de:xwasser:codeliste:probennahmeverfahren",
       "versions": [
         "4",
@@ -459,8 +481,9 @@
     {
       "codes": "codes/shapth-parameter.json",
       "current": "5",
-      "labels": "codelists/shapth-parameter.json",
+      "labels": "labels/shapth-parameter.json",
       "publisher": "xwasser",
+      "rows": "codelists/shapth-parameter.json",
       "urn": "urn:xoev-de:xwasser:codeliste:shapth-parameter",
       "versions": [
         "5",
@@ -473,8 +496,9 @@
     {
       "codes": "codes/shapth-parameter-einheit.json",
       "current": "2",
-      "labels": "codelists/shapth-parameter-einheit.json",
+      "labels": "labels/shapth-parameter-einheit.json",
       "publisher": "xwasser",
+      "rows": "codelists/shapth-parameter-einheit.json",
       "urn": "urn:xoev-de:xwasser:codeliste:shapth-parameter-einheit",
       "versions": [
         "2",
@@ -484,8 +508,9 @@
     {
       "codes": "codes/unterkategorie-probennahmestelle.json",
       "current": "1",
-      "labels": "codelists/unterkategorie-probennahmestelle.json",
+      "labels": "labels/unterkategorie-probennahmestelle.json",
       "publisher": "xwasser",
+      "rows": "codelists/unterkategorie-probennahmestelle.json",
       "urn": "urn:xoev-de:xwasser:codeliste:unterkategorie-probennahmestelle",
       "versions": [
         "1"
@@ -494,8 +519,9 @@
     {
       "codes": "codes/untersuchung-anlass.json",
       "current": "3",
-      "labels": "codelists/untersuchung-anlass.json",
+      "labels": "labels/untersuchung-anlass.json",
       "publisher": "xwasser",
+      "rows": "codelists/untersuchung-anlass.json",
       "urn": "urn:xoev-de:xwasser:codeliste:untersuchung-anlass",
       "versions": [
         "3",
@@ -506,8 +532,9 @@
     {
       "codes": "codes/untersuchungsverfahren.json",
       "current": "3",
-      "labels": "codelists/untersuchungsverfahren.json",
+      "labels": "labels/untersuchungsverfahren.json",
       "publisher": "xwasser",
+      "rows": "codelists/untersuchungsverfahren.json",
       "urn": "urn:xoev-de:xwasser:codeliste:untersuchungsverfahren",
       "versions": [
         "3",

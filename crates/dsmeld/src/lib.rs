@@ -16,12 +16,16 @@ use xoev_codelists::Catalog;
 #[cfg(feature = "full")]
 pub static DATASETS: &[u8] = include_bytes!("../data/datasets.zst");
 
+/// Label bundle: key column plus the label column per version.
+#[cfg(all(feature = "labels", not(feature = "full")))]
+pub static DATASETS: &[u8] = include_bytes!("../data/labels.zst");
+
 /// Code-only bundle: per codelist and version just the set of valid codes.
-#[cfg(all(feature = "codes", not(feature = "full")))]
+#[cfg(all(feature = "codes", not(any(feature = "full", feature = "labels"))))]
 pub static DATASETS: &[u8] = include_bytes!("../data/codes.zst");
 
-#[cfg(not(any(feature = "full", feature = "codes")))]
-compile_error!("enable either the `full` or the `codes` feature");
+#[cfg(not(any(feature = "full", feature = "labels", feature = "codes")))]
+compile_error!("enable one of the `full`, `labels` or `codes` features");
 
 /// Namespace all URNs of this crate's codelists start with.
 pub const NAMESPACE: &str = "urn:de:dsmeld:schluesseltabelle:";

@@ -1,0 +1,1 @@
+{"urn":"urn:xoev-de:xwasser:codeliste:probenentnahmegeraet","base":{"urn":"urn:xoev-de:xwasser:codeliste:probenentnahmegeraet","version":"1","valid_from":"2026-05-01","columns":["Key","Probenentnahmegeraet"],"key_index":0,"rows":[["1010","Glasschöpfer"],["1020","Kunststoffschöpfer"],["1030","Metallschöpfer"],["9010","Sonstiger Schöpfer"],["9020","Kein Probennahmegerät"]]}}
