@@ -127,6 +127,12 @@ enum Command {
         #[arg(long, default_value_t = 0.9)]
         max_delta_ratio: f64,
     },
+    /// Write the npm package from the committed bundles (no network needed).
+    Export {
+        /// Directory of the npm package, e.g. `npm`.
+        #[arg(long, default_value = "npm")]
+        npm: PathBuf,
+    },
     /// List the codelists of a publisher and their published versions.
     List {
         #[arg(long)]
@@ -298,6 +304,9 @@ async fn main() -> Result<()> {
                 source.cached
             );
         }
+        Command::Export { npm } => {
+            export_npm(&npm).await?;
+        }
         Command::List { publisher } => {
             let publisher = codelists::publisher(&publisher)?;
             for codelist in publisher.codelists {
@@ -442,4 +451,95 @@ fn snapshot(version_urn: &str, data: XCodelistData) -> Result<Snapshot> {
         key_index,
         rows,
     })
+}
+
+/// Write the npm package: an index plus one file per codelist (full rows and
+/// codes only), so a JavaScript consumer can lazily import just the codelist it
+/// needs instead of shipping a bundle.
+async fn export_npm(npm: &std::path::Path) -> Result<()> {
+    let codelists_dir = npm.join("codelists");
+    let codes_dir = npm.join("codes");
+    tokio::fs::create_dir_all(&codelists_dir).await?;
+    tokio::fs::create_dir_all(&codes_dir).await?;
+
+    let mut index = Vec::new();
+    let mut publishers: Vec<PathBuf> = glob_bundles()?;
+    publishers.sort();
+
+    for bundle in publishers {
+        let publisher = bundle
+            .parent()
+            .and_then(|data| data.parent())
+            .and_then(|crates| crates.file_name())
+            .and_then(|name| name.to_str())
+            .unwrap_or_default()
+            .to_string();
+
+        for (file, variant) in [
+            (Some(bundle.clone()), "datasets"),
+            (sibling(&bundle, "codes.zst"), "codes"),
+        ] {
+            let Some(file) = file else { continue };
+            if !file.exists() {
+                continue;
+            }
+            let bundle = tokio::fs::read(&file).await?;
+            let decoded = xoev_codelists::decode_bundle(&bundle)
+                .map_err(|err| anyhow!("{}: {err}", file.display()))?;
+            let documents = xoev_codelists::split_bundle(&decoded)
+                .map_err(|err| anyhow!("{}: {err}", file.display()))?;
+
+            for document in documents {
+                let dataset: Dataset = serde_json::from_str(document)?;
+                let slug = codelists::slug(&dataset.urn);
+                let (dir, key) = match variant {
+                    "datasets" => (&codelists_dir, "labels"),
+                    _ => (&codes_dir, "codes"),
+                };
+                let path = dir.join(format!("{slug}.json"));
+                tokio::fs::write(&path, document.as_bytes()).await?;
+
+                if variant == "datasets" {
+                    index.push(serde_json::json!({
+                        "urn": dataset.urn,
+                        "publisher": publisher,
+                        "versions": dataset.versions().collect::<Vec<_>>(),
+                        "current": dataset.current_version(),
+                        "labels": format!("codelists/{slug}.json"),
+                        "codes": format!("codes/{slug}.json"),
+                    }));
+                } else {
+                    let _ = key;
+                }
+            }
+        }
+    }
+
+    index.sort_by(|a, b| a["urn"].as_str().cmp(&b["urn"].as_str()));
+    let index = serde_json::json!({
+        "schema": 1,
+        "codelists": index,
+    });
+    tokio::fs::write(npm.join("index.json"), serde_json::to_vec_pretty(&index)?).await?;
+    println!(
+        "npm package {}: {} codelists",
+        npm.display(),
+        index["codelists"].as_array().map(Vec::len).unwrap_or(0)
+    );
+    Ok(())
+}
+
+fn glob_bundles() -> Result<Vec<PathBuf>> {
+    let mut bundles = Vec::new();
+    for entry in std::fs::read_dir("crates")? {
+        let path = entry?.path().join("data").join("datasets.zst");
+        if path.exists() {
+            bundles.push(path);
+        }
+    }
+    Ok(bundles)
+}
+
+fn sibling(bundle: &std::path::Path, name: &str) -> Option<PathBuf> {
+    bundle.parent().map(|parent| parent.join(name))
 }

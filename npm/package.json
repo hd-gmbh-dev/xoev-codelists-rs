@@ -1,7 +1,7 @@
 {
     "name": "xoev-codelists",
-    "version": "0.1.0-alpha.1",
-    "description": "Versioned codelists referenced by XOE standards, indexed by urn + version",
+    "version": "0.1.0-alpha.2",
+    "description": "Versioned codelists referenced by XOE standards, addressable as URN + version",
     "license": "MIT",
     "repository": {
         "type": "git",
@@ -9,11 +9,20 @@
     },
     "files": [
         "index.json",
+        "codelists",
+        "codes",
         "README.md"
     ],
+    "exports": {
+        ".": "./index.json",
+        "./index.json": "./index.json",
+        "./codelists/*": "./codelists/*",
+        "./codes/*": "./codes/*"
+    },
     "keywords": [
         "codelist",
         "xoev",
+        "xwasser",
         "validation"
     ]
 }

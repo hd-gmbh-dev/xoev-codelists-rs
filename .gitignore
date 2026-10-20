@@ -3,3 +3,5 @@
 node_modules
 .idea
 crates/*/data/*.json
+npm/codelists
+npm/codes

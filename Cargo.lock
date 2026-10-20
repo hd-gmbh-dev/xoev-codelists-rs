@@ -1759,6 +1759,14 @@ dependencies = [
 ]
 
 [[package]]
+name = "xoev-codelists-conformance"
+version = "0.1.0-alpha.1"
+dependencies = [
+ "serde_json",
+ "xoev-codelists",
+]
+
+[[package]]
 name = "xoev-codelists-destatis"
 version = "0.1.0-alpha.1"
 dependencies = [

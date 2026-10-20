@@ -83,6 +83,8 @@ jobs:
         with:
           node-version: "24"
           registry-url: "https://registry.npmjs.org"
+      - name: Build the npm package from the committed bundles
+        run: cargo run -p xtask -- export --npm npm
       - name: Publish to registry.npmjs.org
         run: |
           set -uo pipefail
