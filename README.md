@@ -116,6 +116,23 @@ Three rules keep a chain small:
   published versions are not sorted. Duplicate keys (Destatis `staat` 2011 has
   two rows for key `168`) are kept and identified by key plus occurrence.
 
+### Generate the XWasser model declarations
+
+`codes.rs` of `xoev-xwasser-rs` states, per code type, which codelist it references
+and how the version is determined. Generating it from the schema and this dataset
+keeps the numbers honest (hand-maintained constants are how `untersuchungsverfahren`
+ended up declaring version 2 while the data was at 3):
+
+```sh
+cargo run -p xtask -- generate-codes \
+  --xsd  ../xoev-xwasser-rs/schemas/V1_0_1/xwasser-baukasten.xsd \
+  --codes ../xoev-xwasser-rs/src/model/codes.rs
+```
+
+- schema-fixed version (code type 1/2) → `#[xoev_xwasser_code(urn, "3")]`
+- sender-chosen version (code type 3) → `#[xoev_xwasser_code(urn, current = "5")]`,
+  where `current` is the newest published version in `npm/index.json`
+
 ### Regenerate
 
 ```sh

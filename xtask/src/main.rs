@@ -2,6 +2,7 @@
 //! XRepository and write one dataset per codelist (newest version as snapshot,
 //! older versions as reverse deltas).
 
+mod codegen;
 mod codelists;
 
 use std::path::PathBuf;
@@ -130,6 +131,15 @@ enum Command {
         /// Directory of the npm package, e.g. `npm`.
         #[arg(long, default_value = "npm")]
         npm: PathBuf,
+    },
+    /// Rewrite the `#[xoev_xwasser_code(..)]` declarations of the XWasser model.
+    GenerateCodes {
+        /// `xwasser-baukasten.xsd` of the spec version.
+        #[arg(long)]
+        xsd: PathBuf,
+        /// `codes.rs` of the model.
+        #[arg(long)]
+        codes: PathBuf,
     },
     /// List the codelists of a publisher and their published versions.
     List {
@@ -294,6 +304,38 @@ async fn main() -> Result<()> {
         }
         Command::Export { npm } => {
             export_npm(&npm).await?;
+        }
+        Command::GenerateCodes { xsd, codes } => {
+            let schema = codegen::schema_versions(&xsd)?;
+            let index: serde_json::Value = serde_json::from_slice(
+                &tokio::fs::read("npm/index.json")
+                    .await
+                    .context("read npm/index.json")?,
+            )?;
+            let current: std::collections::BTreeMap<String, String> = index["codelists"]
+                .as_array()
+                .context("index codelists")?
+                .iter()
+                .filter_map(|entry| {
+                    Some((
+                        entry["urn"].as_str()?.to_string(),
+                        entry["current"].as_str()?.to_string(),
+                    ))
+                })
+                .collect();
+
+            let missing = codegen::rewrite_codes_rs(&codes, &schema, &current)?;
+            println!(
+                "{} code types in the schema, {} sender-chosen codelists with a current version",
+                schema.len(),
+                schema.values().filter(|fixed| fixed.is_none()).count()
+            );
+            if !missing.is_empty() {
+                println!("\nsender-chosen codelists without a `#[xoev_xwasser_code]` declaration:");
+                for urn in missing {
+                    println!("  {urn}");
+                }
+            }
         }
         Command::List { publisher } => {
             let publisher = codelists::publisher(&publisher)?;
