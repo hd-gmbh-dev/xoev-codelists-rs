@@ -25,7 +25,21 @@ cycle. Per-codelist granularity is a cargo feature of the publisher crate.
 
 ## npm
 
-`xoev-codelists` — a single package with an index keyed by `{urn, version}`.
+`xoev-codelists` — one package, one file per codelist so a JavaScript consumer
+lazily imports only what it needs:
+
+```
+index.json              all 27 codelists with their published versions
+codelists/<slug>.json   full dataset (labels, columns) - the browser imports it
+codes/<slug>.json       code-only dataset - validation only, ~17 KiB gzipped for all 27
+```
+
+Generated from the committed bundles (no network) and published by CI:
+
+```sh
+cargo run -p xtask -- export --npm npm
+cd npm && npm pack --dry-run
+```
 
 ## Usage
 
