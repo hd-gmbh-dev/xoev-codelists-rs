@@ -376,7 +376,11 @@ fn projected(snapshot: &Snapshot, label_column: Option<&str>) -> Snapshot {
     let key = snapshot.columns[key_index].clone();
     let label_index = label_column
         .and_then(|column| snapshot.columns.iter().position(|name| name == column))
-        .unwrap_or(if snapshot.columns.len() > 1 { 1 } else { key_index });
+        .unwrap_or(if snapshot.columns.len() > 1 {
+            1
+        } else {
+            key_index
+        });
     if label_index == key_index {
         return codes_only(snapshot);
     }
