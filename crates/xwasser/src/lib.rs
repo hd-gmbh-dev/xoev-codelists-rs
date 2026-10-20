@@ -58,3 +58,67 @@ mod tests {
         assert!(catalog().urns().count() > 0);
     }
 }
+
+#[cfg(test)]
+mod version_aware_tests {
+    use super::catalog;
+
+    const UNTERSUCHUNGSVERFAHREN: &str = "urn:xoev-de:xwasser:codeliste:untersuchungsverfahren";
+
+    #[test]
+    fn a_sender_may_use_an_older_version() {
+        let catalog = catalog();
+
+        // codes that existed in version 1 and are gone from version 3
+        assert_eq!(
+            catalog.contains(UNTERSUCHUNGSVERFAHREN, "1", "1760"),
+            Some(true)
+        );
+        assert_eq!(
+            catalog.contains(UNTERSUCHUNGSVERFAHREN, "3", "1760"),
+            Some(false)
+        );
+
+        // codes that only exist since version 3
+        assert_eq!(
+            catalog.contains(UNTERSUCHUNGSVERFAHREN, "3", "3210"),
+            Some(true)
+        );
+        assert_eq!(
+            catalog.contains(UNTERSUCHUNGSVERFAHREN, "1", "3210"),
+            Some(false)
+        );
+
+        // an unknown version is not "the code is invalid"
+        assert_eq!(catalog.contains(UNTERSUCHUNGSVERFAHREN, "9", "1760"), None);
+    }
+
+    #[test]
+    fn the_code_only_bundle_validates_but_has_no_labels() {
+        if cfg!(feature = "full") {
+            return;
+        }
+        let snapshot = catalog()
+            .resolve(UNTERSUCHUNGSVERFAHREN, "1")
+            .expect("version 1");
+        assert_eq!(snapshot.columns.len(), 1, "codes bundle carries keys only");
+        assert!(snapshot.contains_code("1760"));
+    }
+
+    #[test]
+    fn label_of_an_old_code_is_resolved_from_its_version() {
+        if !cfg!(feature = "full") {
+            return;
+        }
+        let catalog = catalog();
+        let snapshot = catalog
+            .resolve(UNTERSUCHUNGSVERFAHREN, "1")
+            .expect("version 1");
+        assert!(
+            snapshot
+                .text("1760", "Untersuchungsverfahren")
+                .is_some_and(|text| !text.is_empty()),
+            "old code must still have a label"
+        );
+    }
+}
