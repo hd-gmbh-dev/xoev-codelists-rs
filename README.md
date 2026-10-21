@@ -129,9 +129,13 @@ cargo run -p xtask -- generate-codes \
   --codes ../xoev-xwasser-rs/src/model/codes.rs
 ```
 
-- schema-fixed version (code type 1/2) → `#[xoev_xwasser_code(urn, "3")]`
+- schema-fixed version (code type 1/2) → `#[xoev_xwasser_code(urn, fixed = "3")]`
 - sender-chosen version (code type 3) → `#[xoev_xwasser_code(urn, current = "5")]`,
   where `current` is the newest published version in `npm/index.json`
+- validation (optional) → add `validate`, e.g. `#[xoev_xwasser_code(urn, current = "5", validate)]`
+
+Every argument after the URN is named, `fixed` and `current` are mutually
+exclusive, and `fixed` must match the schema (a test in the model checks this).
 
 ### Regenerate
 

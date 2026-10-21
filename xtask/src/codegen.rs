@@ -116,6 +116,7 @@ pub fn rewrite_codes_rs(
     let mut out = String::with_capacity(source.len());
     let mut rest = source.as_str();
     let mut seen: Vec<String> = Vec::new();
+    let mut converted = 0usize;
 
     while let Some(start) = rest.find(marker) {
         let (before, after_start) = rest.split_at(start);
@@ -137,24 +138,29 @@ pub fn rewrite_codes_rs(
             continue;
         };
         seen.push(urn.clone());
-        let validate = attribute_body.contains("true");
+        let validate = attribute_body.contains("validate") || attribute_body.contains("true");
 
         let rewritten = match (schema.get(&urn), current.get(&urn)) {
             (Some(Some(fixed)), _) if validate => Some(format!(
-                "#[xoev_xwasser_code(\"{urn}\", \"{fixed}\", true)]"
+                "#[xoev_xwasser_code(\"{urn}\", fixed = \"{fixed}\", validate)]"
             )),
-            (Some(Some(fixed)), _) => Some(format!("#[xoev_xwasser_code(\"{urn}\", \"{fixed}\")]")),
+            (Some(Some(fixed)), _) => Some(format!(
+                "#[xoev_xwasser_code(\"{urn}\", fixed = \"{fixed}\")]"
+            )),
             (Some(None), Some(version)) if validate => Some(format!(
-                "#[xoev_xwasser_code(\"{urn}\", current = \"{version}\", true)]"
+                "#[xoev_xwasser_code(\"{urn}\", current = \"{version}\", validate)]"
             )),
             (Some(None), Some(version)) => Some(format!(
                 "#[xoev_xwasser_code(\"{urn}\", current = \"{version}\")]"
             )),
-            // codelists of other standards that appear only in extensions, or a
-            // codelist we have no data for yet: keep the declaration untouched
-            _ => None,
+            // Codelists of other standards (or not covered by our data): keep
+            // the semantics of the existing declaration, just name the argument.
+            _ => positional_to_named(&urn, attribute_body),
         };
 
+        if rewritten.is_some() {
+            converted += 1;
+        }
         match rewritten {
             Some(attribute) => out.push_str(&attribute),
             None => {
@@ -174,6 +180,39 @@ pub fn rewrite_codes_rs(
         }
     }
 
+    eprintln!(
+        "rewrote {converted} declaration(s) of {seen_count}",
+        seen_count = seen.len()
+    );
     std::fs::write(codes_rs, out).with_context(|| format!("write {}", codes_rs.display()))?;
     Ok(missing)
+}
+
+/// `(urn, "3", true)` → `(urn, fixed = "3", validate)`, `(urn, true)` → `(urn, validate)`.
+fn positional_to_named(urn: &str, attribute_body: &str) -> Option<String> {
+    let arguments: Vec<&str> = attribute_body
+        .split(',')
+        .skip(1)
+        .map(str::trim)
+        .filter(|argument| !argument.is_empty())
+        .collect();
+    let validate = arguments.contains(&"true");
+    let version = arguments.iter().find_map(|argument| {
+        argument
+            .strip_prefix('"')
+            .and_then(|rest| rest.strip_suffix('"'))
+    });
+
+    if version.is_none() && !validate {
+        return None; // nothing to name
+    }
+    let mut named = format!("#[xoev_xwasser_code(\"{urn}\"");
+    if let Some(version) = version {
+        named.push_str(&format!(", fixed = \"{version}\""));
+    }
+    if validate {
+        named.push_str(", validate");
+    }
+    named.push_str(")]");
+    Some(named)
 }
