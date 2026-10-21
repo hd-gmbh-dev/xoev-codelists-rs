@@ -1,0 +1,101 @@
+name: Sync codelists
+
+# Keeps the bundle in step with XRepository. A scheduler (GitLab CI of the
+# codelistdb service checks for new codelist versions there) can trigger this
+# workflow through the API:
+#
+#   curl -X POST -H "Authorization: Bearer $TOKEN" \
+#     -H "Accept: application/vnd.github+json" \
+#     https://api.github.com/repos/hd-gmbh-dev/xoev-codelists-rs/actions/workflows/sync.yaml/dispatches \
+#     -d '{"ref":"main"}'
+#
+# The workflow is a no-op unless a newer codelist version is published.
+
+on:
+  schedule:
+    # Mondays, 05:00 UTC
+    - cron: "0 5 * * 1"
+  workflow_dispatch:
+
+concurrency:
+  group: sync-codelists
+  cancel-in-progress: false
+
+jobs:
+  sync:
+    name: Sync and release
+    runs-on: ubuntu-24.04
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.BOT_GITHUB_TOKEN || github.token }}
+      - uses: dtolnay/rust-toolchain@1.94.1
+
+      - name: Check for new codelist versions
+        id: freshness
+        run: |
+          set +e
+          cargo run -q -p xtask -- check-freshness --json > freshness.json
+          code=$?
+          set -e
+          cat freshness.json
+          echo "code=$code" >> "$GITHUB_OUTPUT"
+          exit 0
+
+      - name: Sync all publishers and variants
+        if: steps.freshness.outputs.code == '10'
+        run: |
+          for publisher in xwasser destatis xunternehmen dsmeld xauslaender bmi-bit; do
+            for variant in full labels codes; do
+              cargo run -q -p xtask -- sync --publisher "$publisher" --variant "$variant"
+            done
+          done
+          cargo run -q -p xtask -- export --npm npm
+
+      - name: Verify the bundle
+        if: steps.freshness.outputs.code == '10'
+        run: |
+          cargo fmt --check
+          cargo clippy --all-targets -- -D warnings
+          cargo test --all-targets
+
+      - name: Bump the version and tag the release
+        if: steps.freshness.outputs.code == '10'
+        run: |
+          if git diff --quiet; then
+            echo "nothing changed after the sync - no release"
+            exit 0
+          fi
+
+          python3 - <<'PY'
+          import re
+          import pathlib
+
+          manifest = pathlib.Path("Cargo.toml")
+          source = manifest.read_text()
+          version = re.search(r'^version = "([^"]+)"', source, re.M).group(1)
+          major, rest = version.split(".", 1)
+          minor, patch = rest.split(".", 1)
+          patch_number = re.match(r"\d+", patch).group(0)
+          meta = patch[len(patch_number):]
+          bumped = f"{major}.{minor}.{int(patch_number) + 1}{meta}"
+          manifest.write_text(
+              source.replace(f'version = "{version}"', f'version = "{bumped}"', 1)
+          )
+          pathlib.Path("VERSION").write_text(bumped)
+          print(bumped)
+          PY
+
+          VERSION=$(cat VERSION)
+          rm -f VERSION
+          git config user.name "shapth bot"
+          git config user.email "contact-oss@h-d-gmbh.de"
+          git add -A
+          git commit -m "chore: sync codelists ($(date -u +%F)) and release $VERSION"
+          git tag "v$VERSION"
+          git push origin HEAD:main
+          git push origin "v$VERSION"
+
+      # The tag push triggers publish.yaml (crates.io + npm).

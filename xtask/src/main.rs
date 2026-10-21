@@ -132,6 +132,15 @@ enum Command {
         #[arg(long, default_value = "npm")]
         npm: PathBuf,
     },
+    /// Report published codelist versions that are newer than the bundle.
+    ///
+    /// Exit code 10 signals "updates available" so a scheduler can act on it
+    /// without parsing the output.
+    CheckFreshness {
+        /// Machine readable output for the scheduler.
+        #[arg(long)]
+        json: bool,
+    },
     /// Rewrite the `#[xoev_xwasser_code(..)]` declarations of the XWasser model.
     GenerateCodes {
         /// `xwasser-baukasten.xsd` of the spec version.
@@ -304,6 +313,63 @@ async fn main() -> Result<()> {
         }
         Command::Export { npm } => {
             export_npm(&npm).await?;
+        }
+        Command::CheckFreshness { json } => {
+            let mut stale = Vec::new();
+            for publisher in codelists::PUBLISHERS {
+                for codelist in publisher.codelists {
+                    let published = source
+                        .json::<XCodelist>(&format!("{}/metadaten", codelist.urn))
+                        .await
+                        .with_context(|| format!("metadata for {}", codelist.urn))?
+                        .alle_versions_kennungen
+                        .unwrap_or_default();
+                    let bundled = bundled_versions(codelist.urn)?;
+                    let mut missing = Vec::new();
+                    for version_urn in &published {
+                        let Some((_, version)) = version_urn.rsplit_once('_') else {
+                            continue;
+                        };
+                        if bundled.iter().any(|bundled| bundled == version) {
+                            continue;
+                        }
+                        // XRepository lists versions it no longer serves; they can
+                        // never be bundled and must not trigger a sync
+                        let available = source
+                            .try_json::<XCodelistWithVersion>(&format!("{version_urn}/metadaten"))
+                            .await?
+                            .is_some();
+                        if available {
+                            missing.push(version.to_string());
+                        }
+                    }
+                    if !missing.is_empty() {
+                        stale.push((codelist.urn.to_string(), missing));
+                    }
+                }
+            }
+
+            if json {
+                let report = serde_json::json!({
+                    "updates": stale
+                        .iter()
+                        .map(|(urn, versions)| serde_json::json!({
+                            "urn": urn,
+                            "versions": versions,
+                        }))
+                        .collect::<Vec<_>>(),
+                });
+                println!("{}", serde_json::to_string_pretty(&report)?);
+            } else if stale.is_empty() {
+                println!("all codelist versions up to date");
+            } else {
+                for (urn, versions) in &stale {
+                    println!("{urn}: {}", versions.join(", "));
+                }
+            }
+            if !stale.is_empty() {
+                std::process::exit(10);
+            }
         }
         Command::GenerateCodes { xsd, codes } => {
             let schema = codegen::schema_versions(&xsd)?;
@@ -603,4 +669,39 @@ fn glob_bundles() -> Result<Vec<PathBuf>> {
 
 fn sibling(bundle: &std::path::Path, name: &str) -> Option<PathBuf> {
     bundle.parent().map(|parent| parent.join(name))
+}
+
+/// Versions currently part of the committed bundle of `urn`.
+fn bundled_versions(urn: &str) -> Result<Vec<String>> {
+    for publisher in codelists::PUBLISHERS {
+        if !publisher
+            .codelists
+            .iter()
+            .any(|codelist| codelist.urn == urn)
+        {
+            continue;
+        }
+        let path = PathBuf::from("crates")
+            .join(publisher.crate_name)
+            .join("data")
+            .join(sibling_name("datasets.zst"));
+        let Ok(bundle) = std::fs::read(path) else {
+            return Ok(Vec::new());
+        };
+        let decoded = xoev_codelists::decode_bundle(&bundle)
+            .map_err(|err| anyhow!("decode bundle: {err}"))?;
+        let documents =
+            xoev_codelists::split_bundle(&decoded).map_err(|err| anyhow!("split bundle: {err}"))?;
+        for document in documents {
+            let dataset: Dataset = serde_json::from_str(document)?;
+            if dataset.urn.as_ref() == urn {
+                return Ok(dataset.versions().map(str::to_string).collect());
+            }
+        }
+    }
+    Ok(Vec::new())
+}
+
+fn sibling_name(name: &str) -> &str {
+    name
 }

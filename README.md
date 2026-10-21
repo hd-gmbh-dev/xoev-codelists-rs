@@ -23,6 +23,45 @@ One crate per **publisher dataset**, not per codelist: codelist versions tick
 independently, but a single codelist does not justify its own crate/publish
 cycle. Per-codelist granularity is a cargo feature of the publisher crate.
 
+## Staying fresh
+
+- `cargo run -p xtask -- check-freshness [--json]` compares the published
+  codelist versions with the committed bundle and exits with **10** when
+  something new is available (versions XRepository lists but no longer serves
+  are ignored).
+- `.github/workflows/sync.yaml` runs weekly (and on `workflow_dispatch`): no-op
+  when fresh, otherwise it syncs every publisher and variant, verifies, bumps
+  the patch version, commits, tags and lets `publish.yaml` release crates + npm.
+- A scheduler on the service side (the `codelistdb` project, which already
+  detects new xstandard/codelist versions while loading XRepository) can trigger
+  that workflow through the API:
+
+  ```sh
+  curl -X POST -H "Authorization: Bearer $TOKEN" \
+    -H "Accept: application/vnd.github+json" \
+    https://api.github.com/repos/hd-gmbh-dev/xoev-codelists-rs/actions/workflows/sync.yaml/dispatches \
+    -d '{"ref":"main"}'
+  ```
+
+## Versions we did not bundle (alternative provider)
+
+The bundle carries every version published so far, but a document can always
+arrive with a version published after the last sync — or with one we never
+bundled. A consumer then has a choice:
+
+1. **reject** with `unknown codelist version` (never silently "invalid code"), or
+2. **ask an alternative provider** for that version and validate against it.
+
+The intended provider is the `codelistdb` service (`h-d/shared/services/codelistdb`):
+it loads XRepository into SurrealDB and serves a gRPC `Lookup`
+(`Resolve`/`List`/`Search`). The integration contract on our side is the
+`CodeListsProvider` trait (`contains(codelist, version, value)`): the bundled
+catalog answers locally, and an implementation backed by that service answers for
+versions the bundle does not know. Because a remote lookup is async and the trait
+is not, validation runs in two steps: resolve the `(urn, version)` pairs a
+document uses (fetching missing ones), then validate synchronously over the
+merged view.
+
 ## npm
 
 `xoev-codelists` — one package, one file per codelist so a JavaScript consumer
