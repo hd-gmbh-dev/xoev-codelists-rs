@@ -403,6 +403,17 @@
       ]
     },
     {
+      "codes": "codes/format-alternative-id.json",
+      "current": "1",
+      "labels": "labels/format-alternative-id.json",
+      "publisher": "xwasser",
+      "rows": "codelists/format-alternative-id.json",
+      "urn": "urn:xoev-de:xwasser:codeliste:format-alternative-id",
+      "versions": [
+        "1"
+      ]
+    },
+    {
       "codes": "codes/massnahmen.json",
       "current": "2",
       "labels": "labels/massnahmen.json",

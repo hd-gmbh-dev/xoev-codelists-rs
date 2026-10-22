@@ -186,7 +186,7 @@ async fn main() -> Result<()> {
                 Variant::Labels => "labels.zst",
                 Variant::Codes => "codes.zst",
             };
-            for codelist in publisher.codelists {
+            for codelist in publisher.all() {
                 if urn.as_deref().is_some_and(|u| u != codelist.urn) {
                     continue;
                 }
@@ -267,12 +267,23 @@ async fn main() -> Result<()> {
                 tokio::fs::write(&path, document)
                     .await
                     .with_context(|| format!("write {}", path.display()))?;
+                let versions = dataset.versions().collect::<Vec<_>>().join(" < ");
+                let legacy = if publisher
+                    .legacy
+                    .iter()
+                    .any(|entry| entry.urn == codelist.urn)
+                {
+                    "  [legacy]"
+                } else {
+                    ""
+                };
                 println!(
-                    "{:<70} {:<8} versions: {} ({})",
+                    "{:<70} {:<8} versions: {} ({}){}",
                     codelist.urn,
                     slug,
                     dataset.versions().count(),
-                    dataset.versions().collect::<Vec<_>>().join(" < ")
+                    versions,
+                    legacy
                 );
             }
             // One compressed bundle per publisher: this is what the crates
@@ -287,9 +298,11 @@ async fn main() -> Result<()> {
             let bundle_path = out.join(bundle_name);
             tokio::fs::write(&bundle_path, &compressed).await?;
             println!(
-                "\nbundle {}: {} codelists, {} KiB raw -> {} KiB compressed",
+                "\nbundle {}: {} codelists ({} from the schema, {} legacy), {} KiB raw -> {} KiB compressed",
                 bundle_path.display(),
                 bundle_documents.len(),
+                publisher.codelists.len(),
+                publisher.legacy.len(),
                 raw.len() / 1024,
                 compressed.len() / 1024
             );
@@ -317,7 +330,7 @@ async fn main() -> Result<()> {
         Command::CheckFreshness { json } => {
             let mut stale = Vec::new();
             for publisher in codelists::PUBLISHERS {
-                for codelist in publisher.codelists {
+                for codelist in publisher.all() {
                     let published = source
                         .json::<XCodelist>(&format!("{}/metadaten", codelist.urn))
                         .await

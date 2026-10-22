@@ -97,7 +97,10 @@ fn code_only_bundle_matches_full_bundle() {
     }
 
     // keep the test honest about its coverage
-    assert_eq!(codelists, 27, "expected all 27 type-3 codelists");
+    assert_eq!(
+        codelists, 28,
+        "expected the 27 type-3 codelists of the schema plus one legacy entry"
+    );
     assert!(
         versions >= 272,
         "expected at least 272 versions, got {versions}"

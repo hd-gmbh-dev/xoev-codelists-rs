@@ -108,6 +108,18 @@ towards older versions. Bundling compressed is what ends up inside binaries and
 wasm builds; the individual JSON documents are regenerated locally (gitignored)
 because they are generated data.
 
+### Legacy entries
+
+`xtask/src/codelists.rs` derives its list from the current XWasser schema (1.0.1)
+and keeps a small **hand-maintained** `legacy` list per publisher: codelists that
+the current schema no longer references but older schema versions we still support
+do. They are synced, bundled and reported like everything else and are marked
+`[legacy]` in the sync output.
+
+Current entry: `urn:xoev-de:xwasser:codeliste:format-alternative-id` — sender-chosen
+in 0.9.2 / 0.9.5 (one published version); 1.0.0 replaced it with
+`format-alternative-id-gesundheit` and `-umwelt`, both version-fixed.
+
 ### Bundles: full vs codes-only
 
 Each publisher crate embeds one bundle, selected by cargo feature:

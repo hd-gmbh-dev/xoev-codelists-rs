@@ -5,6 +5,10 @@
 //! The list was extracted from the `xwasser-baukasten.xsd` of XWasser 1.0.1: a
 //! `Code.*Type` is type 3 exactly when its appinfo has a `<codeliste>` block but
 //! no `<versionCodeliste>`, i.e. the sender picks the version.
+//!
+//! [`Publisher::legacy`] is maintained **by hand**: codelists that the current
+//! schema no longer references but older schema versions we still support do.
+//! Keep it short and justify every entry — it is not generated.
 
 pub struct Codelist {
     pub urn: &'static str,
@@ -32,7 +36,18 @@ pub fn label_column(urn: &str) -> Option<&'static str> {
 
 pub struct Publisher {
     pub crate_name: &'static str,
+    /// Derived from the current XWasser schema (1.0.1).
     pub codelists: &'static [Codelist],
+    /// Referenced only by older schema versions; added by hand, see the module
+    /// documentation.
+    pub legacy: &'static [Codelist],
+}
+
+impl Publisher {
+    /// Generated codelists first, then the manually added legacy entries.
+    pub fn all(&self) -> impl Iterator<Item = &'static Codelist> {
+        self.codelists.iter().chain(self.legacy.iter())
+    }
 }
 
 const fn versioned(urn: &'static str) -> Codelist {
@@ -63,6 +78,13 @@ pub const PUBLISHERS: &[Publisher] = &[
             versioned("urn:xoev-de:xwasser:codeliste:unterkategorie-probennahmestelle"),
             versioned("urn:xoev-de:xwasser:codeliste:untersuchungsverfahren"),
         ],
+        legacy: &[
+            // XWasser 0.9.2 / 0.9.5 reference it as sender-chosen with a single
+            // published version. 1.0.0 replaced it with
+            // format-alternative-id-gesundheit and -umwelt, both version-fixed
+            // (code type 1/2), so it is not in the generated 1.0.1 list.
+            versioned("urn:xoev-de:xwasser:codeliste:format-alternative-id"),
+        ],
     },
     Publisher {
         crate_name: "destatis",
@@ -76,6 +98,7 @@ pub const PUBLISHERS: &[Publisher] = &[
                 "urn:de:bund:destatis:bevoelkerungsstatistik:schluessel:staatsangehoerigkeit",
             ),
         ],
+        legacy: &[],
     },
     Publisher {
         crate_name: "xunternehmen",
@@ -83,22 +106,26 @@ pub const PUBLISHERS: &[Publisher] = &[
             versioned("urn:xoev-de:xunternehmen:codeliste:artgesetzlichervertreter"),
             versioned("urn:xoev-de:xunternehmen:codeliste:rechtsformen"),
         ],
+        legacy: &[],
     },
     Publisher {
         crate_name: "dsmeld",
         codelists: &[versioned(
             "urn:de:dsmeld:schluesseltabelle:pass.und.ausweisdokumente",
         )],
+        legacy: &[],
     },
     Publisher {
         crate_name: "xauslaender",
         codelists: &[versioned(
             "urn:xoev-de:xauslaender:codeliste:sprachenkatalog",
         )],
+        legacy: &[],
     },
     Publisher {
         crate_name: "bmi-bit",
         codelists: &[versioned("urn:xoev-de:bund:bmi:bit:codeliste:dvdv.praefix")],
+        legacy: &[],
     },
 ];
 
