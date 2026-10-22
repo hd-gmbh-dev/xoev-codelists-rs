@@ -54,12 +54,26 @@ jobs:
           done
           cargo run -q -p xtask -- export --npm npm
 
+      - name: Guard - a refresh may only change data
+        if: steps.freshness.outputs.code == '10'
+        run: |
+          # If anything outside the bundles and the npm index changed, the
+          # bundle format or the API moved - that is a manual major release.
+          changed=$(git status --porcelain | awk '{print $2}' \
+            | grep -v -E '^crates/[a-z-]+/data/[a-z-]+\.zst$|^npm/(index\.json|codelists/|labels/|codes/)' || true)
+          if [ -n "$changed" ]; then
+            echo "::error::non-data change detected, cut the release manually:"
+            echo "$changed"
+            exit 1
+          fi
+
       - name: Verify the bundle
         if: steps.freshness.outputs.code == '10'
         run: |
           cargo fmt --check
           cargo clippy --all-targets -- -D warnings
           cargo test --all-targets
+          cargo run -q -p xtask -- bundle-budget
 
       - name: Bump the version and tag the release
         if: steps.freshness.outputs.code == '10'
@@ -69,27 +83,9 @@ jobs:
             exit 0
           fi
 
-          python3 - <<'PY'
-          import re
-          import pathlib
+          VERSION=$(cargo run -q -p xtask -- refresh-version --write)
+          echo "next version: $VERSION"
 
-          manifest = pathlib.Path("Cargo.toml")
-          source = manifest.read_text()
-          version = re.search(r'^version = "([^"]+)"', source, re.M).group(1)
-          major, rest = version.split(".", 1)
-          minor, patch = rest.split(".", 1)
-          patch_number = re.match(r"\d+", patch).group(0)
-          meta = patch[len(patch_number):]
-          bumped = f"{major}.{minor}.{int(patch_number) + 1}{meta}"
-          manifest.write_text(
-              source.replace(f'version = "{version}"', f'version = "{bumped}"', 1)
-          )
-          pathlib.Path("VERSION").write_text(bumped)
-          print(bumped)
-          PY
-
-          VERSION=$(cat VERSION)
-          rm -f VERSION
           git config user.name "shapth bot"
           git config user.email "contact-oss@h-d-gmbh.de"
           git add -A

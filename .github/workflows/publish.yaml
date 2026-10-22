@@ -107,3 +107,66 @@ jobs:
         working-directory: ./npm
         env:
           NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
+
+  # Smoke test against the artifacts as consumers see them (not the workspace).
+  verify:
+    name: Verify published artifacts
+    needs: publish
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+      - uses: dtolnay/rust-toolchain@1.94.1
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "24"
+
+      - name: crates.io - install and query
+        run: |
+          VERSION=$(cargo pkgid -p xoev-codelists 2>/dev/null | sed 's/.*@//')
+          echo "verifying xoev-codelists-xwasser $VERSION"
+          # crates.io needs a moment before a new version is installable
+          for attempt in 1 2 3 4 5 6; do
+            rm -rf /tmp/smoke && cargo new --quiet /tmp/smoke
+            cd /tmp/smoke
+            if cargo add --quiet "xoev-codelists-xwasser@=$VERSION" 2>/dev/null; then
+              break
+            fi
+            echo "attempt $attempt: version not yet available, waiting"
+            sleep 30
+          done
+          cat > src/main.rs <<'RS'
+          fn main() {
+              let catalog = xoev_codelists_xwasser::catalog();
+              let urn = "urn:xoev-de:xwasser:codeliste:untersuchungsverfahren";
+              assert_eq!(catalog.contains(urn, "1", "1760"), Some(true), "dropped code");
+              assert_eq!(catalog.contains(urn, "3", "1760"), Some(false), "version aware");
+              assert_eq!(catalog.current_version(urn), Some("3"));
+              println!("crates.io smoke test ok ({} codelists)", catalog.urns().count());
+          }
+          RS
+          cargo run --quiet
+
+      - name: npm - install and import
+        run: |
+          VERSION=$(node -p "require('./npm/package.json').version")
+          mkdir -p /tmp/npm-smoke && cd /tmp/npm-smoke
+          npm init -y >/dev/null
+          for attempt in 1 2 3 4 5 6; do
+            if npm install --silent "xoev-codelists@$VERSION" 2>/dev/null; then
+              break
+            fi
+            echo "attempt $attempt: package not yet available, waiting"
+            sleep 30
+          done
+          node -e "
+            const index = require('xoev-codelists/index.json');
+            if (index.codelists.length < 28) throw new Error('expected 28 codelists');
+            // every variant must be reachable through the exports map
+            for (const variant of ['codelists', 'labels', 'codes']) {
+              const dataset = require('xoev-codelists/' + variant + '/medium.json');
+              if (dataset.base.urn !== 'urn:xoev-de:xwasser:codeliste:medium') {
+                throw new Error('bad ' + variant + ' dataset');
+              }
+            }
+            console.log('npm smoke test ok (' + index.codelists.length + ' codelists, 3 variants)');
+          "

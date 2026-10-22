@@ -145,6 +145,16 @@ enum Command {
         #[arg(long)]
         month: Option<String>,
     },
+    /// Fail when a committed bundle grew beyond the budget.
+    ///
+    /// Compares the working-tree bundle with the version committed in `HEAD`,
+    /// so a codelist refresh that would blow up the artifact is caught before
+    /// it is tagged.
+    BundleBudget {
+        /// Allowed growth factor.
+        #[arg(long, default_value_t = 1.5)]
+        factor: f64,
+    },
     /// Report published codelist versions that are newer than the bundle.
     ///
     /// Exit code 10 signals "updates available" so a scheduler can act on it
@@ -351,6 +361,9 @@ async fn main() -> Result<()> {
                 write_version(&version)?;
             }
             println!("{version}");
+        }
+        Command::BundleBudget { factor } => {
+            check_bundle_budget(factor)?;
         }
         Command::CheckFreshness { json } => {
             let mut stale = Vec::new();
@@ -828,4 +841,70 @@ fn previous_workspace_version(source: &str) -> String {
         .and_then(|rest| rest.split('"').next())
         .unwrap_or_default()
         .to_string()
+}
+
+/// Compare every committed bundle with the current one and fail on growth.
+fn check_bundle_budget(factor: f64) -> Result<()> {
+    let output = std::process::Command::new("git")
+        .args(["ls-files", "crates/*/data/*.zst"])
+        .output()
+        .context("list tracked bundles")?;
+    let mut violations = Vec::new();
+    println!(
+        "{:<52} {:>10} {:>10} {:>7}",
+        "bundle", "committed", "current", "growth"
+    );
+
+    for path in String::from_utf8_lossy(&output.stdout).lines() {
+        let path = path.trim();
+        if path.is_empty() {
+            continue;
+        }
+        let committed = std::process::Command::new("git")
+            .args(["cat-file", "-s", &format!("HEAD:{path}")])
+            .output()
+            .ok()
+            .filter(|out| out.status.success())
+            .and_then(|out| {
+                String::from_utf8_lossy(&out.stdout)
+                    .trim()
+                    .parse::<f64>()
+                    .ok()
+            });
+        let Some(committed) = committed else {
+            continue; // new bundle, nothing to compare
+        };
+        let current = std::fs::metadata(path)
+            .map(|meta| meta.len() as f64)
+            .unwrap_or(0.0);
+        let growth = if committed > 0.0 {
+            current / committed
+        } else {
+            1.0
+        };
+        println!(
+            "{:<52} {:>9.1}K {:>9.1}K {:>6.2}x{}",
+            path,
+            committed / 1024.0,
+            current / 1024.0,
+            growth,
+            if growth > factor {
+                "  <-- over budget"
+            } else {
+                ""
+            }
+        );
+        if growth > factor {
+            violations.push(format!("{path} grew {growth:.2}x"));
+        }
+    }
+
+    if !violations.is_empty() {
+        bail!(
+            "bundle budget ({factor}x) exceeded: {}",
+            violations.join(", ")
+        );
+    }
+    println!("\nall bundles within {factor}x of the committed size");
+    Ok(())
 }

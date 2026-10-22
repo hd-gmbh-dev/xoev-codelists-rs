@@ -17,6 +17,7 @@
         ".": "./index.json",
         "./index.json": "./index.json",
         "./codelists/*": "./codelists/*",
+        "./labels/*": "./labels/*",
         "./codes/*": "./codes/*"
     },
     "keywords": [
