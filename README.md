@@ -23,6 +23,19 @@ One crate per **publisher dataset**, not per codelist: codelist versions tick
 independently, but a single codelist does not justify its own crate/publish
 cycle. Per-codelist granularity is a cargo feature of the publisher crate.
 
+## Releasing
+
+Trusted publishing (OIDC) — no long-lived registry tokens. The one-time UI setup
+(7 crates on crates.io + the npm package) is described in
+[docs/trusted-publishers.md](docs/trusted-publishers.md); the workflow itself
+already authenticates via `rust-lang/crates-io-auth-action` and OIDC npm.
+
+```sh
+cargo run -p xtask -- refresh-version --write   # 1.<YYMM>.<patch>
+git commit -am "chore: release <version>"
+git tag "v<version>" && git push origin "v<version>"   # publish crates + npm, then verify them
+```
+
 ## Staying fresh
 
 - `cargo run -p xtask -- check-freshness [--json]` compares the published
