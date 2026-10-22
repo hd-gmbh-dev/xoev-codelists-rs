@@ -132,6 +132,19 @@ enum Command {
         #[arg(long, default_value = "npm")]
         npm: PathBuf,
     },
+    /// Print (or write) the next CalVer release version `1.<YYMM>.<patch>`.
+    ///
+    /// The minor is the month of the data snapshot, the patch counts the
+    /// releases of that month.
+    RefreshVersion {
+        /// Write the version into the manifests instead of printing it.
+        #[arg(long)]
+        write: bool,
+        /// Month to use as `<YYMM>` (default: the newest `valid_from` in the
+        /// bundle, falling back to today).
+        #[arg(long)]
+        month: Option<String>,
+    },
     /// Report published codelist versions that are newer than the bundle.
     ///
     /// Exit code 10 signals "updates available" so a scheduler can act on it
@@ -326,6 +339,18 @@ async fn main() -> Result<()> {
         }
         Command::Export { npm } => {
             export_npm(&npm).await?;
+        }
+        Command::RefreshVersion { write, month } => {
+            let month = match month {
+                Some(month) => month,
+                None => snapshot_month()?,
+            };
+            let patch = next_patch(&month)?;
+            let version = format!("1.{month}.{patch}");
+            if write {
+                write_version(&version)?;
+            }
+            println!("{version}");
         }
         Command::CheckFreshness { json } => {
             let mut stale = Vec::new();
@@ -717,4 +742,90 @@ fn bundled_versions(urn: &str) -> Result<Vec<String>> {
 
 fn sibling_name(name: &str) -> &str {
     name
+}
+
+/// Month (`YYMM`) of the release: the data snapshot is taken when the release
+/// is cut, so the clock is the right source. `--month` overrides it.
+fn snapshot_month() -> Result<String> {
+    let today = chrono::Utc::now();
+    Ok(format!(
+        "{:02}{:02}",
+        today.format("%y"),
+        today.format("%m")
+    ))
+}
+
+/// Next free patch for `1.<month>.*`, derived from the release tags.
+fn next_patch(month: &str) -> Result<u32> {
+    let prefix = format!("v1.{month}.");
+    let output = std::process::Command::new("git")
+        .args(["tag", "--list", &format!("{prefix}*")])
+        .output()
+        .context("list release tags")?;
+    let tags = String::from_utf8_lossy(&output.stdout);
+    let highest = tags
+        .lines()
+        .filter_map(|tag| tag.trim().strip_prefix(&prefix))
+        .filter_map(|patch| patch.parse::<u32>().ok())
+        .max();
+    Ok(highest.map(|patch| patch + 1).unwrap_or(0))
+}
+
+fn write_version(version: &str) -> Result<()> {
+    let manifest = std::path::Path::new("Cargo.toml");
+    let source = std::fs::read_to_string(manifest)?;
+    let updated = regex_replace_version(&source, version);
+    std::fs::write(manifest, updated)?;
+
+    for entry in std::fs::read_dir("crates")? {
+        let path = entry?.path().join("Cargo.toml");
+        let Ok(source) = std::fs::read_to_string(&path) else {
+            continue;
+        };
+        let previous = previous_workspace_version(&source);
+        let updated = source.replace(
+            &format!("xoev-codelists = {{ version = \"={previous}\"",),
+            &format!("xoev-codelists = {{ version = \"={version}\"",),
+        );
+        std::fs::write(&path, updated)?;
+    }
+
+    let npm = std::path::Path::new("npm/package.json");
+    if npm.exists() {
+        let source = std::fs::read_to_string(npm)?;
+        let updated = match source.lines().find(|line| line.contains("\"version\"")) {
+            Some(current) => source.replace(
+                current.trim().trim_end_matches(','),
+                &format!("\"version\": \"{version}\""),
+            ),
+            None => source,
+        };
+        std::fs::write(npm, updated)?;
+    }
+    Ok(())
+}
+
+fn regex_replace_version(source: &str, version: &str) -> String {
+    let mut out = String::with_capacity(source.len());
+    let mut replaced = false;
+    for line in source.lines() {
+        if !replaced && line.trim_start().starts_with("version = \"") {
+            out.push_str(&format!("version = \"{version}\""));
+            replaced = true;
+        } else {
+            out.push_str(line);
+        }
+        out.push('\n');
+    }
+    out
+}
+
+fn previous_workspace_version(source: &str) -> String {
+    source
+        .lines()
+        .find(|line| line.contains("xoev-codelists = {"))
+        .and_then(|line| line.split("version = \"=").nth(1))
+        .and_then(|rest| rest.split('"').next())
+        .unwrap_or_default()
+        .to_string()
 }

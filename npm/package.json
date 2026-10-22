@@ -1,6 +1,6 @@
 {
     "name": "xoev-codelists",
-    "version": "0.1.0-alpha.2",
+    "version": "1.2610.0",
     "description": "Versioned codelists referenced by XOE standards, addressable as URN + version",
     "license": "MIT",
     "repository": {

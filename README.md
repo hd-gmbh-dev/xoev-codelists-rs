@@ -202,6 +202,19 @@ Steps above 90 % of the snapshot they rebuild are treated as suspect
 as content churn. Versions that XRepository lists but no longer serves (404) are
 reported and skipped. `--since <date>` limits the history that is kept.
 
+## Versioning
+
+`1.<YYMM>.<patch>` — hybrid CalVer, semver-compatible: `1` is the generation of
+the bundle format and public API, `<YYMM>` the month of the data snapshot, `<patch>`
+the release within that month. Consumers depend on `^1`, so a refresh reaches
+every release line without a bump; a breaking change is `2.0.0`. See
+[CHANGELOG.md](CHANGELOG.md).
+
+```sh
+cargo run -p xtask -- refresh-version          # prints the next version
+cargo run -p xtask -- refresh-version --write  # writes it into the manifests
+```
+
 ## Status
 
 `0.1.0-alpha.x` reserves the crate and package names; the datasets (base version

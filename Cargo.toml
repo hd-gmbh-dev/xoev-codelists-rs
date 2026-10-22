@@ -4,7 +4,7 @@ members = ["crates/*", "xtask"]
 
 [workspace.package]
 edition = "2024"
-version = "0.1.0-alpha.1"
+version = "1.2610.0"
 rust-version = "1.94.1"
 authors = ["H & D GmbH Open Source <contact-oss@h-d-gmbh.de>"]
 license = "MIT"
