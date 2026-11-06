@@ -10,6 +10,7 @@
     "files": [
         "index.json",
         "codelists",
+        "labels",
         "codes",
         "README.md"
     ],
