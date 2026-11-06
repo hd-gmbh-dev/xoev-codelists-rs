@@ -218,8 +218,8 @@ reported and skipped. `--since <date>` limits the history that is kept.
 ## Versioning
 
 `1.<YYMM>.<patch>` — hybrid CalVer, semver-compatible: `1` is the generation of
-the bundle format and public API, `<YYMM>` the month of the data snapshot, `<patch>`
-the release within that month. Consumers depend on `^1`, so a refresh reaches
+the bundle format and public API, `<YYMM>` the month the release is cut (the sync
+runs as part of the release), `<patch>` the release within that month. Consumers depend on `^1`, so a refresh reaches
 every release line without a bump; a breaking change is `2.0.0`. See
 [CHANGELOG.md](CHANGELOG.md).
 
