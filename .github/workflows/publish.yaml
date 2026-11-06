@@ -140,19 +140,21 @@ jobs:
           VERSION=$(node -p "require('./npm/package.json').version")
           mkdir -p /tmp/npm-smoke && cd /tmp/npm-smoke
           npm init -y >/dev/null
-          installed=0
-          for attempt in $(seq 1 10); do
-            if npm install --silent "xoev-codelists@$VERSION" 2>&1; then
-              installed=1
+          # npm needs a few minutes to make a new version resolvable
+          available=0
+          for attempt in $(seq 1 20); do
+            if npm view "xoev-codelists@$VERSION" version >/dev/null 2>&1; then
+              available=1
               break
             fi
-            echo "attempt $attempt: package not yet available, waiting"
+            echo "attempt $attempt: $VERSION not yet resolvable, waiting"
             sleep 30
           done
-          if [ "$installed" -ne 1 ]; then
-            echo "::error::xoev-codelists@$VERSION is not installable from the registry"
+          if [ "$available" -ne 1 ]; then
+            echo "::error::xoev-codelists@$VERSION never became resolvable"
             exit 1
           fi
+          npm install --silent "xoev-codelists@$VERSION"
           node -e "
             const index = require('xoev-codelists/index.json');
             if (index.codelists.length < 28) throw new Error('expected 28 codelists');
