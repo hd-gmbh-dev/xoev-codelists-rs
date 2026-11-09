@@ -30,6 +30,8 @@ pub fn label_column(urn: &str) -> Option<&'static str> {
         }
         "urn:xoev-de:xwasser:codeliste:shapth-parameter-einheit" => "Einheit",
         "urn:xoev-de:xwasser:codeliste:art-objekt" => "Art des Objekts",
+        // the second column is the category, not the (sub)category the UI shows
+        "urn:xoev-de:xwasser:codeliste:unterkategorie-probennahmestelle" => "Unterkategorie",
         _ => return None,
     })
 }
