@@ -16,24 +16,61 @@ pub struct Codelist {
     pub versioned: bool,
 }
 
-/// Column that carries the human readable label of a code. `None` uses the
-/// second column, which is the convention in the XWasser codelists.
+/// Column that carries the human readable label of a code.
+///
+/// **Every** codelist declares it explicitly: falling back to "the second column"
+/// is how a category column ends up as the display text (`Kategorie` instead of
+/// `Unterkategorie` for the sampling site sub-category). `check-labels` fails when
+/// an entry is missing.
 pub fn label_column(urn: &str) -> Option<&'static str> {
     Some(match urn {
-        "urn:xoev-de:xwasser:codeliste:shapth-parameter" => "Langname",
-        "urn:xoev-de:xwasser:codeliste:medium" => "Medium",
-        "urn:xoev-de:xwasser:codeliste:untersuchungsverfahren" => "Untersuchungsverfahren",
-        "urn:xoev-de:xwasser:codeliste:parameterauspraegung" => "Parameterauspraegung",
-        "urn:xoev-de:xwasser:codeliste:probennahmeverfahren" => "Probennahmeverfahren",
+        // XWasser
+        "urn:xoev-de:xwasser:codeliste:untersuchung-anlass" => "Untersuchungsanlass",
+        "urn:xoev-de:xwasser:codeliste:art-entnahmearmatur" => "ArtEntnahmearmatur",
+        "urn:xoev-de:xwasser:codeliste:art-objekt" => "Art-Objekt",
+        "urn:xoev-de:xwasser:codeliste:art-probennahmestelle" => "Art-Probennahmestelle",
         "urn:xoev-de:xwasser:codeliste:aufbereitungsstoffe-desinfektionsverfahren" => {
-            "Aufbereitungsstoffe und Desinfektionsverfahren"
+            "AufbereitungsstoffeDesinfektionsverfahren"
         }
+        "urn:xoev-de:xwasser:codeliste:desinfektionsart" => "Desinfektionsart",
+        "urn:xoev-de:xwasser:codeliste:format-alternative-id" => "Format-alternative-ID",
+        "urn:xoev-de:xwasser:codeliste:massnahmen" => "Massnahme",
+        "urn:xoev-de:xwasser:codeliste:medium" => "Medium",
+        "urn:xoev-de:xwasser:codeliste:parameterauspraegung" => "Parameterklassifizierung",
+        "urn:xoev-de:xwasser:codeliste:probenentnahmegeraet" => "Probenentnahmegeraet",
+        "urn:xoev-de:xwasser:codeliste:probengefaess" => "Probengefaess",
+        "urn:xoev-de:xwasser:codeliste:probennahmeverfahren" => "Probennahmeverfahren",
+        "urn:xoev-de:xwasser:codeliste:shapth-parameter" => "Langname",
         "urn:xoev-de:xwasser:codeliste:shapth-parameter-einheit" => "Einheit",
-        "urn:xoev-de:xwasser:codeliste:art-objekt" => "Art des Objekts",
-        // the second column is the category, not the (sub)category the UI shows
+        // the second column is the category, not the sub-category the UI shows
         "urn:xoev-de:xwasser:codeliste:unterkategorie-probennahmestelle" => "Unterkategorie",
+        "urn:xoev-de:xwasser:codeliste:untersuchungsverfahren" => "Untersuchungsverfahren",
+        // Destatis
+        "urn:de:bund:destatis:bevoelkerungsstatistik:schluessel:ags" => "Bezeichnung",
+        "urn:de:bund:destatis:bevoelkerungsstatistik:schluessel:bezirk" => "Bezeichnung",
+        "urn:de:bund:destatis:bevoelkerungsstatistik:schluessel:kreis" => "Bezeichnung",
+        "urn:de:bund:destatis:bevoelkerungsstatistik:schluessel:rs" => "Bezeichnung",
+        "urn:de:bund:destatis:bevoelkerungsstatistik:schluessel:staat" => "suchbegriff",
+        "urn:de:bund:destatis:bevoelkerungsstatistik:schluessel:staatsangehoerigkeit" => {
+            "Suchbegriff"
+        }
+        // other publishers
+        "urn:xoev-de:xunternehmen:codeliste:artgesetzlichervertreter" => "Beschreibung",
+        // `Art` is the category (Kategorie/Rechtsform), the long name is the label
+        "urn:xoev-de:xunternehmen:codeliste:rechtsformen" => "Bezeichnung-lang",
+        "urn:de:dsmeld:schluesseltabelle:pass.und.ausweisdokumente" => "name",
+        "urn:xoev-de:xauslaender:codeliste:sprachenkatalog" => "ISO-Wert",
+        // not `vergebendestelle`: the issuing authority is shared by up to 17 prefixes,
+        // the per-prefix category is what names the list entry
+        "urn:xoev-de:bund:bmi:bit:codeliste:dvdv.praefix" => "behoerdenkategorie",
         _ => return None,
     })
+}
+
+/// Codelists whose labels legitimately repeat (a value list keyed per parameter)
+/// - `check-labels` reports but does not fail on them.
+pub fn repeats_labels(urn: &str) -> bool {
+    matches!(urn, "urn:xoev-de:xwasser:codeliste:parameterauspraegung")
 }
 
 pub struct Publisher {

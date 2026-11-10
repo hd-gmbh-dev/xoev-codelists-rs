@@ -145,6 +145,12 @@ enum Command {
         #[arg(long)]
         month: Option<String>,
     },
+    /// Sanity-check the label column of every codelist bundle.
+    ///
+    /// A `labels` dataset must carry exactly key + label, the label must never be
+    /// empty, and it must not repeat for most rows — a low-cardinality column is
+    /// how a category column ends up as the display text.
+    CheckLabels,
     /// Fail when a committed bundle grew beyond the budget.
     ///
     /// Compares the working-tree bundle with the version committed in `HEAD`,
@@ -361,6 +367,9 @@ async fn main() -> Result<()> {
                 write_version(&version)?;
             }
             println!("{version}");
+        }
+        Command::CheckLabels => {
+            check_labels()?;
         }
         Command::BundleBudget { factor } => {
             check_bundle_budget(factor)?;
@@ -906,5 +915,105 @@ fn check_bundle_budget(factor: f64) -> Result<()> {
         );
     }
     println!("\nall bundles within {factor}x of the committed size");
+    Ok(())
+}
+
+fn check_labels() -> Result<()> {
+    let mut violations = Vec::new();
+    println!(
+        "{:<48} {:<26} {:>5} {:>8} {:>7}",
+        "codelist", "label column", "rows", "distinct", "unique"
+    );
+
+    for publisher in codelists::PUBLISHERS {
+        let path = PathBuf::from("crates")
+            .join(publisher.crate_name)
+            .join("data")
+            .join("labels.zst");
+        let Ok(bundle) = std::fs::read(&path) else {
+            continue;
+        };
+        let decoded = xoev_codelists::decode_bundle(&bundle)
+            .map_err(|err| anyhow!("{}: {err}", path.display()))?;
+        let documents = xoev_codelists::split_bundle(&decoded)
+            .map_err(|err| anyhow!("{}: {err}", path.display()))?;
+
+        for document in documents {
+            let dataset: Dataset = serde_json::from_str(document)?;
+            let base = &dataset.base;
+            let slug = codelists::slug(&dataset.urn);
+            let urn = dataset.urn.to_string();
+
+            if base.columns.len() != 2 {
+                violations.push(format!(
+                    "{slug}: labels dataset has {} columns, expected key + label",
+                    base.columns.len()
+                ));
+                continue;
+            }
+            let label_index = 1;
+            let keys: std::collections::HashSet<&str> =
+                base.rows.iter().map(|row| row[0].as_str()).collect();
+            let labels: std::collections::HashSet<&str> = base
+                .rows
+                .iter()
+                .map(|row| row[label_index].as_str())
+                .collect();
+            let empty = base
+                .rows
+                .iter()
+                .filter(|row| row[label_index].trim().is_empty())
+                .count();
+            let unique = if keys.is_empty() {
+                1.0
+            } else {
+                labels.len() as f64 / keys.len() as f64
+            };
+
+            // a wrong column is usually a category: few distinct values for many rows
+            let expected = codelists::label_column(&urn);
+            let verdict = if expected.is_none() {
+                violations.push(format!(
+                    "{slug}: no label column declared in `xtask/src/codelists.rs`"
+                ));
+                "undeclared"
+            } else if expected != Some(base.columns[label_index].as_str()) {
+                violations.push(format!(
+                    "{slug}: labels column is '{}' but '{}' is declared",
+                    base.columns[label_index],
+                    expected.unwrap_or_default()
+                ));
+                "mismatch"
+            } else if empty > 0 {
+                violations.push(format!("{slug}: {empty} empty label(s)"));
+                "empty"
+            } else if unique < 0.9 && keys.len() > 3 && !codelists::repeats_labels(&urn) {
+                violations.push(format!(
+                    "{slug}: only {} distinct labels for {} rows - is '{}' the display column?",
+                    labels.len(),
+                    keys.len(),
+                    base.columns[label_index]
+                ));
+                "suspect"
+            } else {
+                ""
+            };
+
+            println!(
+                "{:<48} {:<26} {:>5} {:>8} {:>6.0}% {}",
+                slug,
+                base.columns[label_index],
+                base.rows.len(),
+                labels.len(),
+                unique * 100.0,
+                verdict
+            );
+        }
+    }
+
+    if !violations.is_empty() {
+        bail!("label sanity check failed:\n  {}", violations.join("\n  "));
+    }
+    println!("\nall label columns look like display text");
     Ok(())
 }
