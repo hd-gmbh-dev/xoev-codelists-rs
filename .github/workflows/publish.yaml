@@ -113,10 +113,12 @@ jobs:
         run: |
           VERSION=$(cargo pkgid -p xoev-codelists 2>/dev/null | sed 's/.*@//')
           echo "verifying xoev-codelists-xwasser $VERSION"
-          # crates.io needs a moment before a new version is installable
+          # crates.io needs a moment before a new version is installable.
+          # The crate is created once: retrying must not delete the cwd.
+          rm -rf /tmp/smoke
+          cargo new --quiet /tmp/smoke
+          cd /tmp/smoke
           for attempt in 1 2 3 4 5 6; do
-            rm -rf /tmp/smoke && cargo new --quiet /tmp/smoke
-            cd /tmp/smoke
             if cargo add --quiet "xoev-codelists-xwasser@=$VERSION" 2>/dev/null; then
               break
             fi
