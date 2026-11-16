@@ -133,6 +133,17 @@
       ]
     },
     {
+      "codes": "codes/bundesland.json",
+      "current": "2010-04-01",
+      "labels": "labels/bundesland.json",
+      "publisher": "destatis",
+      "rows": "codelists/bundesland.json",
+      "urn": "urn:de:bund:destatis:bevoelkerungsstatistik:schluessel:bundesland",
+      "versions": [
+        "2010-04-01"
+      ]
+    },
+    {
       "codes": "codes/kreis.json",
       "current": "2026-01-31",
       "labels": "labels/kreis.json",
@@ -225,6 +236,48 @@
       ]
     },
     {
+      "codes": "codes/auskunftssperre.json",
+      "current": "9",
+      "labels": "labels/auskunftssperre.json",
+      "publisher": "dsmeld",
+      "rows": "codelists/auskunftssperre.json",
+      "urn": "urn:de:dsmeld:schluesseltabelle:auskunftssperre",
+      "versions": [
+        "9",
+        "8",
+        "7",
+        "5",
+        "4",
+        "3",
+        "2"
+      ]
+    },
+    {
+      "codes": "codes/familienstand.json",
+      "current": "2",
+      "labels": "labels/familienstand.json",
+      "publisher": "dsmeld",
+      "rows": "codelists/familienstand.json",
+      "urn": "urn:de:dsmeld:schluesseltabelle:familienstand",
+      "versions": [
+        "2",
+        "1"
+      ]
+    },
+    {
+      "codes": "codes/familienstand-beendigungsgrund.json",
+      "current": "3",
+      "labels": "labels/familienstand-beendigungsgrund.json",
+      "publisher": "dsmeld",
+      "rows": "codelists/familienstand-beendigungsgrund.json",
+      "urn": "urn:de:dsmeld:schluesseltabelle:familienstand.beendigungsgrund",
+      "versions": [
+        "3",
+        "2",
+        "1"
+      ]
+    },
+    {
       "codes": "codes/pass-und-ausweisdokumente.json",
       "current": "5",
       "labels": "labels/pass-und-ausweisdokumente.json",
@@ -236,6 +289,20 @@
         "4",
         "3",
         "2"
+      ]
+    },
+    {
+      "codes": "codes/erreichbarkeit.json",
+      "current": "4.1",
+      "labels": "labels/erreichbarkeit.json",
+      "publisher": "xoev",
+      "rows": "codelists/erreichbarkeit.json",
+      "urn": "urn:de:xoev:codeliste:erreichbarkeit",
+      "versions": [
+        "4.1",
+        "3",
+        "2",
+        "1"
       ]
     },
     {
@@ -296,6 +363,32 @@
       ]
     },
     {
+      "codes": "codes/xzufi-anschrifttyp.json",
+      "current": "4",
+      "labels": "labels/xzufi-anschrifttyp.json",
+      "publisher": "fim",
+      "rows": "codelists/xzufi-anschrifttyp.json",
+      "urn": "urn:xoev-de:fim:codeliste:xzufi.anschrifttyp",
+      "versions": [
+        "4",
+        "2.0"
+      ]
+    },
+    {
+      "codes": "codes/currency-codes.json",
+      "current": "4",
+      "labels": "labels/currency-codes.json",
+      "publisher": "kosit",
+      "rows": "codelists/currency-codes.json",
+      "urn": "urn:xoev-de:kosit:codeliste:currency-codes",
+      "versions": [
+        "4",
+        "3",
+        "2",
+        "1"
+      ]
+    },
+    {
       "codes": "codes/sprachenkatalog.json",
       "current": "11",
       "labels": "labels/sprachenkatalog.json",
@@ -312,6 +405,40 @@
         "5",
         "4",
         "3"
+      ]
+    },
+    {
+      "codes": "codes/statusfachlich.json",
+      "current": "1",
+      "labels": "labels/statusfachlich.json",
+      "publisher": "xewaffe",
+      "rows": "codelists/statusfachlich.json",
+      "urn": "urn:xoev-de:xewaffe:codeliste:statusfachlich",
+      "versions": [
+        "1"
+      ]
+    },
+    {
+      "codes": "codes/statustechnisch.json",
+      "current": "1",
+      "labels": "labels/statustechnisch.json",
+      "publisher": "xewaffe",
+      "rows": "codelists/statustechnisch.json",
+      "urn": "urn:xoev-de:xewaffe:codeliste:statustechnisch",
+      "versions": [
+        "1"
+      ]
+    },
+    {
+      "codes": "codes/sprache-eu.json",
+      "current": "2",
+      "labels": "labels/sprache-eu.json",
+      "publisher": "xfahrtenschreiber",
+      "rows": "codelists/sprache-eu.json",
+      "urn": "urn:xoev-de:xfahrtenschreiber:codeliste:sprache-eu",
+      "versions": [
+        "2",
+        "1"
       ]
     },
     {
@@ -550,6 +677,17 @@
       "versions": [
         "3",
         "2",
+        "1"
+      ]
+    },
+    {
+      "codes": "codes/namensart.json",
+      "current": "1",
+      "labels": "labels/namensart.json",
+      "publisher": "xpersonenstand",
+      "rows": "codelists/namensart.json",
+      "urn": "urn:xpersonenstand:schluesseltabelle:namensart",
+      "versions": [
         "1"
       ]
     }

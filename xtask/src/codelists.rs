@@ -63,6 +63,22 @@ pub fn label_column(urn: &str) -> Option<&'static str> {
         // not `vergebendestelle`: the issuing authority is shared by up to 17 prefixes,
         // the per-prefix category is what names the list entry
         "urn:xoev-de:bund:bmi:bit:codeliste:dvdv.praefix" => "behoerdenkategorie",
+        // lists whose XSD does not enumerate the values (code is `xs:token`):
+        // the schema pins the version, so the values are checked here
+        "urn:de:bund:destatis:bevoelkerungsstatistik:schluessel:bundesland" => "Bezeichnung",
+        "urn:de:dsmeld:schluesseltabelle:auskunftssperre" => "name",
+        "urn:de:dsmeld:schluesseltabelle:familienstand" => "name",
+        "urn:de:dsmeld:schluesseltabelle:familienstand.beendigungsgrund" => "name",
+        "urn:xpersonenstand:schluesseltabelle:namensart" => "name",
+        // the column names differ per version: the declaration names the column
+        // of the newest version, older ones fall back to the second column
+        // (`erreichbarkeit` v3 = `Beschreibung`, `anschrifttyp` v2.0 = `description-de-DE`)
+        "urn:de:xoev:codeliste:erreichbarkeit" => "Description-Deutsch",
+        "urn:xoev-de:fim:codeliste:xzufi.anschrifttyp" => "Typ",
+        "urn:xoev-de:kosit:codeliste:currency-codes" => "Currency",
+        "urn:xoev-de:xewaffe:codeliste:statusfachlich" => "StatusFachlich",
+        "urn:xoev-de:xewaffe:codeliste:statustechnisch" => "StatusTechnisch",
+        "urn:xoev-de:xfahrtenschreiber:codeliste:sprache-eu" => "ISO-Wert",
         _ => return None,
     })
 }
@@ -136,6 +152,8 @@ pub const PUBLISHERS: &[Publisher] = &[
             versioned(
                 "urn:de:bund:destatis:bevoelkerungsstatistik:schluessel:staatsangehoerigkeit",
             ),
+            // the XSD does not enumerate this list, it has to be validated here
+            versioned("urn:de:bund:destatis:bevoelkerungsstatistik:schluessel:bundesland"),
         ],
         legacy: &[],
     },
@@ -149,9 +167,13 @@ pub const PUBLISHERS: &[Publisher] = &[
     },
     Publisher {
         crate_name: "dsmeld",
-        codelists: &[versioned(
-            "urn:de:dsmeld:schluesseltabelle:pass.und.ausweisdokumente",
-        )],
+        codelists: &[
+            versioned("urn:de:dsmeld:schluesseltabelle:pass.und.ausweisdokumente"),
+            // not enumerated by the XSD
+            versioned("urn:de:dsmeld:schluesseltabelle:auskunftssperre"),
+            versioned("urn:de:dsmeld:schluesseltabelle:familienstand"),
+            versioned("urn:de:dsmeld:schluesseltabelle:familienstand.beendigungsgrund"),
+        ],
         legacy: &[],
     },
     Publisher {
@@ -164,6 +186,43 @@ pub const PUBLISHERS: &[Publisher] = &[
     Publisher {
         crate_name: "bmi-bit",
         codelists: &[versioned("urn:xoev-de:bund:bmi:bit:codeliste:dvdv.praefix")],
+        legacy: &[],
+    },
+    // Publishers with exactly one codelist referenced by XWasser. The XSD keeps
+    // their `code` as `xs:token`, so nothing else validates these values.
+    Publisher {
+        crate_name: "fim",
+        codelists: &[versioned("urn:xoev-de:fim:codeliste:xzufi.anschrifttyp")],
+        legacy: &[],
+    },
+    Publisher {
+        crate_name: "kosit",
+        codelists: &[versioned("urn:xoev-de:kosit:codeliste:currency-codes")],
+        legacy: &[],
+    },
+    Publisher {
+        crate_name: "xewaffe",
+        codelists: &[
+            versioned("urn:xoev-de:xewaffe:codeliste:statusfachlich"),
+            versioned("urn:xoev-de:xewaffe:codeliste:statustechnisch"),
+        ],
+        legacy: &[],
+    },
+    Publisher {
+        crate_name: "xfahrtenschreiber",
+        codelists: &[versioned(
+            "urn:xoev-de:xfahrtenschreiber:codeliste:sprache-eu",
+        )],
+        legacy: &[],
+    },
+    Publisher {
+        crate_name: "xpersonenstand",
+        codelists: &[versioned("urn:xpersonenstand:schluesseltabelle:namensart")],
+        legacy: &[],
+    },
+    Publisher {
+        crate_name: "xoev",
+        codelists: &[versioned("urn:de:xoev:codeliste:erreichbarkeit")],
         legacy: &[],
     },
 ];

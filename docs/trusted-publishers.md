@@ -31,6 +31,12 @@ For each crate:
    - <https://crates.io/crates/xoev-codelists-dsmeld>
    - <https://crates.io/crates/xoev-codelists-xauslaender>
    - <https://crates.io/crates/xoev-codelists-bmi-bit>
+   - <https://crates.io/crates/xoev-codelists-fim>
+   - <https://crates.io/crates/xoev-codelists-kosit>
+   - <https://crates.io/crates/xoev-codelists-xewaffe>
+   - <https://crates.io/crates/xoev-codelists-xfahrtenschreiber>
+   - <https://crates.io/crates/xoev-codelists-xpersonenstand>
+   - <https://crates.io/crates/xoev-codelists-xoev>
 3. Open the **Settings** tab of that crate.
 4. In the **Trusted Publishing** section click **Add**.
 5. Fill in the three fields from the table above (repository owner, repository
