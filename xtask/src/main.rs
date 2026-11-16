@@ -924,6 +924,19 @@ fn readme_for(publisher: &codelists::Publisher) -> Result<String> {
 
 fn write_readmes(check: bool) -> Result<()> {
     let mut stale = Vec::new();
+
+    // the core crate documents the model: its crate page shows the repository
+    // README, so there is one source of truth
+    let core = PathBuf::from("crates/core/README.md");
+    let root = std::fs::read_to_string("README.md").context("read README.md")?;
+    if std::fs::read_to_string(&core).unwrap_or_default() != root {
+        if check {
+            stale.push(core.clone());
+        } else {
+            std::fs::write(&core, &root).with_context(|| format!("write {}", core.display()))?;
+            println!("wrote {}", core.display());
+        }
+    }
     for publisher in codelists::PUBLISHERS {
         let path = PathBuf::from("crates")
             .join(publisher.crate_name)
