@@ -21,6 +21,9 @@ jobs:
         run: cargo fmt --check
       - name: Clippy
         run: cargo clippy --no-deps -- -D warnings
+      - name: Crate READMEs are generated
+        run: cargo run -p xtask -- readme --check
+
       - name: Test (full bundles)
         run: cargo test
       - name: Test (label bundles)

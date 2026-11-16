@@ -151,6 +151,15 @@ enum Command {
     /// empty, and it must not repeat for most rows — a low-cardinality column is
     /// how a category column ends up as the display text.
     CheckLabels,
+    /// Write (or verify) the `README.md` of every publisher crate.
+    ///
+    /// crates.io renders the README stored in the package, so each crate needs
+    /// its own file; without one the crate page stays empty.
+    Readme {
+        /// Only report whether the files are up to date.
+        #[arg(long)]
+        check: bool,
+    },
     /// Fail when a committed bundle grew beyond the budget.
     ///
     /// Compares the working-tree bundle with the version committed in `HEAD`,
@@ -370,6 +379,9 @@ async fn main() -> Result<()> {
         }
         Command::CheckLabels => {
             check_labels()?;
+        }
+        Command::Readme { check } => {
+            write_readmes(check)?;
         }
         Command::BundleBudget { factor } => {
             check_bundle_budget(factor)?;
@@ -853,6 +865,97 @@ fn previous_workspace_version(source: &str) -> String {
 }
 
 /// Compare every committed bundle with the current one and fail on growth.
+/// The README every publisher crate gets: what it carries, how to use it.
+fn readme_for(publisher: &codelists::Publisher) -> Result<String> {
+    let path = PathBuf::from("crates")
+        .join(publisher.crate_name)
+        .join("data")
+        .join("datasets.zst");
+    let bundle = std::fs::read(&path).with_context(|| format!("read {}", path.display()))?;
+    let decoded = xoev_codelists::decode_bundle(&bundle)?;
+    let documents = xoev_codelists::split_bundle(&decoded)?;
+
+    let mut rows = Vec::new();
+    for document in documents {
+        let dataset: Dataset = serde_json::from_str(document)?;
+        let versions = dataset.versions().count();
+        rows.push((
+            dataset.urn.to_string(),
+            dataset.base.version.to_string(),
+            versions,
+            dataset.base.rows.len(),
+        ));
+    }
+    rows.sort();
+
+    let crate_name = format!("xoev-codelists-{}", publisher.crate_name);
+    let module = crate_name.replace('-', "_");
+    let mut out = String::new();
+    out.push_str(&format!("# {crate_name}\n\n"));
+    out.push_str(
+        "Every published version of the codelists below, addressable as **URN + version**.\n",
+    );
+    out.push_str("\n");
+    out.push_str(
+        "Part of [`xoev-codelists`](https://crates.io/crates/xoev-codelists); see the [repository](https://github.com/hd-gmbh-dev/xoev-codelists-rs) for the data model and the other publishers.\n\n",
+    );
+    out.push_str("## Usage\n\n");
+    out.push_str("```toml\n[dependencies]\n");
+    out.push_str(&format!(
+        "{crate_name} = {{ version = \"1\", default-features = false, features = [\"codes\"] }}\n"
+    ));
+    out.push_str("```\n\n");
+    out.push_str(
+        "`codes` validates a transmitted code and is the smallest bundle; `labels` adds the display column, `full` all columns.\n\n",
+    );
+    out.push_str(&format!("```rust\nuse {module}::catalog;\n\n"));
+    out.push_str("let catalog = catalog();\n");
+    out.push_str("assert!(catalog.contains(\"<urn>\", \"<version>\", \"<code>\").is_some());\n");
+    out.push_str("```\n\n");
+    out.push_str("## Codelists\n\n");
+    out.push_str("| codelist | current version | versions | codes (current) |\n");
+    out.push_str("|---|---|---|---|\n");
+    for (urn, version, versions, codes) in &rows {
+        out.push_str(&format!(
+            "| `{urn}` | `{version}` | {versions} | {codes} |\n"
+        ));
+    }
+    Ok(out)
+}
+
+fn write_readmes(check: bool) -> Result<()> {
+    let mut stale = Vec::new();
+    for publisher in codelists::PUBLISHERS {
+        let path = PathBuf::from("crates")
+            .join(publisher.crate_name)
+            .join("README.md");
+        let expected = readme_for(publisher)?;
+        let current = std::fs::read_to_string(&path).unwrap_or_default();
+        if current == expected {
+            continue;
+        }
+        if check {
+            stale.push(path);
+        } else {
+            std::fs::write(&path, &expected)
+                .with_context(|| format!("write {}", path.display()))?;
+            println!("wrote {}", path.display());
+        }
+    }
+    if !stale.is_empty() {
+        bail!(
+            "outdated crate README(s): {} - run `cargo run -p xtask -- readme`",
+            stale
+                .iter()
+                .map(|path| path.display().to_string())
+                .collect::<Vec<_>>()
+                .join(", ")
+        );
+    }
+    println!("crate READMEs are up to date");
+    Ok(())
+}
+
 fn check_bundle_budget(factor: f64) -> Result<()> {
     let output = std::process::Command::new("git")
         .args(["ls-files", "crates/*/data/*.zst"])
