@@ -1,0 +1,250 @@
+# xoev-codelists
+
+Versioned codelists referenced by XÖV standards, addressable as **URN + version**.
+
+For XÖV **code type 3** (`http://xoev.de/schemata/code/1_0`, datatype `Code`) the
+codelist URI is fixed by the standard while the version is chosen by the sender
+(`listVersionID`), so a receiver must be able to resolve **any published
+version**, not only the one that was current at release time.
+
+The same treatment is used for the version-pinned lists (code type 1/2) whose
+values the XSD does **not** enumerate: their `code` element stays `xs:token`, so
+the schema proves the version (`listVersionID` is `fixed=`) but not the value.
+Carrying all their versions here lets a receiver validate the value against the
+version its schema line pins.
+
+## Crates
+
+| crate | publisher namespace |
+|---|---|
+| `xoev-codelists` | core model (`CodelistId` = URN + version) |
+| `xoev-codelists-xwasser` | `urn:xoev-de:xwasser:codeliste:` |
+| `xoev-codelists-destatis` | `urn:de:bund:destatis:bevoelkerungsstatistik:schluessel:` |
+| `xoev-codelists-xunternehmen` | `urn:xoev-de:xunternehmen:codeliste:` |
+| `xoev-codelists-dsmeld` | `urn:de:dsmeld:schluesseltabelle:` |
+| `xoev-codelists-xauslaender` | `urn:xoev-de:xauslaender:codeliste:` |
+| `xoev-codelists-bmi-bit` | `urn:xoev-de:bund:bmi:bit:codeliste:` |
+| `xoev-codelists-fim` | `urn:xoev-de:fim:codeliste:` |
+| `xoev-codelists-kosit` | `urn:xoev-de:kosit:codeliste:` |
+| `xoev-codelists-xewaffe` | `urn:xoev-de:xewaffe:codeliste:` |
+| `xoev-codelists-xfahrtenschreiber` | `urn:xoev-de:xfahrtenschreiber:codeliste:` |
+| `xoev-codelists-xpersonenstand` | `urn:xpersonenstand:schluesseltabelle:` |
+| `xoev-codelists-xoev` | `urn:de:xoev:codeliste:` |
+
+One crate per **publisher dataset**, not per codelist: codelist versions tick
+independently, but a single codelist does not justify its own crate/publish
+cycle. Per-codelist granularity is a cargo feature of the publisher crate.
+
+## Releasing
+
+Trusted publishing (OIDC) — no long-lived registry tokens. The one-time UI setup
+(7 crates on crates.io + the npm package) is described in
+[docs/trusted-publishers.md](docs/trusted-publishers.md); the workflow itself
+already authenticates via `rust-lang/crates-io-auth-action` and OIDC npm.
+
+```sh
+cargo run -p xtask -- refresh-version --write   # 1.<YYMM>.<patch>
+git commit -am "chore: release <version>"
+git tag "v<version>" && git push origin "v<version>"   # publish crates + npm, then verify them
+```
+
+## Staying fresh
+
+- `cargo run -p xtask -- check-freshness [--json]` compares the published
+  codelist versions with the committed bundle and exits with **10** when
+  something new is available (versions XRepository lists but no longer serves
+  are ignored).
+- `.github/workflows/sync.yaml` runs weekly (and on `workflow_dispatch`): no-op
+  when fresh, otherwise it syncs every publisher and variant, verifies, bumps
+  the patch version, commits, tags and lets `publish.yaml` release crates + npm.
+- A scheduler on the service side (the `codelistdb` project, which already
+  detects new xstandard/codelist versions while loading XRepository) can trigger
+  that workflow through the API:
+
+  ```sh
+  curl -X POST -H "Authorization: Bearer $TOKEN" \
+    -H "Accept: application/vnd.github+json" \
+    https://api.github.com/repos/hd-gmbh-dev/xoev-codelists-rs/actions/workflows/sync.yaml/dispatches \
+    -d '{"ref":"main"}'
+  ```
+
+## Versions we did not bundle (alternative provider)
+
+The bundle carries every version published so far, but a document can always
+arrive with a version published after the last sync — or with one we never
+bundled. A consumer then has a choice:
+
+1. **reject** with `unknown codelist version` (never silently "invalid code"), or
+2. **ask an alternative provider** for that version and validate against it.
+
+The intended provider is the `codelistdb` service (`h-d/shared/services/codelistdb`):
+it loads XRepository into SurrealDB and serves a gRPC `Lookup`
+(`Resolve`/`List`/`Search`). The integration contract on our side is the
+`CodeListsProvider` trait (`contains(codelist, version, value)`): the bundled
+catalog answers locally, and an implementation backed by that service answers for
+versions the bundle does not know. Because a remote lookup is async and the trait
+is not, validation runs in two steps: resolve the `(urn, version)` pairs a
+document uses (fetching missing ones), then validate synchronously over the
+merged view.
+
+## npm
+
+`xoev-codelists` — one package, one file per codelist so a JavaScript consumer
+lazily imports only what it needs:
+
+```
+index.json              all 27 codelists with their published versions
+codelists/<slug>.json   full dataset (labels, columns) - the browser imports it
+codes/<slug>.json       code-only dataset - validation only, ~17 KiB gzipped for all 27
+```
+
+Generated from the committed bundles (no network) and published by CI:
+
+```sh
+cargo run -p xtask -- export --npm npm
+cd npm && npm pack --dry-run
+```
+
+## Usage
+
+```rust
+use xoev_codelists_xwasser::catalog;
+
+let catalog = catalog();
+let urn = "urn:xoev-de:xwasser:codeliste:untersuchungsverfahren";
+
+// newest published version
+let current = catalog.current_version(urn).unwrap();
+
+// a version chosen by the sender of a message (XÖV code type 3)
+let snapshot = catalog.resolve(urn, "1").unwrap();
+let label = snapshot.text("1010", "Untersuchungsverfahren").unwrap();
+
+// validation against the version the document declares
+assert_eq!(catalog.contains(urn, "1", "1010"), Some(true));
+assert_eq!(catalog.contains(urn, "1", "9999"), Some(false));
+```
+
+## Data
+
+`crates/<publisher>/data/datasets.zst` is one **compressed bundle per publisher**:
+every codelist with its newest version as a full snapshot and **reverse deltas**
+towards older versions. Bundling compressed is what ends up inside binaries and
+wasm builds; the individual JSON documents are regenerated locally (gitignored)
+because they are generated data.
+
+### Legacy entries
+
+`xtask/src/codelists.rs` derives its list from the current XWasser schema (1.0.1)
+and keeps a small **hand-maintained** `legacy` list per publisher: codelists that
+the current schema no longer references but older schema versions we still support
+do. They are synced, bundled and reported like everything else and are marked
+`[legacy]` in the sync output.
+
+Current entry: `urn:xoev-de:xwasser:codeliste:format-alternative-id` — sender-chosen
+in 0.9.2 / 0.9.5 (one published version); 1.0.0 replaced it with
+`format-alternative-id-gesundheit` and `-umwelt`, both version-fixed.
+
+### Bundles: full vs codes-only
+
+Each publisher crate embeds one bundle, selected by cargo feature:
+
+| features | bundle | contains | use | xwasser size |
+|---|---|---|---|---|
+| `full` (default) | `datasets.zst` | all columns per version | limits, full validation | 109 KiB |
+| `labels` (`default-features = false`) | `labels.zst` | key + label column | dropdowns, display | **36 KiB** |
+| `codes` (`default-features = false`) | `codes.zst` | key column only | validating a transmitted code | **4.3 KiB** |
+
+Code validation is the smallest useful artifact: the whole code-only bundle for
+**all 27 codelists and 272 versions is 56 KiB** (vs. 412 KiB full). Note that
+hashing the names instead of shipping them is *not* smaller — German place names
+compress better than random digests.
+
+### Sizes (all publishers, 2026-10)
+
+| publisher | codelists | versions | raw JSON | bundle (zstd -19) |
+|---|---|---|---|---|
+| `xwasser` | 16 | 41 | 697 KiB | **109 KiB** |
+| `destatis` | 6 | 164 | 1881 KiB | **270 KiB** |
+| `xunternehmen` | 2 | 7 | 86 KiB | 10 KiB |
+| `xauslaender` | 1 | 9 | 51 KiB | 18 KiB |
+| `bmi-bit` | 1 | 47 | 19 KiB | 3.6 KiB |
+| `dsmeld` | 1 | 4 | 4 KiB | 0.8 KiB |
+| **total** | **27** | **272** | **2.7 MiB** | **412 KiB** |
+| **label bundles** | **27** | **272** | 1.9 MiB | **239 KiB** (XWasser: 36 KiB) |
+| **code-only bundles** | **27** | **272** | 55 KiB | **56 KiB** (XWasser: 4.3 KiB) |
+
+### Why deltas
+
+A codelist version is almost never a new list — measured on real pairs, a version
+step touches 0.05 %–15 % of the rows (an AGS step changes 16 of 11 227 rows),
+while one snapshot per version would be ~40 MiB for AGS alone.
+
+Three rules keep a chain small:
+
+- **Column aliasing** — when a column is renamed between versions (`SHATPH-Parameter-ID`
+  → `SHAPTH-Parameter-ID`), the delta records one rename instead of a changed cell
+  in every row. Renames are detected by comparing values across shared keys
+  (≥ 90 % equal).
+- **Resync fallback** — a step that would not be smaller than the snapshot it
+  rebuilds (e.g. a version that renumbers all keys) is stored as a snapshot.
+- **Canonical row order** — rows are sorted by key on load, because some
+  published versions are not sorted. Duplicate keys (Destatis `staat` 2011 has
+  two rows for key `168`) are kept and identified by key plus occurrence.
+
+### Generate the XWasser model declarations
+
+`codes.rs` of `xoev-xwasser-rs` states, per code type, which codelist it references
+and how the version is determined. Generating it from the schema and this dataset
+keeps the numbers honest (hand-maintained constants are how `untersuchungsverfahren`
+ended up declaring version 2 while the data was at 3):
+
+```sh
+cargo run -p xtask -- generate-codes \
+  --xsd  ../xoev-xwasser-rs/schemas/V1_0_1/xwasser-baukasten.xsd \
+  --codes ../xoev-xwasser-rs/src/model/codes.rs
+```
+
+- schema-fixed version (code type 1/2) → `#[xoev_xwasser_code(urn, fixed = "3")]`
+- sender-chosen version (code type 3) → `#[xoev_xwasser_code(urn, current = "5")]`,
+  where `current` is the newest published version in `npm/index.json`
+- validation (optional) → add `validate`, e.g. `#[xoev_xwasser_code(urn, current = "5", validate)]`
+
+Every argument after the URN is named, `fixed` and `current` are mutually
+exclusive, and `fixed` must match the schema (a test in the model checks this).
+
+### Regenerate
+
+```sh
+cargo run -p xtask -- sync --publisher xwasser
+```
+
+The command downloads every published version from XRepository (with a disk cache
+under `target/xrepository-cache`), reports the size of each step, rebuilds each
+version from the chain and aborts if a reconstruction differs from the original.
+Steps above 90 % of the snapshot they rebuild are treated as suspect
+(`ALLOW_LARGE_DELTAS=1` accepts them), a step above 25 % and 8 KiB is annotated
+as content churn. Versions that XRepository lists but no longer serves (404) are
+reported and skipped. `--since <date>` limits the history that is kept.
+
+## Versioning
+
+`1.<YYMM>.<patch>` — hybrid CalVer, semver-compatible: `1` is the generation of
+the bundle format and public API, `<YYMM>` the month the release is cut (the sync
+runs as part of the release), `<patch>` the release within that month. Consumers depend on `^1`, so a refresh reaches
+every release line without a bump; a breaking change is `2.0.0`. See
+[CHANGELOG.md](CHANGELOG.md).
+
+```sh
+cargo run -p xtask -- refresh-version          # prints the next version
+cargo run -p xtask -- refresh-version --write  # writes it into the manifests
+```
+
+## Status
+
+`0.1.0-alpha.x` reserves the crate and package names; the datasets (base version
+plus reverse deltas per older version) follow.
+
+## License
+
+MIT
