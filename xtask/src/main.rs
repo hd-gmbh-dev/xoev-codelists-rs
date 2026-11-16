@@ -893,9 +893,8 @@ fn readme_for(publisher: &codelists::Publisher) -> Result<String> {
     let mut out = String::new();
     out.push_str(&format!("# {crate_name}\n\n"));
     out.push_str(
-        "Every published version of the codelists below, addressable as **URN + version**.\n",
+        "Every published version of the codelists below, addressable as **URN + version**.\n\n",
     );
-    out.push_str("\n");
     out.push_str(
         "Part of [`xoev-codelists`](https://crates.io/crates/xoev-codelists); see the [repository](https://github.com/hd-gmbh-dev/xoev-codelists-rs) for the data model and the other publishers.\n\n",
     );
