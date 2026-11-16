@@ -7,6 +7,12 @@ codelist URI is fixed by the standard while the version is chosen by the sender
 (`listVersionID`), so a receiver must be able to resolve **any published
 version**, not only the one that was current at release time.
 
+The same treatment is used for the version-pinned lists (code type 1/2) whose
+values the XSD does **not** enumerate: their `code` element stays `xs:token`, so
+the schema proves the version (`listVersionID` is `fixed=`) but not the value.
+Carrying all their versions here lets a receiver validate the value against the
+version its schema line pins.
+
 ## Crates
 
 | crate | publisher namespace |
@@ -18,6 +24,12 @@ version**, not only the one that was current at release time.
 | `xoev-codelists-dsmeld` | `urn:de:dsmeld:schluesseltabelle:` |
 | `xoev-codelists-xauslaender` | `urn:xoev-de:xauslaender:codeliste:` |
 | `xoev-codelists-bmi-bit` | `urn:xoev-de:bund:bmi:bit:codeliste:` |
+| `xoev-codelists-fim` | `urn:xoev-de:fim:codeliste:` |
+| `xoev-codelists-kosit` | `urn:xoev-de:kosit:codeliste:` |
+| `xoev-codelists-xewaffe` | `urn:xoev-de:xewaffe:codeliste:` |
+| `xoev-codelists-xfahrtenschreiber` | `urn:xoev-de:xfahrtenschreiber:codeliste:` |
+| `xoev-codelists-xpersonenstand` | `urn:xpersonenstand:schluesseltabelle:` |
+| `xoev-codelists-xoev` | `urn:de:xoev:codeliste:` |
 
 One crate per **publisher dataset**, not per codelist: codelist versions tick
 independently, but a single codelist does not justify its own crate/publish

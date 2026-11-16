@@ -67,7 +67,13 @@ jobs:
                        xoev-codelists-xunternehmen \
                        xoev-codelists-dsmeld \
                        xoev-codelists-xauslaender \
-                       xoev-codelists-bmi-bit; do
+                       xoev-codelists-bmi-bit \
+                       xoev-codelists-fim \
+                       xoev-codelists-kosit \
+                       xoev-codelists-xewaffe \
+                       xoev-codelists-xfahrtenschreiber \
+                       xoev-codelists-xpersonenstand \
+                       xoev-codelists-xoev; do
             if published "$crate"; then
               echo "Skipping $crate - already published ($VERSION)"
             else

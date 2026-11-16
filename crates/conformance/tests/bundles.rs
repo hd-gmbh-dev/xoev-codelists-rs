@@ -28,6 +28,12 @@ bundles![
     "dsmeld": "../../dsmeld/data/datasets.zst", "../../dsmeld/data/codes.zst",
     "xauslaender": "../../xauslaender/data/datasets.zst", "../../xauslaender/data/codes.zst",
     "bmi-bit": "../../bmi-bit/data/datasets.zst", "../../bmi-bit/data/codes.zst",
+    "fim": "../../fim/data/datasets.zst", "../../fim/data/codes.zst",
+    "kosit": "../../kosit/data/datasets.zst", "../../kosit/data/codes.zst",
+    "xewaffe": "../../xewaffe/data/datasets.zst", "../../xewaffe/data/codes.zst",
+    "xfahrtenschreiber": "../../xfahrtenschreiber/data/datasets.zst", "../../xfahrtenschreiber/data/codes.zst",
+    "xpersonenstand": "../../xpersonenstand/data/datasets.zst", "../../xpersonenstand/data/codes.zst",
+    "xoev": "../../xoev/data/datasets.zst", "../../xoev/data/codes.zst",
 ];
 
 fn catalogs() -> Vec<(&'static str, Catalog, Catalog)> {
@@ -96,10 +102,12 @@ fn code_only_bundle_matches_full_bundle() {
         }
     }
 
-    // keep the test honest about its coverage
+    // keep the test honest about its coverage: the 27 type-3 codelists of the
+    // schema, one legacy entry, and the 11 version-pinned lists whose values the
+    // XSD does not enumerate (`code` stays `xs:token` there)
     assert_eq!(
-        codelists, 28,
-        "expected the 27 type-3 codelists of the schema plus one legacy entry"
+        codelists, 39,
+        "expected 27 type-3 codelists, 1 legacy entry and 11 schema-unvalidated lists"
     );
     assert!(
         versions >= 272,

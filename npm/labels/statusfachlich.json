@@ -1,0 +1,1 @@
+{"urn":"urn:xoev-de:xewaffe:codeliste:statusfachlich","base":{"urn":"urn:xoev-de:xewaffe:codeliste:statusfachlich","version":"1","valid_from":"2023-11-01","columns":["Key","StatusFachlich"],"key_index":0,"rows":[["1010","Eingegangen"],["1110","In Bearbeitung"],["1210","Aktivität durch Antragstellende erforderlich"],["1310","Abgeschlossen"]]}}
