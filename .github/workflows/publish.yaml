@@ -103,6 +103,35 @@ jobs:
           npm publish --provenance --access public --tag latest
         working-directory: ./npm
 
+  # Until now the repository had tags but no releases; the artifacts were
+  # published and nothing else. Drafts were an artefact of the old action, so
+  # the release is published directly and "Latest" follows the greatest version.
+  release:
+    name: Release
+    runs-on: ubuntu-24.04
+    needs: publish
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Create the release
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          greatest=$(git ls-remote --tags origin \
+            | sed 's|.*refs/tags/||' \
+            | grep -v '\^{}' \
+            | sort -V \
+            | tail -1)
+          latest=false
+          [ "$greatest" = "$GITHUB_REF_NAME" ] && latest=true
+          gh release create "$GITHUB_REF_NAME" \
+            --title "$GITHUB_REF_NAME" \
+            --generate-notes \
+            --latest="$latest"
+
   # Smoke test against the artifacts as consumers see them (not the workspace).
   verify:
     name: Verify published artifacts
