@@ -1848,7 +1848,7 @@ checksum = "3ad82d2a33cdc9674dc7465672f271e096168fcdbe0f799d9e6db8c5892679dc"
 
 [[package]]
 name = "xoev-codelists"
-version = "1.2611.6"
+version = "1.2611.7"
 dependencies = [
  "ruzstd",
  "serde",
@@ -1857,7 +1857,7 @@ dependencies = [
 
 [[package]]
 name = "xoev-codelists-bmi-bit"
-version = "1.2611.6"
+version = "1.2611.7"
 dependencies = [
  "serde_json",
  "xoev-codelists",
@@ -1865,7 +1865,7 @@ dependencies = [
 
 [[package]]
 name = "xoev-codelists-conformance"
-version = "1.2611.6"
+version = "1.2611.7"
 dependencies = [
  "serde_json",
  "xoev-codelists",
@@ -1873,7 +1873,7 @@ dependencies = [
 
 [[package]]
 name = "xoev-codelists-destatis"
-version = "1.2611.6"
+version = "1.2611.7"
 dependencies = [
  "serde_json",
  "xoev-codelists",
@@ -1881,7 +1881,7 @@ dependencies = [
 
 [[package]]
 name = "xoev-codelists-dsmeld"
-version = "1.2611.6"
+version = "1.2611.7"
 dependencies = [
  "serde_json",
  "xoev-codelists",
@@ -1889,7 +1889,7 @@ dependencies = [
 
 [[package]]
 name = "xoev-codelists-fim"
-version = "1.2611.6"
+version = "1.2611.7"
 dependencies = [
  "serde_json",
  "xoev-codelists",
@@ -1897,7 +1897,7 @@ dependencies = [
 
 [[package]]
 name = "xoev-codelists-kosit"
-version = "1.2611.6"
+version = "1.2611.7"
 dependencies = [
  "serde_json",
  "xoev-codelists",
@@ -1905,7 +1905,7 @@ dependencies = [
 
 [[package]]
 name = "xoev-codelists-xauslaender"
-version = "1.2611.6"
+version = "1.2611.7"
 dependencies = [
  "serde_json",
  "xoev-codelists",
@@ -1913,7 +1913,7 @@ dependencies = [
 
 [[package]]
 name = "xoev-codelists-xewaffe"
-version = "1.2611.6"
+version = "1.2611.7"
 dependencies = [
  "serde_json",
  "xoev-codelists",
@@ -1921,7 +1921,7 @@ dependencies = [
 
 [[package]]
 name = "xoev-codelists-xfahrtenschreiber"
-version = "1.2611.6"
+version = "1.2611.7"
 dependencies = [
  "serde_json",
  "xoev-codelists",
@@ -1929,7 +1929,7 @@ dependencies = [
 
 [[package]]
 name = "xoev-codelists-xoev"
-version = "1.2611.6"
+version = "1.2611.7"
 dependencies = [
  "serde_json",
  "xoev-codelists",
@@ -1937,7 +1937,7 @@ dependencies = [
 
 [[package]]
 name = "xoev-codelists-xpersonenstand"
-version = "1.2611.6"
+version = "1.2611.7"
 dependencies = [
  "serde_json",
  "xoev-codelists",
@@ -1945,7 +1945,7 @@ dependencies = [
 
 [[package]]
 name = "xoev-codelists-xunternehmen"
-version = "1.2611.6"
+version = "1.2611.7"
 dependencies = [
  "serde_json",
  "xoev-codelists",
@@ -1953,7 +1953,7 @@ dependencies = [
 
 [[package]]
 name = "xoev-codelists-xwasser"
-version = "1.2611.6"
+version = "1.2611.7"
 dependencies = [
  "serde_json",
  "xoev-codelists",
