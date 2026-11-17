@@ -198,7 +198,21 @@ jobs:
             echo "::error::xoev-codelists@$VERSION never became resolvable"
             exit 1
           fi
-          npm install --silent "xoev-codelists@$VERSION"
+          # the packument can appear before every tarball does, so the install
+          # retries as well
+          installed=0
+          for attempt in $(seq 1 10); do
+            if npm install --silent "xoev-codelists@$VERSION"; then
+              installed=1
+              break
+            fi
+            echo "attempt $attempt: install failed, retrying"
+            sleep 30
+          done
+          if [ "$installed" -ne 1 ]; then
+            echo "::error::could not install xoev-codelists@$VERSION"
+            exit 1
+          fi
           node -e "
             const index = require('xoev-codelists/index.json');
             if (index.codelists.length < 28) throw new Error('expected 28 codelists');
