@@ -203,6 +203,52 @@ pub struct Dataset {
     /// Steps from the base towards older versions, newest first.
     #[serde(default, skip_serializing_if = "Vec::is_empty")]
     pub steps: Vec<Step>,
+    /// Code set per published version, built on first use.
+    ///
+    /// `resolve` clones the snapshot and folds the delta chain, and the code
+    /// check then scans the rows — a receiver validating hundreds of codes per
+    /// message paid that per code. Only published versions are stored, so the
+    /// keys are this dataset's versions, not the traffic.
+    #[serde(skip, default = "CodeSets::default")]
+    codes: CodeSets,
+}
+
+/// Lazily built code sets, keyed by version.
+///
+/// Not part of the data: `PartialEq`/`Eq` ignore it and a clone starts empty.
+#[derive(Debug)]
+pub struct CodeSets(std::sync::RwLock<std::collections::HashMap<Arc<str>, CodeSet>>);
+
+impl Default for CodeSets {
+    fn default() -> Self {
+        Self(std::sync::RwLock::new(std::collections::HashMap::new()))
+    }
+}
+
+impl Clone for CodeSets {
+    fn clone(&self) -> Self {
+        Self::default()
+    }
+}
+
+impl PartialEq for CodeSets {
+    fn eq(&self, _: &Self) -> bool {
+        true
+    }
+}
+
+impl Eq for CodeSets {}
+
+impl CodeSets {
+    fn get(&self, version: &str) -> Option<Arc<std::collections::HashSet<Arc<str>>>> {
+        self.0.read().ok()?.get(version).cloned()
+    }
+
+    fn insert(&self, version: Arc<str>, set: Arc<std::collections::HashSet<Arc<str>>>) {
+        if let Ok(mut sets) = self.0.write() {
+            sets.insert(version, set);
+        }
+    }
 }
 
 impl Dataset {
@@ -251,7 +297,12 @@ impl Dataset {
             steps.push(step);
             newer = older;
         }
-        Ok(Self { urn, base, steps })
+        Ok(Self {
+            urn,
+            base,
+            steps,
+            codes: CodeSets::default(),
+        })
     }
 
     /// Versions from newest to oldest.
@@ -303,8 +354,31 @@ impl Dataset {
 
     /// Whether `code` exists in `version`.
     pub fn contains_code(&self, version: &str, code: &str) -> Option<bool> {
-        self.resolve(version)
-            .map(|snapshot| snapshot.contains_code(code))
+        Some(self.code_set(version)?.contains(code))
+    }
+
+    /// Code set of `version`, built once.
+    ///
+    /// `None` when the version is not published; the version is compared as a
+    /// string first, so an unknown version costs nothing and is never cached.
+    pub fn code_set(&self, version: &str) -> Option<Arc<std::collections::HashSet<Arc<str>>>> {
+        if let Some(set) = self.codes.get(version) {
+            return Some(set);
+        }
+        if !self.versions().any(|candidate| candidate == version) {
+            return None;
+        }
+        let snapshot = self.resolve(version)?;
+        let key = snapshot.key_index;
+        let set: Arc<std::collections::HashSet<Arc<str>>> = Arc::new(
+            snapshot
+                .rows
+                .iter()
+                .map(|row| Arc::from(row[key].as_str()))
+                .collect(),
+        );
+        self.codes.insert(Arc::from(version), set.clone());
+        Some(set)
     }
 }
 
@@ -719,20 +793,10 @@ mod tests {
 #[derive(Debug, Default)]
 pub struct Catalog {
     datasets: std::collections::HashMap<Arc<str>, Dataset>,
-    /// Code set of a published `(urn, version)`, built on first use.
-    ///
-    /// Resolving a snapshot clones it and folds the delta chain, and a linear
-    /// scan then costs O(rows) per code — a receiver that checks hundreds of
-    /// codes per message paid that every time. Only published versions are
-    /// stored, so the keys are the package's versions, not the traffic.
-    codes: std::sync::RwLock<CodeSets>,
 }
 
-/// Code set of one `(urn, version)`.
+/// Code set of one codelist version.
 pub type CodeSet = Arc<std::collections::HashSet<Arc<str>>>;
-
-/// Code sets keyed by urn and version.
-type CodeSets = std::collections::HashMap<(Arc<str>, Arc<str>), CodeSet>;
 
 impl Catalog {
     /// Build a catalog from dataset JSON documents.
@@ -744,10 +808,7 @@ impl Catalog {
             let dataset: Dataset = serde_json::from_str(document)?;
             datasets.insert(dataset.urn.clone(), dataset);
         }
-        Ok(Self {
-            datasets,
-            codes: Default::default(),
-        })
+        Ok(Self { datasets })
     }
 
     pub fn urns(&self) -> impl Iterator<Item = &str> {
@@ -781,38 +842,7 @@ impl Catalog {
     /// Unlike [`Dataset::contains_code`] this memoizes the code set per version,
     /// which is what a receiver checking many codes wants.
     pub fn contains(&self, urn: &str, version: &str, code: &str) -> Option<bool> {
-        Some(self.code_set(urn, version)?.contains(code))
-    }
-
-    /// Code set of `urn`/`version`, built once.
-    ///
-    /// `None` when the urn is unknown or the version is not published; the
-    /// version is compared as a string first, so an unknown version costs
-    /// nothing (no snapshot clone, no delta folding) and is never cached.
-    pub fn code_set(&self, urn: &str, version: &str) -> Option<CodeSet> {
-        if let Ok(codes) = self.codes.read()
-            && let Some(set) = codes.get(&(Arc::from(urn), Arc::from(version))).cloned()
-        {
-            return Some(set);
-        }
-
-        let dataset = self.dataset(urn)?;
-        if !dataset.versions().any(|candidate| candidate == version) {
-            return None;
-        }
-        let snapshot = dataset.resolve(version)?;
-        let key = snapshot.key_index;
-        let set: CodeSet = Arc::new(
-            snapshot
-                .rows
-                .iter()
-                .map(|row| Arc::from(row[key].as_str()))
-                .collect(),
-        );
-        if let Ok(mut codes) = self.codes.write() {
-            codes.insert((Arc::from(urn), Arc::from(version)), set.clone());
-        }
-        Some(set)
+        self.dataset(urn)?.contains_code(version, code)
     }
 }
 
@@ -919,50 +949,47 @@ impl Catalog {
 mod code_set_tests {
     use super::*;
 
-    fn catalog_with(urn: &str, versions: &[(&str, &[&str])]) -> Catalog {
+    fn dataset_with(versions: &[(&str, &[&str])]) -> Dataset {
         let snapshots: Vec<Snapshot> = versions
             .iter()
-            .map(|(version, codes)| Snapshot {
-                urn: urn.into(),
-                version: (*version).into(),
-                valid_from: None,
-                columns: vec!["Key".to_string(), "Text".to_string()],
-                key_index: 0,
-                rows: codes
-                    .iter()
-                    .map(|code| vec![(*code).to_string(), format!("text {code}")])
-                    .collect(),
+            .map(|(version, codes)| {
+                serde_json::from_str(&format!(
+                    r#"{{"urn":"urn:a","version":"{version}","columns":["Key","Text"],
+                         "key_index":0,"rows":[{}]}}"#,
+                    codes
+                        .iter()
+                        .map(|code| format!(r#"["{code}","text {code}"]"#))
+                        .collect::<Vec<_>>()
+                        .join(",")
+                ))
+                .expect("snapshot json")
             })
             .collect();
-        let dataset = Dataset::from_snapshots(snapshots).expect("dataset");
-        Catalog::from_json([serde_json::to_string(&dataset).unwrap().as_str()]).expect("catalog")
+        Dataset::from_snapshots(snapshots).expect("dataset")
     }
 
     #[test]
     fn a_published_version_is_cached_after_the_first_lookup() {
-        let catalog = catalog_with("urn:a", &[("1", &["1000"]), ("2", &["1000", "2000"])]);
-        assert!(catalog.codes.read().unwrap().is_empty());
-        assert_eq!(catalog.contains("urn:a", "1", "1000"), Some(true));
-        assert_eq!(catalog.codes.read().unwrap().len(), 1, "one version cached");
-        assert_eq!(catalog.contains("urn:a", "1", "2000"), Some(false));
-        assert_eq!(catalog.codes.read().unwrap().len(), 1, "still one version");
+        let dataset = dataset_with(&[("1", &["1000"]), ("2", &["1000", "2000"])]);
+        assert_eq!(dataset.contains_code("1", "1000"), Some(true));
+        assert!(dataset.codes.get("1").is_some(), "the set is kept");
+        assert_eq!(dataset.contains_code("1", "2000"), Some(false));
     }
 
     #[test]
     fn an_unpublished_version_is_answered_without_caching() {
-        let catalog = catalog_with("urn:a", &[("1", &["1000"])]);
-        assert_eq!(catalog.contains("urn:a", "9", "1000"), None);
-        assert_eq!(catalog.contains("urn:b", "1", "1000"), None);
+        let dataset = dataset_with(&[("1", &["1000"])]);
+        assert_eq!(dataset.contains_code("9", "1000"), None);
         assert!(
-            catalog.codes.read().unwrap().is_empty(),
+            dataset.codes.get("9").is_none(),
             "a sender cannot grow the cache with random versions"
         );
     }
 
     #[test]
     fn code_sets_are_version_aware() {
-        let catalog = catalog_with("urn:a", &[("1", &["1000", "1010"]), ("2", &["1000"])]);
-        assert_eq!(catalog.contains("urn:a", "1", "1010"), Some(true));
-        assert_eq!(catalog.contains("urn:a", "2", "1010"), Some(false));
+        let dataset = dataset_with(&[("1", &["1000", "1010"]), ("2", &["1000"])]);
+        assert_eq!(dataset.contains_code("1", "1010"), Some(true));
+        assert_eq!(dataset.contains_code("2", "1010"), Some(false));
     }
 }
