@@ -127,6 +127,10 @@ jobs:
             | tail -1)
           latest=false
           [ "$greatest" = "$GITHUB_REF_NAME" ] && latest=true
+          if gh release view "$GITHUB_REF_NAME" >/dev/null 2>&1; then
+            echo "release $GITHUB_REF_NAME already exists"
+            exit 0
+          fi
           gh release create "$GITHUB_REF_NAME" \
             --title "$GITHUB_REF_NAME" \
             --generate-notes \
@@ -179,8 +183,11 @@ jobs:
           npm init -y >/dev/null
           # npm needs a few minutes to make a new version resolvable
           available=0
-          for attempt in $(seq 1 20); do
-            if npm view "xoev-codelists@$VERSION" version >/dev/null 2>&1; then
+          for attempt in $(seq 1 40); do
+            # the registry document is authoritative and is what `npm install`
+            # will fetch; `npm view` goes through npm's own cache
+            if curl -fsS "https://registry.npmjs.org/xoev-codelists/$VERSION" >/dev/null 2>&1 \
+              || npm view "xoev-codelists@$VERSION" version >/dev/null 2>&1; then
               available=1
               break
             fi
